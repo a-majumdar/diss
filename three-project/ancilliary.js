@@ -1,5 +1,4 @@
 // imports go here
-import { node } from 'node.js';
 
 // TODO:
 // 1. GET number of nodes from html form
@@ -8,11 +7,11 @@ import { node } from 'node.js';
 
 
 function main() {
-  const form  = document.getElementById('nodesForm');
+  const form  = document.querySelector('#nodesForm');
 
-  form.addEventListener('nodes', (event) => {
+  form.addEventListener('submitBtn', (event) => {
       // handle the form data
-      const n = form.elements['nodes'].value
+      const n = form.elements['nodeSlider'].value
       console.log("The number of nodes requested is "+n);
       // let nodes = []
       // for (let i=0;i<n;i++) {
