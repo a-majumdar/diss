@@ -43,9 +43,10 @@ function main() {
   const sceneInitFunctionsByName = {
     'box': (elem) => {
       const {scene, camera, controls} = makeScene(elem);
-      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const geometry = new THREE.SphereGeometry(0.75, 6, 3);
       const material = new THREE.MeshPhongMaterial({color: 'red'});
       const mesh = new THREE.Mesh(geometry, material);
+
       scene.add(mesh);
       return (time, rect) => {
         mesh.rotation.y = time * .1;
