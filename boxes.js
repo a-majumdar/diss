@@ -43,7 +43,7 @@ function main() {
   const sceneInitFunctionsByName = {
     'box': (elem) => {
       const {scene, camera, controls} = makeScene(elem);
-      const geometry = new THREE.SphereGeometry(0.75, 6, 3);
+      const geometry = new THREE.BoxGeometry(1,1,1);
       const material = new THREE.MeshPhongMaterial({color: 'red'});
       const mesh = new THREE.Mesh(geometry, material);
 
@@ -60,8 +60,8 @@ function main() {
     'pyramid': (elem) => {
       const {scene, camera, controls} = makeScene(elem);
       const radius = .8;
-      const widthSegments = 4;
-      const heightSegments = 2;
+      const widthSegments = 20;
+      const heightSegments = 7;
       const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
       const material = new THREE.MeshPhongMaterial({
         color: 'blue',
