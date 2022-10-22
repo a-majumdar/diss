@@ -1,25 +1,58 @@
-canvas {
+/* canvas {
     width: 100%;
     height: 100%;
     display: block;
-}
+} */
 
-.left {
+/* .left {
     float: left;
-    margin-right: 0.25em;
 }
 
 .right {
     float: right;
-    margin-left: 0.25em;
+} */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
 }
 
-label {
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+.user-inputs {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 14;
+}
+
+.scene-container {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 14;
+}
+
+/* label {
     margin: 1em auto;
     max-width: 500px;
     font-size: large;
-}
+} */
 
 /* .sBtn {
     font-size: xx-large;
+} */
+
+/* #scene-container {
+  position: relative;
+  width: 50%;
+  height: 100%;
 } */
