@@ -15,6 +15,7 @@
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
+  grid-template-rows: 50px 50px 50px 50px 50px 50px 50px 50px;
   gap: 10px;
   background-color: #2196F3;
   padding: 10px;
@@ -31,14 +32,14 @@
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
-  grid-row-end: 14;
+  grid-row-end: 9;
 }
 
 .scene-container {
   grid-column-start: 2;
   grid-column-end: 4;
   grid-row-start: 1;
-  grid-row-end: 14;
+  grid-row-end: 9;
 }
 
 /* label {
