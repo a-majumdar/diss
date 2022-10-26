@@ -19,26 +19,10 @@ renderer.setPixelRatio(window.devicePixelRatio);
 container.append(renderer.domElement);
 
 function main() {
-    let radius = 2;
-    let segments = 5;
-    let geometry = new THREE.CircleGeometry( radius, segments );
-    let material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-    let circle = new THREE.Mesh( geometry, material );
-    scene.add( circle );
-    // let radius = 2;
-    // let segments = 5;
-    // let geometry = new THREE.CircleGeometry(radius, segments);
-    // let material = new THREE.PointsMaterial({
-    //     color: 'red',
-    //     size: 0.3,     // in world units
-    // });
-    // let points = new THREE.Points(geometry, material);
-    // scene.add(points);
-    renderer.render(scene, camera);
-
+    updateCircle(12);
 }
 
-main();
+// main();
 
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
@@ -49,15 +33,12 @@ slider.oninput = function() {
 function updateCircle(sides) {
 
     scene.remove.apply(scene, scene.children);
-    // console.log("scene cleared");
-    let geometry = new THREE.CircleGeometry(2, sides);
+    let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
     const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
     let circle = new THREE.Mesh(geometry, material);
     for (let i=1;i<=sides;i++) {
         makeNode(circle, geometry.vertices[i], i);
     }
-    // scene.add(circle);
-    // console.log("new polygon added");
     renderer.render(scene, camera);
     console.log(geometry.vertices);
 }
