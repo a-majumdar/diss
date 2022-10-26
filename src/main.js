@@ -19,20 +19,21 @@ renderer.setPixelRatio(window.devicePixelRatio);
 container.append(renderer.domElement);
 
 function main() {
-
-    // let geometry = new THREE.CircleGeometry( 2, 5 );
-    // const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-    // let circle = new THREE.Mesh( geometry, material );
-    // scene.add( circle );
     let radius = 2;
     let segments = 5;
-    let geometry = new THREE.CircleGeometry(radius, segments);
-    let material = new THREE.PointsMaterial({
-        color: 'red',
-        size: 0.3,     // in world units
-    });
-    let points = new THREE.Points(geometry, material);
-    scene.add(points);
+    let geometry = new THREE.CircleGeometry( radius, segments );
+    let material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+    let circle = new THREE.Mesh( geometry, material );
+    scene.add( circle );
+    // let radius = 2;
+    // let segments = 5;
+    // let geometry = new THREE.CircleGeometry(radius, segments);
+    // let material = new THREE.PointsMaterial({
+    //     color: 'red',
+    //     size: 0.3,     // in world units
+    // });
+    // let points = new THREE.Points(geometry, material);
+    // scene.add(points);
     renderer.render(scene, camera);
 
 }
@@ -42,7 +43,7 @@ main();
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
     let sides = slider.value;
-    updatePoints(sides);
+    updateCircle(sides);
 }
 
 function updateCircle(sides) {
@@ -50,11 +51,15 @@ function updateCircle(sides) {
     scene.remove.apply(scene, scene.children);
     // console.log("scene cleared");
     let geometry = new THREE.CircleGeometry(2, sides);
-    const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+    const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
     let circle = new THREE.Mesh(geometry, material);
-    scene.add(circle);
+    for (let i=1;i<=sides;i++) {
+        makeNode(circle, geometry.vertices[i], i);
+    }
+    // scene.add(circle);
     // console.log("new polygon added");
     renderer.render(scene, camera);
+    console.log(geometry.vertices);
 }
 
 function updatePoints(nodes) {
@@ -67,4 +72,21 @@ function updatePoints(nodes) {
     let points = new THREE.Points(geometry, material);
     scene.add(points);
     renderer.render(scene, camera);
+    console.log(geometry.vertices);
 }
+
+function makeNode(parent, vector, index) {
+    let geometry = new THREE.CircleGeometry(0.1,12);
+    let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
+    let node = new THREE.Mesh(geometry, material);
+    node.position.set(vector.x, vector.y, vector.z);
+    node.parent = parent;
+    scene.add(node);
+    console.log(`node ${index} added`);
+}
+
+    // create a point at each vertex of points
+    // add each point as child of points with point.parent = points;
+    //      OR add list of point[s] as children of points with points.attach(list);
+    // for each frame, re-render with nodes changing colours/shades
+    // wait for user input before moving to next 'frame' 
