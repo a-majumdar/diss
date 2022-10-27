@@ -3,6 +3,9 @@ import * as THREE from 'https://unpkg.com/three@0.108.0/build/three.module.js';
 
 const container = document.getElementById('scene-container');
 const scene = new THREE.Scene();
+let nodes = [];
+let frame = 0;
+let step = 3;
 
 const fov = 35;
 const aspect = container.offsetWidth / container.offsetHeight;
@@ -30,9 +33,17 @@ slider.oninput = function() {
     updateCircle(sides);
 }
 
+var steps = document.getElementById('iSlider');
+steps.oninput = function() {
+    step = steps.value;
+    updateCircle(slider.value);
+}
+
 function updateCircle(sides) {
 
     scene.remove.apply(scene, scene.children);
+    nodes = [];
+    frame = 0;
     let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
     const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
     let circle = new THREE.Mesh(geometry, material);
@@ -56,14 +67,30 @@ function updatePoints(nodes) {
     console.log(geometry.vertices);
 }
 
+var btn = document.getElementById('nxtBtn');
+btn.onclick = function() {
+    animate(frame);
+    frame += step;
+    if (frame >= nodes.length) {
+        frame -= nodes.length;
+    }
+}
+
 function makeNode(parent, vector, index) {
     let geometry = new THREE.CircleGeometry(0.1,12);
     let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
     let node = new THREE.Mesh(geometry, material);
+    nodes.push(node);
     node.position.set(vector.x, vector.y, vector.z);
     node.parent = parent;
     scene.add(node);
     console.log(`node ${index} added`);
+}
+
+function animate(i) {
+    nodes[i].material.color.setHex(0xff0000);
+    console.log(`Colour of node ${i} changed`);
+    renderer.render(scene, camera);
 }
 
     // create a point at each vertex of points
