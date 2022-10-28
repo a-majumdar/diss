@@ -80,7 +80,7 @@ function makeNode(parent, vector, index) {
     let geometry = new THREE.CircleGeometry(0.1,12);
     let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
     let node = new THREE.Mesh(geometry, material);
-    nodes.push(node);
+    nodes.unshift(node);
     node.position.set(vector.x, vector.y, vector.z);
     node.parent = parent;
     scene.add(node);
