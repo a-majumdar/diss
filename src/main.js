@@ -1,28 +1,31 @@
 import * as THREE from 'https://unpkg.com/three@0.108.0/build/three.module.js';
+import Additive from './additive';
 // import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 
-const container = document.getElementById('scene-container');
-const scene = new THREE.Scene();
-let nodes = [];
-let frame = 0;
-let step = 3;
+// const container = document.getElementById('scene-container');
+// const scene = new THREE.Scene();
+// let nodes = [];
+// let frame = 0;
+// let step = 3;
 
-const fov = 35;
-const aspect = container.offsetWidth / container.offsetHeight;
-const near = 0.1;
-const far = 100;
+// const fov = 35;
+// const aspect = container.offsetWidth / container.offsetHeight;
+// const near = 0.1;
+// const far = 100;
 
-const camera = new THREE.PerspectiveCamera(fov, aspect, near, far); //maybe use OrthographicCamera for 2d scenes or user interfaces?
-camera.position.set(0,0,10);
+// const camera = new THREE.PerspectiveCamera(fov, aspect, near, far); //maybe use OrthographicCamera for 2d scenes or user interfaces?
+// camera.position.set(0,0,10);
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+// const renderer = new THREE.WebGLRenderer();
+// renderer.setSize(container.clientWidth, container.clientHeight);
+// renderer.setPixelRatio(window.devicePixelRatio);
 
-container.append(renderer.domElement);
+// container.append(renderer.domElement);
 
 function main() {
-    updateCircle(12);
+    container = document.getElementById('scene-container');
+    const screen1 = new Additive(container);
+    screen1.setup();
 }
 
 // main();
@@ -30,29 +33,29 @@ function main() {
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
     let sides = slider.value;
-    updateCircle(sides);
+    screen1.updateCircle(sides);
 }
 
 var steps = document.getElementById('iSlider');
 steps.oninput = function() {
     step = steps.value;
-    updateCircle(slider.value);
+    screen1.updateCircle(slider.value);
 }
 
-function updateCircle(sides) {
+// function updateCircle(sides) {
 
-    scene.remove.apply(scene, scene.children);
-    nodes = [];
-    frame = 0;
-    let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
-    const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-    let circle = new THREE.Mesh(geometry, material);
-    for (let i=1;i<=sides;i++) {
-        makeNode(circle, geometry.vertices[i], i);
-    }
-    renderer.render(scene, camera);
-    console.log(geometry.vertices);
-}
+//     scene.remove.apply(scene, scene.children);
+//     nodes = [];
+//     frame = 0;
+//     let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
+//     const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+//     let circle = new THREE.Mesh(geometry, material);
+//     for (let i=1;i<=sides;i++) {
+//         makeNode(circle, geometry.vertices[i], i);
+//     }
+//     renderer.render(scene, camera);
+//     console.log(geometry.vertices);
+// }
 
 function updatePoints(nodes) {
     scene.remove.apply(scene, scene.children);
@@ -76,16 +79,16 @@ btn.onclick = function() {
     }
 }
 
-function makeNode(parent, vector, index) {
-    let geometry = new THREE.CircleGeometry(0.1,12);
-    let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
-    let node = new THREE.Mesh(geometry, material);
-    nodes.unshift(node);
-    node.position.set(vector.x, vector.y, vector.z);
-    node.parent = parent;
-    scene.add(node);
-    console.log(`node ${index} added`);
-}
+// function makeNode(parent, vector, index) {
+//     let geometry = new THREE.CircleGeometry(0.1,12);
+//     let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
+//     let node = new THREE.Mesh(geometry, material);
+//     nodes.unshift(node);
+//     node.position.set(vector.x, vector.y, vector.z);
+//     node.parent = parent;
+//     scene.add(node);
+//     console.log(`node ${index} added`);
+// }
 
 function animate(i) {
     nodes[i].material.color.setHex(0xff0000);
