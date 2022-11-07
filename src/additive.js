@@ -1,27 +1,35 @@
-//import * as THREE from 'https://threejs.org/build/three.module.js';
+import * as THREE from 'https://threejs.org/build/three.module.js';
 
 class Additive {
 
-    constructor(container) {
+    scene;
+    nodes;
+    frame;
+    step;
+    camera;
+    renderer;
+
+    constructor(c) {
         this.scene = new THREE.Scene();
         this.nodes = [];
         this.frame = 0;
         this.step = 3;
         
-        this.fov = 35;
-        this.aspect = container.offsetWidth / container.offsetHeight;
-        this.near = 0.1;
-        this.far = 100;
+        let container = c;
+
+        const fov = 35;
+        const aspect = container.offsetWidth / container.offsetHeight;
+        const near = 0.1;
+        const far = 100;
         
         this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far); //maybe use OrthographicCamera for 2d scenes or user interfaces?
-        camera.position.set(0,0,10);
+        this.camera.position.set(0,0,10);
         
-        this.contaniner = container;
         this.renderer = new THREE.WebGLRenderer();
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setSize(container.clientWidth, container.clientHeight);
+        this.renderer.setPixelRatio(window.devicePixelRatio);
         
-        container.append(renderer.domElement);
+        container.append(this.renderer.domElement);
     }
 
     setup() {
@@ -30,16 +38,18 @@ class Additive {
 
     updateCircle(sides) {
 
-        scene.remove.apply(scene, scene.children);
-        nodes = [];
-        frame = 0;
+        this.scene.remove.apply(this.scene, this.scene.children);
+        this.nodes = [];
+        this.frame = 0;
         let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
+        console.log(geometry);
         const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
         let circle = new THREE.Mesh(geometry, material);
+        console.log(circle);
         for (let i=1;i<=sides;i++) {
-            makeNode(circle, geometry.vertices[i], i);
+            this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3), i);
         }
-        renderer.render(scene, camera);
+        this.renderer.render(this.scene, this.camera);
         console.log(geometry.vertices);
     }
 
@@ -47,13 +57,14 @@ class Additive {
         let geometry = new THREE.CircleGeometry(0.1,12);
         let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
         let node = new THREE.Mesh(geometry, material);
-        nodes.unshift(node);
-        node.position.set(vector.x, vector.y, vector.z);
+        this.nodes.unshift(node);
+        node.position.set(vector[0], vector[1], vector[2]);
         node.parent = parent;
-        scene.add(node);
+        this.scene.add(node);
         console.log(`node ${index} added`);
     }
     
 }
 
+export {Additive};
 // export default Additive;
