@@ -1,4 +1,4 @@
-import * as THREE from 'https://unpkg.com/three@0.108.0/build/three.module.js';
+//import * as THREE from 'https://threejs.org/build/three.module.js';
 
 class Additive {
 
@@ -56,4 +56,4 @@ class Additive {
     
 }
 
-export default Additive;
+// export default Additive;
