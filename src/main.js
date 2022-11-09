@@ -23,10 +23,11 @@ import {Additive} from './additive.js';
 // container.append(renderer.domElement);
 
 let container = document.getElementById('scene-container');
-screen1 = new Additive(container);
+var screen1;
 
 function main() {
-    this.screen1.setup();
+    screen1 = new Additive(container);
+    screen1.setup();
 }
 
 main();
@@ -34,13 +35,13 @@ main();
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
     let sides = slider.value;
-    this.screen1.updateCircle(sides);
+    screen1.updateCircle(sides);
 }
 
 var steps = document.getElementById('iSlider');
 steps.oninput = function() {
-    step = steps.value;
-    this.screen1.updateCircle(slider.value);
+    screen1.stepSize(steps.value);
+    screen1.updateCircle(slider.value);
 }
 
 // function updateCircle(sides) {
@@ -73,12 +74,14 @@ function updatePoints(nodes) {
 
 var btn = document.getElementById('nxtBtn');
 btn.onclick = function() {
-    animate(frame);
-    frame += step;
-    if (frame >= nodes.length) {
-        frame -= nodes.length;
-    }
+    screen1.animate();
 }
+//     animate(frame);
+//     frame += step;
+//     if (frame >= nodes.length) {
+//         frame -= nodes.length;
+//     }
+// }
 
 // function makeNode(parent, vector, index) {
 //     let geometry = new THREE.CircleGeometry(0.1,12);

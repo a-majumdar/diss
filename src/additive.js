@@ -4,15 +4,16 @@ class Additive {
 
     scene;
     nodes;
-    frame;
+    counter;
     step;
     camera;
     renderer;
+    size;
 
     constructor(c) {
         this.scene = new THREE.Scene();
         this.nodes = [];
-        this.frame = 0;
+        this.counter = 0;
         this.step = 3;
         
         let container = c;
@@ -34,13 +35,21 @@ class Additive {
 
     setup() {
         this.updateCircle(12);
+        this.size = 12;
+        this.counter = 0;
     }
 
     updateCircle(sides) {
 
+        const nval = document.getElementById('n');
+        nval.innerHTML = sides;
+        document.getElementById('iSlider').setAttribute("max", sides-1);
+        const imax = document.getElementById('iMax');
+        imax.innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
         this.scene.remove.apply(this.scene, this.scene.children);
         this.nodes = [];
-        this.frame = 0;
+        this.counter = 0;
+        this.size = sides;
         let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
         console.log(geometry);
         const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
@@ -64,6 +73,24 @@ class Additive {
         console.log(`node ${index} added`);
     }
     
+    stepSize(sliderValue) {
+        this.step = sliderValue;
+        this.updateCircle(this.size);
+        this.counter = 0;
+    }
+
+    animate() {
+        console.log(`animating frame ${this.counter}`);
+        let node = this.step * (this.counter + 1);
+        node = node >= this.size ? node % this.size : node;
+        this.nodes[node].material.color.setHex(0xff0000);
+        console.log(`Colour of node ${node} at frame ${this.counter} changed`);
+        console/
+        this.renderer.render(this.scene, this.camera);
+        this.counter += 1;
+        return;
+    }
+
 }
 
 export {Additive};

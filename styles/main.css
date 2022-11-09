@@ -42,11 +42,15 @@
   grid-row-end: 9;
 }
 
-/* label {
+label {
     margin: 1em auto;
     max-width: 500px;
     font-size: large;
-} */
+}
+
+output {
+  display: inline;
+}
 
 /* .sBtn {
     font-size: xx-large;

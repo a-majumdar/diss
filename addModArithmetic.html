@@ -21,10 +21,15 @@
             <div class="user-inputs">
               <form id="inputs">
                   <label for="nSlider">Please select a number of nodes (between 3 and 50):</label><br>
-                  <br><input type="range" id="nSlider" name="nSlider" min="3" max="50" value="12" > <!--oninput="rangevalue.value=this.value"-->
+                  <br><input type="range" id="nSlider" name="nSlider" min="3" max="50" value="13" > <!--oninput="rangevalue.value=this.value"-->
+                  <h6 id="n"></h6>
+                  <br><label for="iSlider">Please select a step size (between 1 and n-1):</label>
                   <br><input type="range" id="iSlider" name="iSlider" min="1" max=nSlider.value value="3">
+                  <br><h6 id="iMax"></h6>
+                  <!-- <br><p>the current value for i is: </p><h4 id="i"></h4> -->
                   <br><input type="button" value=">" id="nxtBtn" name="nxtBtn">
               </form>
+              <div class="outputs" id="outputs"></div>
             </div>
             <div class="scene-container" id="scene-container">
 
