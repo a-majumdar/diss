@@ -9,6 +9,7 @@ class Additive {
     camera;
     renderer;
     size;
+    tail;
 
     constructor(c) {
         this.scene = new THREE.Scene();
@@ -40,26 +41,25 @@ class Additive {
     }
 
     updateCircle(sides) {
-
-        const nval = document.getElementById('n');
-        nval.innerHTML = sides;
-        document.getElementById('iSlider').setAttribute("max", sides-1);
-        const imax = document.getElementById('iMax');
-        imax.innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
         this.scene.remove.apply(this.scene, this.scene.children);
         this.nodes = [];
+        this.tail = [];
         this.counter = 0;
         this.size = sides;
+        this.updateLabels();
+        document.getElementById('mInverse').innerHTML = "";
+        document.getElementById('stepCount').innerHTML = "";
+
         let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
-        console.log(geometry);
+        // console.log(geometry);
         const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
         let circle = new THREE.Mesh(geometry, material);
-        console.log(circle);
+        // console.log(circle);
         for (let i=1;i<=sides;i++) {
             this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3), i);
         }
         this.renderer.render(this.scene, this.camera);
-        console.log(geometry.vertices);
+        // console.log(geometry.vertices);
     }
 
     makeNode(parent, vector, index) {
@@ -70,26 +70,52 @@ class Additive {
         node.position.set(vector[0], vector[1], vector[2]);
         node.parent = parent;
         this.scene.add(node);
-        console.log(`node ${index} added`);
+        // console.log(`node ${index} added`);
     }
     
     stepSize(sliderValue) {
         this.step = sliderValue;
         this.updateCircle(this.size);
         this.counter = 0;
+        this.updateLabels();
+        document.getElementById('mInverse').innerHTML = "";
+        document.getElementById('stepCount').innerHTML = "";
     }
 
     animate() {
-        console.log(`animating frame ${this.counter}`);
+        // console.log(`animating frame ${this.counter}`);
         let node = this.step * (this.counter + 1);
         node = node >= this.size ? node % this.size : node;
+        this.tail.unshift(node);
+        console.log(this.tail);
+        if (node == 1) { this.mInverse(); }
         this.nodes[node].material.color.setHex(0xff0000);
-        console.log(`Colour of node ${node} at frame ${this.counter} changed`);
-        console/
+        if (this.counter >= 1) {
+            for (let i = 1; i < this.tail.length; i++) {
+                let change = (5*256*i).toString(16);
+                let colour = "0xFF" + change;
+                this.nodes[this.tail[i-1]].material.color.setHex(colour);
+            }
+        }
+        // console.log(`Colour of node ${node} at frame ${this.counter} changed`);
         this.renderer.render(this.scene, this.camera);
+        this.updateLabels();
         this.counter += 1;
-        return;
+        // return;
     }
+
+    mInverse() {
+        document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter+1}`;
+    }
+
+    updateLabels() {
+        document.getElementById('n').innerHTML = this.size;
+        document.getElementById('iSlider').setAttribute("max", this.size-1);
+        document.getElementById('iMax').innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
+        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
+        document.getElementById('counterLabel').innerHTML = `Currently viewing step ${this.counter+1}`;
+    }
+    
 
 }
 

@@ -26,10 +26,14 @@
                   <br><label for="iSlider">Please select a step size (between 1 and n-1):</label>
                   <br><input type="range" id="iSlider" name="iSlider" min="1" max=nSlider.value value="3">
                   <br><h6 id="iMax"></h6>
-                  <!-- <br><p>the current value for i is: </p><h4 id="i"></h4> -->
+                  <h6 id="i"></h6>
                   <br><input type="button" value=">" id="nxtBtn" name="nxtBtn">
               </form>
-              <div class="outputs" id="outputs"></div>
+              <div class="outputs" id="outputs">
+                <p id="counterLabel"></p>
+                <br><p id="mInverse"></p>
+                <br><p id="stepCount"></p>
+              </div>
             </div>
             <div class="scene-container" id="scene-container">
 
