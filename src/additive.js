@@ -10,8 +10,11 @@ class Additive {
     renderer;
     size;
     tail;
+    characters = '0123456789abcdef';
+    charPairs = [];
 
     constructor(c) {
+        this.generateCharPairs();
         this.scene = new THREE.Scene();
         this.nodes = [];
         this.counter = 0;
@@ -32,6 +35,14 @@ class Additive {
         this.renderer.setPixelRatio(window.devicePixelRatio);
         
         container.append(this.renderer.domElement);
+    }
+
+    generateCharPairs() {
+        for (let i = 0; i < this.characters.length; i++) {
+            for (let j = 0; j < this.characters.length; j++) {
+                this.charPairs.push(`${this.characters[i] + this.characters[j]}`);
+            }
+        }
     }
 
     setup() {
@@ -89,19 +100,10 @@ class Additive {
         this.tail.unshift(node);
         console.log(this.tail);
         if (node == 1) { this.mInverse(); }
-        this.nodes[node].material.color.setHex(0xff0000);
-        if (this.counter >= 1) {
-            for (let i = 1; i < this.tail.length; i++) {
-                let change = (5*256*i).toString(16);
-                let colour = "0xFF" + change;
-                this.nodes[this.tail[i-1]].material.color.setHex(colour);
-            }
-        }
-        // console.log(`Colour of node ${node} at frame ${this.counter} changed`);
+        this.changeColours();
         this.renderer.render(this.scene, this.camera);
         this.updateLabels();
         this.counter += 1;
-        // return;
     }
 
     mInverse() {
@@ -114,6 +116,14 @@ class Additive {
         document.getElementById('iMax').innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
         document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         document.getElementById('counterLabel').innerHTML = `Currently viewing step ${this.counter+1}`;
+    }
+
+    changeColours() {
+        for (let i = 0; i < this.tail.length; i++) {
+            let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
+            // console.log(hue);
+            this.nodes[this.tail[i]].material.color.setHex(`0xff${hue+hue}`);
+        }
     }
     
 
