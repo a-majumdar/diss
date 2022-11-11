@@ -1,41 +1,17 @@
 import * as THREE from 'https://threejs.org/build/three.module.js';
+import {Common} from './common.js';
+import {Screen} from './screen.js';
 
-class Additive {
+class Additive extends Screen {
 
-    scene;
-    nodes;
-    counter;
-    step;
-    camera;
-    renderer;
     size;
     tail;
     characters = '0123456789abcdef';
     charPairs = [];
 
     constructor(c) {
+        super(c);
         this.generateCharPairs();
-        this.scene = new THREE.Scene();
-        this.nodes = [];
-        this.counter = 0;
-        this.step = 1;
-        
-        let container = c;
-
-        const fov = 35;
-        const aspect = container.offsetWidth / container.offsetHeight;
-        const near = 0.1;
-        const far = 100;
-        
-        this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far); //maybe use OrthographicCamera for 2d scenes or user interfaces?
-        this.camera.position.set(0,0,10);
-        
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
-        // this.renderer.setSize(window.innerWidth * 0.60, window.innerHeight * 0.75);
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        
-        container.append(this.renderer.domElement);
     }
 
     generateCharPairs() {

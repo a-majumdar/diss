@@ -10,8 +10,6 @@ function main() {
     screen1.setup();
 }
 
-main();
-
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
     let sides = slider.value;
@@ -30,3 +28,5 @@ var btn = document.getElementById('nxtBtn');
 btn.onclick = function() {
     screen1.animate();
 }
+
+main();
