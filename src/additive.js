@@ -18,7 +18,7 @@ class Additive {
         this.scene = new THREE.Scene();
         this.nodes = [];
         this.counter = 0;
-        this.step = 3;
+        this.step = 1;
         
         let container = c;
 
@@ -32,6 +32,7 @@ class Additive {
         
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize(container.clientWidth, container.clientHeight);
+        // this.renderer.setSize(window.innerWidth * 0.60, window.innerHeight * 0.75);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         
         container.append(this.renderer.domElement);
@@ -47,8 +48,6 @@ class Additive {
 
     setup() {
         this.updateCircle(12);
-        this.size = 12;
-        this.counter = 0;
     }
 
     updateCircle(sides) {
@@ -67,13 +66,16 @@ class Additive {
         let circle = new THREE.Mesh(geometry, material);
         // console.log(circle);
         for (let i=1;i<=sides;i++) {
-            this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3), i);
+            this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
         }
+        let first = this.nodes.pop();
+        this.nodes.unshift(first);
+        // this.nodes[0].material.color.setHex(`0x00ff00`);
         this.renderer.render(this.scene, this.camera);
         // console.log(geometry.vertices);
     }
 
-    makeNode(parent, vector, index) {
+    makeNode(parent, vector) {
         let geometry = new THREE.CircleGeometry(0.1,12);
         let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
         let node = new THREE.Mesh(geometry, material);
@@ -130,4 +132,3 @@ class Additive {
 }
 
 export {Additive};
-// export default Additive;
