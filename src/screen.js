@@ -10,6 +10,9 @@ class Screen {
     camera;
     renderer;
 
+    raycaster = new THREE.Raycaster();
+    pointer = new THREE.Vector2();
+
     constructor(c) {
         this.scene = new THREE.Scene();
         this.nodes = [];
@@ -32,6 +35,11 @@ class Screen {
         this.renderer.setPixelRatio(window.devicePixelRatio);
         
         container.append(this.renderer.domElement);
+    }
+
+    intersect(position) {
+        this.raycaster.setFromCamera(position, this.camera);
+        return this.raycaster.intersectObjects(this.scene.children);
     }
 }
 

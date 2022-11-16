@@ -71,6 +71,10 @@ class Additive extends Screen {
         document.getElementById('stepCount').innerHTML = "";
     }
 
+    changeStep() {
+        
+    }
+
     animate() {
         // console.log(`animating frame ${this.counter}`);
         let node = this.step * (this.counter + 1);
