@@ -1,4 +1,9 @@
 import * as THREE from 'https://threejs.org/build/three.module.js';
+// import * as FontLoader from '../three.js-master/examples/js/loaders/FontLoader.js';
+import { FontLoader } from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'https://threejs.org/examples/jsm/geometries/TextGeometry.js';
+// import * as FontLoader from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
+// import * as FontLoader from 'fontloader';
 import {Common} from './common.js';
 import {Screen} from './screen.js';
 
@@ -12,6 +17,7 @@ class Additive extends Screen {
     constructor(c) {
         super(c);
         this.generateCharPairs();
+        this.addLabels();
     }
 
     generateCharPairs() {
@@ -33,6 +39,7 @@ class Additive extends Screen {
         this.counter = 0;
         this.size = sides;
         this.updateLabels();
+        // this.addLabels();
         document.getElementById('mInverse').innerHTML = "";
         document.getElementById('stepCount').innerHTML = "";
 
@@ -49,6 +56,35 @@ class Additive extends Screen {
         // this.nodes[0].material.color.setHex(`0x00ff00`);
         this.renderer.render(this.scene, this.camera);
         // console.log(geometry.vertices);
+    }
+
+    addLabels() {
+        let loader = new FontLoader();
+        console.log(loader);
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', this.createText );
+    }
+    
+    createText( loadedFont ) {
+	
+        const textMaterial = new THREE.MeshPhongMaterial( { color: 0x0033ff, specular: 0x444444, shininess: 20 } );
+        
+        const textGeometry = new TextGeometry( 'three.js \nexample', {
+            
+            font: loadedFont,
+            size: 70,
+            height: 4,
+            curveSegments: 10,
+            bevelEnabled: true,
+            bevelThickness: 8,
+            bevelSize: 8,
+            bevelSegments: 5
+            
+        });
+        
+        textGeometry.center(); // otherwise position left side
+        
+        const tMesh = new THREE.Mesh( textGeometry, textMaterial );
+        return tMesh;
     }
 
     makeNode(parent, vector) {
@@ -69,10 +105,6 @@ class Additive extends Screen {
         this.updateLabels();
         document.getElementById('mInverse').innerHTML = "";
         document.getElementById('stepCount').innerHTML = "";
-    }
-
-    changeStep() {
-        
     }
 
     animate() {

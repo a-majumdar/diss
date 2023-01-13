@@ -1,4 +1,5 @@
 import * as THREE from 'https://unpkg.com/three@0.108.0/build/three.module.js';
+import * as FontLoader from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
 import {Additive} from './additive.js';
 // import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 
@@ -29,17 +30,17 @@ btn.onclick = function() {
     screen1.animate();
 }
 
-container.addEventListener("mousemove", (event) => {
-    console.log(container.children);
-    screen1.pointer.x = event.clientX / container.offsetWidth;
-    screen1.pointer.y = event.clientY / container.offsetHeight;
-    // screen1.pointer.x = (event.clientX / container.offsetWidth) * 2 - 1;
-    // screen1.pointer.y = -(event.clientY / container.offsetHeight) * 2 + 1;
-    console.log(screen1.pointer);
-    // let intersected = screen1.intersect(screen1.pointer);
-    // if (intersected.length > 0) {
+// container.addEventListener("mousemove", (event) => {
+//     console.log(container.children);
+//     screen1.pointer.x = event.clientX / container.offsetWidth;
+//     screen1.pointer.y = event.clientY / container.offsetHeight;
+//     // screen1.pointer.x = (event.clientX / container.offsetWidth) * 2 - 1;
+//     // screen1.pointer.y = -(event.clientY / container.offsetHeight) * 2 + 1;
+//     console.log(screen1.pointer);
+//     // let intersected = screen1.intersect(screen1.pointer);
+//     // if (intersected.length > 0) {
 
-    // }
-});
+//     // }
+// });
 
 main();
