@@ -3,6 +3,16 @@
   padding: 0;
 }
 
+.layout {
+  width: 100%;
+
+  display: flex;
+  gap: 25%;
+
+  justify-content: center;
+}
+
+
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -43,4 +53,34 @@ p {
   margin: 1em auto;
   max-width: 500px;
   font-size: large;
+}
+
+.Render {
+  display: inline-block;
+  outline: none;
+  padding: 10px 20px;
+  line-height: 1.4;
+  background: #212121;
+  background: linear-gradient(to bottom, #545454 0%, #474747 50%, #141414 51%, #1b1b1b 100%);
+  border-radius: 4px;
+  border: 1px solid #000000;
+  color: #dadada;
+  text-shadow: #000000 -1px -1px 0px;
+  position: relative;
+  transition: padding-right 0.3s ease;
+  font-weight: 700;
+  box-shadow: 0 1px 0 #6e6e6e inset, 0px 1px 0 #3b3b3b;
+}
+
+.Render:hover {
+  box-shadow: 0 0 10px #080808 inset, 0px 1px 0 #3b3b3b;
+  color: #f3f3f3;
+}
+
+
+.Render:active {
+  box-shadow: 0 0 10px #080808 inset, 0px 1px 0 #3b3b3b;
+  color: #ffffff;
+  background: #080808;
+  background: linear-gradient(to bottom, #3b3b3b 0%, #2e2e2e 50%, #141414 51%, #080808 100%);
 }
