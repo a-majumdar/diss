@@ -61,7 +61,7 @@ class Addmod extends Screen {
     }
 
     makeNode(parent, vector) {
-        let geometry = new THREE.CircleGeometry(0.1,12);
+        let geometry = new THREE.CircleGeometry(0.05,12);
         let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
         let node = new THREE.Mesh(geometry, material);
         this.nodes.unshift(node);
@@ -86,7 +86,7 @@ class Addmod extends Screen {
             let node = this.step * (this.counter + 1);
             node = node >= this.size ? node % this.size : node;
             this.tail.unshift(node);
-            console.log(this.tail);
+            // console.log(this.tail);
             if (node == 1) { this.mInverse(); }
             this.changeColours();
             this.renderer.render(this.scene, this.camera);
