@@ -1,23 +1,24 @@
 import * as THREE from 'https://threejs.org/build/three.module.js';
+import { Loop } from '../systems/loop.js';
 // import * as FontLoader from '../three.js-master/examples/js/loaders/FontLoader.js';
-import { FontLoader } from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'https://threejs.org/examples/jsm/geometries/TextGeometry.js';
+// import { FontLoader } from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
+// import { TextGeometry } from 'https://threejs.org/examples/jsm/geometries/TextGeometry.js';
 // import * as FontLoader from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
 // import * as FontLoader from 'fontloader';
-import {Common} from './common.js';
+// import {Common} from './common.js';
 import {Screen} from './screen.js';
 
-class Additive extends Screen {
+class Addmod extends Screen {
 
     size;
     tail;
     characters = '0123456789abcdef';
     charPairs = [];
+    nodes;
 
     constructor(c) {
         super(c);
         this.generateCharPairs();
-        this.addLabels();
     }
 
     generateCharPairs() {
@@ -29,7 +30,7 @@ class Additive extends Screen {
     }
 
     setup() {
-        this.updateCircle(12);
+        this.updateCircle(25);
     }
 
     updateCircle(sides) {
@@ -54,37 +55,9 @@ class Additive extends Screen {
         let first = this.nodes.pop();
         this.nodes.unshift(first);
         // this.nodes[0].material.color.setHex(`0x00ff00`);
+        this.loop.updatables.push(this.nodes);
         this.renderer.render(this.scene, this.camera);
         // console.log(geometry.vertices);
-    }
-
-    addLabels() {
-        let loader = new FontLoader();
-        console.log(loader);
-        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', this.createText );
-    }
-    
-    createText( loadedFont ) {
-	
-        const textMaterial = new THREE.MeshPhongMaterial( { color: 0x0033ff, specular: 0x444444, shininess: 20 } );
-        
-        const textGeometry = new TextGeometry( 'three.js \nexample', {
-            
-            font: loadedFont,
-            size: 70,
-            height: 4,
-            curveSegments: 10,
-            bevelEnabled: true,
-            bevelThickness: 8,
-            bevelSize: 8,
-            bevelSegments: 5
-            
-        });
-        
-        textGeometry.center(); // otherwise position left side
-        
-        const tMesh = new THREE.Mesh( textGeometry, textMaterial );
-        return tMesh;
     }
 
     makeNode(parent, vector) {
@@ -107,7 +80,7 @@ class Additive extends Screen {
         document.getElementById('stepCount').innerHTML = "";
     }
 
-    animate() {
+    tick() {
         // console.log(`animating frame ${this.counter}`);
         let node = this.step * (this.counter + 1);
         node = node >= this.size ? node % this.size : node;
@@ -119,6 +92,8 @@ class Additive extends Screen {
         this.updateLabels();
         this.counter += 1;
     }
+
+    // play() {}
 
     mInverse() {
         document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter+1}`;
@@ -143,4 +118,4 @@ class Additive extends Screen {
 
 }
 
-export {Additive};
+export {Addmod};
