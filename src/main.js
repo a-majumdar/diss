@@ -29,7 +29,7 @@ nbtn.onclick = function() {
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    screen1.tick();
+    screen1.loop.start(screen1);
 }
 
 main();
