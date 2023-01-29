@@ -1,6 +1,6 @@
-import { Clock } from "three";
+// import { Clock } from "three";
 
-const clock = new Clock();
+// const clock = new Clock();
 
 class Loop {
 

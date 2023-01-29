@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from 'three';
+import { PerspectiveCamera } from 'https://threejs.org/build/three.module.js';
 
 function createCamera() {
 

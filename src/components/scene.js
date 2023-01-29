@@ -1,4 +1,4 @@
-import { Color, Scene } from 'three';
+import { Color, Scene } from 'https://threejs.org/build/three.module.js';
 
 function createScene() {
 

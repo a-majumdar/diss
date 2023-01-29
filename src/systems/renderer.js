@@ -1,8 +1,8 @@
-import * as THREE from 'https://threejs.org/build/three.module.js';
+import { WebGLRenderer } from 'https://threejs.org/build/three.module.js';
 
 function createRenderer() {
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new WebGLRenderer();
 
     return renderer;
 }

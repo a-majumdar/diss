@@ -49,6 +49,11 @@ class Addmod extends Screen {
         const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
         let circle = new THREE.Mesh(geometry, material);
         // console.log(circle);
+        // this.makeNode(circle, [0,2.1,0]); 
+        // this.nodes[0].material.color.setHex(0xf0ff0f);
+        // console.log(this.nodes[0]);
+        this.indicatorNode();
+
         for (let i=1;i<=sides;i++) {
             this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
         }
@@ -58,6 +63,20 @@ class Addmod extends Screen {
         this.loop.updatables.push(this.nodes);
         this.renderer.render(this.scene, this.camera);
         // console.log(geometry.vertices);
+    }
+
+    indicatorNode() {
+
+        let direction = new THREE.Vector3(0,-1,0);
+        let origin = new THREE.Vector3(0,2.3,0);
+        let length = 0.2;
+        let headLength = 0.07;
+        let headWidth = 0.1;
+        let colour = 0xf0ff0f;
+
+        const indicator = new THREE.ArrowHelper(direction, origin, length, colour, headLength, headWidth);
+        this.scene.add(indicator);
+
     }
 
     makeNode(parent, vector) {
