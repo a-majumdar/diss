@@ -60,7 +60,7 @@ class Addmod extends Screen {
         let first = this.nodes.pop();
         this.nodes.unshift(first);
         // this.nodes[0].material.color.setHex(`0x00ff00`);
-        this.loop.updatables.push(this.nodes);
+        // this.loop.updatables.push(this.nodes);
         this.renderer.render(this.scene, this.camera);
         // console.log(geometry.vertices);
     }
@@ -93,6 +93,11 @@ class Addmod extends Screen {
     stepSize(sliderValue) {
         this.step = sliderValue;
         this.updateCircle(this.size);
+        console.log(this.step);
+        this.nodes[this.step].material.color.set('blue');
+        this.renderer.render(this.scene, this.camera);
+
+        console.log(this.nodes[this.step].material.color);
         this.counter = 0;
         this.updateLabels();
         document.getElementById('mInverse').innerHTML = "";
@@ -134,7 +139,6 @@ class Addmod extends Screen {
     changeColours() {
         for (let i = 0; i < this.tail.length; i++) {
             let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
-            // console.log(hue);
             this.nodes[this.tail[i]].material.color.setHex(`0xff${hue+hue}`);
         }
     }

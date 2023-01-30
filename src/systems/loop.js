@@ -8,7 +8,7 @@ class Loop {
         this.camera = camera;
         this.scene = scene;
         this.renderer = renderer;
-        this.updatables = [];
+        // this.updatables = [];
     }
 
     start(object) {

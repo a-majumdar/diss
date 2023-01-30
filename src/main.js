@@ -18,8 +18,8 @@ slider.oninput = function() {
 
 var steps = document.getElementById('iSlider');
 steps.oninput = function() {
-    screen1.stepSize(steps.value);
     screen1.updateCircle(slider.value);
+    screen1.stepSize(steps.value);
 }
 
 var nbtn = document.getElementById('nxtBtn');
