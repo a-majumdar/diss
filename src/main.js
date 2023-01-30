@@ -32,4 +32,9 @@ pbtn.onclick = function() {
     screen1.loop.start(screen1);
 }
 
+var speed = document.getElementById('speedSlider');
+speed.oninput = function() {
+    screen1.playSpeed(speed.value);
+}
+
 main();
