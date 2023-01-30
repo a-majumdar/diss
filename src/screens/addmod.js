@@ -1,4 +1,5 @@
 import * as THREE from 'https://threejs.org/build/three.module.js';
+import { SkeletonHelper } from 'three';
 import { Loop } from '../systems/loop.js';
 // import * as FontLoader from '../three.js-master/examples/js/loaders/FontLoader.js';
 // import { FontLoader } from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
@@ -30,7 +31,8 @@ class Addmod extends Screen {
     }
 
     setup() {
-        this.updateCircle(25);
+        let startN = document.getElementById('nSlider').value;
+        this.updateCircle(startN);
     }
 
     updateCircle(sides) {
@@ -104,7 +106,7 @@ class Addmod extends Screen {
         document.getElementById('stepCount').innerHTML = "";
     }
 
-    tick() {
+    async tick() {
         // console.log(`animating frame ${this.counter}`);
         if (this.counter < this.size) {
             let node = this.step * (this.counter + 1);
@@ -116,13 +118,16 @@ class Addmod extends Screen {
             this.renderer.render(this.scene, this.camera);
             this.updateLabels();
             this.counter += 1;
+            // this.sleep(2000).then(() => { this.counter += 1; });
         }
         else {
             this.loop.stop();
         }
     }
 
-    // play() {}
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     mInverse() {
         document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter+1}`;

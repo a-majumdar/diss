@@ -17,10 +17,7 @@ slider.oninput = function() {
 }
 
 var steps = document.getElementById('iSlider');
-steps.oninput = function() {
-    screen1.updateCircle(slider.value);
-    screen1.stepSize(steps.value);
-}
+steps.oninput = function() { refresh(); }
 
 var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
@@ -35,6 +32,14 @@ pbtn.onclick = function() {
 var speed = document.getElementById('speedSlider');
 speed.oninput = function() {
     screen1.playSpeed(speed.value);
+}
+
+var reset = document.getElementById('Reset');
+reset.onclick = function() { refresh(); }
+
+function refresh() {
+    screen1.updateCircle(slider.value);
+    screen1.stepSize(steps.value);
 }
 
 main();
