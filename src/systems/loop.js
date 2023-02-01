@@ -4,6 +4,8 @@
 
 class Loop {
 
+    interval;
+
     constructor(camera, scene, renderer) {
         this.camera = camera;
         this.scene = scene;
@@ -13,24 +15,26 @@ class Loop {
 
     start(object) {
 
-        this.renderer.setAnimationLoop(() => {
-            this.tick(object);
-            this.renderer.render(this.scene, this.camera);
-        });
+        // this.renderer.setAnimationLoop(() => {
+        //     this.interval = setInterval(function () {console.log('tick');}, 2000); //object.tick()
+        //     // this.tick(object);
+        //     // this.renderer.render(this.scene, this.camera);
+        // });
+        this.interval = setInterval(function() {object.tick();}, object.speed);
 
     }
 
     stop() {
 
-        this.renderer.setAnimationLoop(null);
+        clearInterval(this.interval);
+        // this.renderer.setAnimationLoop(null);
 
     }
 
-    tick(object) {
+    changeSpeed(object) {
 
-        // const delta = clock.getDelta();
-        object.tick();
-
+        this.stop;
+        this.start(object);
 
     }
 

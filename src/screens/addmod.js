@@ -16,26 +16,34 @@ class Addmod extends Screen {
     characters = '0123456789abcdef';
     charPairs = [];
     nodes;
+    speed;
 
     constructor(c) {
+
         super(c);
         this.generateCharPairs();
+
     }
 
     generateCharPairs() {
+
         for (let i = 0; i < this.characters.length; i++) {
             for (let j = 0; j < this.characters.length; j++) {
                 this.charPairs.push(`${this.characters[i] + this.characters[j]}`);
             }
         }
+
     }
 
     setup() {
+
         let startN = document.getElementById('nSlider').value;
         this.updateCircle(startN);
+
     }
 
     updateCircle(sides) {
+
         this.scene.remove.apply(this.scene, this.scene.children);
         this.nodes = [];
         this.tail = [];
@@ -61,10 +69,12 @@ class Addmod extends Screen {
         }
         let first = this.nodes.pop();
         this.nodes.unshift(first);
+        this.nodes[this.step].material.color.set('blue');
         // this.nodes[0].material.color.setHex(`0x00ff00`);
         // this.loop.updatables.push(this.nodes);
         this.renderer.render(this.scene, this.camera);
         // console.log(geometry.vertices);
+
     }
 
     indicatorNode() {
@@ -106,7 +116,7 @@ class Addmod extends Screen {
         document.getElementById('stepCount').innerHTML = "";
     }
 
-    async tick() {
+    tick() {
         // console.log(`animating frame ${this.counter}`);
         if (this.counter < this.size) {
             let node = this.step * (this.counter + 1);
@@ -118,15 +128,12 @@ class Addmod extends Screen {
             this.renderer.render(this.scene, this.camera);
             this.updateLabels();
             this.counter += 1;
-            // this.sleep(2000).then(() => { this.counter += 1; });
+            this.renderer.render(this.scene, this.camera);
+
         }
         else {
             this.loop.stop();
         }
-    }
-
-    sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     mInverse() {
@@ -149,7 +156,7 @@ class Addmod extends Screen {
     }
 
     playSpeed(value) {
-        console.log(value);
+        this.speed = 3000 / value;
     }
     
 
