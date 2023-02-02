@@ -127,6 +127,7 @@ class Addmod extends Screen {
             this.changeColours();
             this.renderer.render(this.scene, this.camera);
             this.updateLabels();
+            this.sumLabel(node);
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
 
@@ -136,8 +137,13 @@ class Addmod extends Screen {
         }
     }
 
+    sumLabel(current) {
+        document.getElementById('sums').innerHTML = `${this.step} x ${this.counter+1} = ${this.step*(this.counter + 1)} = ${current} (mod ${this.size})`;
+    }
+
     mInverse() {
         document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter+1}`;
+        this.nodes[1].material.color.setHex('0x0f0f0f');
     }
 
     updateLabels() {
@@ -146,6 +152,7 @@ class Addmod extends Screen {
         document.getElementById('iMax').innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
         document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         document.getElementById('counterLabel').innerHTML = `Currently viewing step ${this.counter+1}`;
+        document.getElementById('sums').innerHTML = ``;
     }
 
     changeColours() {
