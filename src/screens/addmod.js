@@ -16,7 +16,7 @@ class Addmod extends Screen {
     characters = '0123456789abcdef';
     charPairs = [];
     nodes;
-    speed;
+    speed = 1000;
 
     constructor(c) {
 
@@ -155,9 +155,9 @@ class Addmod extends Screen {
         }
     }
 
-    playSpeed(value) {
-        this.speed = 3000 / value;
-    }
+    // playSpeed(value) {
+    //     this.speed = 3000 / value;
+    // }
     
 
 }

@@ -29,11 +29,11 @@ pbtn.onclick = function() {
     screen1.loop.start(screen1);
 }
 
-var speed = document.getElementById('speedSlider');
-speed.oninput = function() {
-    screen1.playSpeed(speed.value);
-    // if (screen1.loop.interval) { screen1.loop.changeSpeed(screen1); }
-}
+// var speed = document.getElementById('speedSlider');
+// speed.oninput = function() {
+//     screen1.playSpeed(speed.value);
+//     // if (screen1.loop.interval) { screen1.loop.changeSpeed(screen1); }
+// }
 
 var reset = document.getElementById('Reset');
 reset.onclick = function() { refresh(); }
