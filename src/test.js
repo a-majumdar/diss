@@ -7,6 +7,8 @@ const container = document.getElementById('scene-container');
 var screen;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
+var intersects = null;
+let INTERSECTED = null;
 
 function main() {
     screen = new Screen(container);
@@ -17,7 +19,6 @@ function main() {
     circle.position.set(0,0,0);
     screen.scene.add(circle);
     screen.render(screen.scene, screen.camera);
-    animate();
 
 }
 
@@ -32,23 +33,45 @@ function onMouseMove(event) {
   
 }
 
-function render() {
+function updateRender() {
 
     // update the picking ray with the camera and mouse position
     raycaster.setFromCamera(mouse, screen.camera);
   
     // calculate objects intersecting the picking ray
-    var intersects = raycaster.intersectObjects(screen.scene.children);
-    if (intersects.length > 0) {
-        for (var i = 0; i < intersects.length; i++) {
-            intersects[i].object.material.color.set(0x4f3ea7);
-        }
-    }
-    else {
-        for (var i = 0; i < screen.scene.children; i++) {
-            screen.scene.children[i].material.color.setHex('0xf0f0f0');
-        }
-    }
+    intersects = raycaster.intersectObjects(screen.scene.children, false);
+    // if (intersects.length > 0) {
+    //     for (var i = 0; i < intersects.length; i++) {
+    //         intersects[i].object.material.color.set(0x4f3ea7);
+    //     }
+    // }
+    // else {
+    //     for (var i = 0; i < screen.scene.children; i++) {
+    //         screen.scene.children[i].material.color.setHex('0xf0f0f0');
+    //     }
+    // }
+
+    if ( intersects.length > 0 ) {
+		
+        console.log('intersecting');
+		if ( INTERSECTED != intersects[ 0 ].object ) {
+			
+			if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+			
+			INTERSECTED = intersects[ 0 ].object;
+			INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+			INTERSECTED.material.color.setHex( 0xff0000 );
+			
+		}
+		
+	} else {
+		
+		if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+		
+		INTERSECTED = null;
+		
+	}
+
   
   
     screen.render(screen.scene, screen.camera);
@@ -56,13 +79,14 @@ function render() {
   }
 
 
-window.addEventListener('mousemove', onMouseMove, false);
+container.addEventListener('mousemove', onMouseMove);
 
 
 function animate() {
     requestAnimationFrame(animate);
-    render();
+    updateRender();
 }
 
 main();
+animate();
 
