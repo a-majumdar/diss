@@ -24,6 +24,7 @@ class Loop {
 
     }
 
+
     stop() {
 
         clearInterval(this.interval);
