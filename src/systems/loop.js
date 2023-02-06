@@ -20,7 +20,7 @@ class Loop {
         //     // this.tick(object);
         //     // this.renderer.render(this.scene, this.camera);
         // });
-        this.interval = setInterval(function() {object.tick();}, 700);
+        this.interval = setInterval(function() {object.tick();}, 500);
 
     }
 

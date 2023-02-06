@@ -7,7 +7,7 @@ import { Loop } from '../systems/loop.js';
 // import * as FontLoader from 'https://threejs.org/examples/jsm/loaders/FontLoader.js';
 // import * as FontLoader from 'fontloader';
 // import {Common} from './common.js';
-import {Screen} from './screen.js';
+import {Screen} from '../screens/screen.js';
 
 class Addmod extends Screen {
 

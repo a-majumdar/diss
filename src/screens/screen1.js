@@ -1,4 +1,4 @@
-import {Addmod} from './screens/addmod.js';
+import {Addmod} from '../maths/addmod.js';
 
 const container = document.getElementById('scene-container');
 var screen1;
