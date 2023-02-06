@@ -118,11 +118,11 @@ class Addmod extends Screen {
 
     tick() {
         // console.log(`animating frame ${this.counter}`);
-        if (this.counter < this.size) {
-            let node = this.step * (this.counter + 1);
-            node = node >= this.size ? node % this.size : node;
+        let node = this.step * (this.counter + 1);
+        node = node >= this.size ? node % this.size : node;
+
+        if (this.counter < this.size && !this.tail.includes(node)) {
             this.tail.unshift(node);
-            // console.log(this.tail);
             if (node == 1) { this.mInverse(); }
             this.changeColours();
             this.renderer.render(this.scene, this.camera);
@@ -130,7 +130,6 @@ class Addmod extends Screen {
             this.sumLabel(node);
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
-
         }
         else {
             this.loop.stop();
