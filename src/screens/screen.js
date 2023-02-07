@@ -18,7 +18,7 @@ class Screen {
 
     constructor(c) {
         this.nodes = [];
-        this.counter = 0;
+        this.counter = 1;
         this.step = 1;
         
         let container = c;

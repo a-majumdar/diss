@@ -12,33 +12,20 @@ import { Modular } from './mod.js';
 
 class Addmod extends Modular {
 
+    node;
+
     constructor(c) {
 
         super(c);
-
+        this.node = 0;
     }
 
     updateCircle(sides) {
 
         super.updateCircle(sides);
-        this.zeroIndicator();
 
     }
 
-    zeroIndicator() {
-
-        let direction = new THREE.Vector3(0,-1,0);
-        let origin = new THREE.Vector3(0,2.3,0);
-        let length = 0.2;
-        let headLength = 0.07;
-        let headWidth = 0.1;
-        let colour = 0xf0ff0f;
-
-        const indicator = new THREE.ArrowHelper(direction, origin, length, colour, headLength, headWidth);
-        this.scene.add(indicator);
-
-    }
-    
     stepSize(sliderValue) {
         this.step = sliderValue;
         this.updateCircle(this.size);
@@ -54,16 +41,18 @@ class Addmod extends Modular {
     }
 
     tick() {
-
-        let node = super.tick();
-        if (node == 1) { this.mInverse(); }
+        this.node = (this.step*(this.counter + 2)) % this.size; //fix off by two weirdness
+        // this.node = this.node >= this.size ? this.node % this.size : this.node;
+        super.tick(this.node);
+        if (this.node == 1) { this.mInverse(); }
         this.updateLabels();
-        this.sumLabel(node);
+
+        this.sumLabel();
 
     }
 
-    sumLabel(current) {
-        document.getElementById('sums').innerHTML = `${this.step} x ${this.counter+1} = ${this.step*(this.counter + 1)} = ${current} (mod ${this.size})`;
+    sumLabel() {
+        document.getElementById('sums').innerHTML = `${this.step} x ${this.counter+1} = ${this.step*(this.counter + 1)} = ${this.node} (mod ${this.size})`;
     }
 
     mInverse() {

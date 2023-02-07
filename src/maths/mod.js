@@ -56,6 +56,7 @@ class Modular extends Screen {
         // this.nodes[0].material.color.setHex(0xf0ff0f);
         // console.log(this.nodes[0]);
         // this.indicatorNode();
+        this.zeroIndicator();
 
         for (let i=1;i<=sides;i++) {
             this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
@@ -70,6 +71,20 @@ class Modular extends Screen {
 
     }
 
+    zeroIndicator() {
+
+        let direction = new THREE.Vector3(0,-1,0);
+        let origin = new THREE.Vector3(0,2.3,0);
+        let length = 0.2;
+        let headLength = 0.07;
+        let headWidth = 0.1;
+        let colour = 0xf0ff0f;
+
+        const indicator = new THREE.ArrowHelper(direction, origin, length, colour, headLength, headWidth);
+        this.scene.add(indicator);
+
+    }
+
     makeNode(parent, vector) {
         let geometry = new THREE.CircleGeometry(0.05,12);
         let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
@@ -81,10 +96,8 @@ class Modular extends Screen {
         // console.log(`node ${index} added`);
     }
 
-    tick() {
+    tick(node) {
         // console.log(`animating frame ${this.counter}`);
-        let node = this.step * (this.counter + 1);
-        node = node >= this.size ? node % this.size : node;
 
         if (this.counter < this.size && !this.tail.includes(node)) {
             this.tail.unshift(node);
