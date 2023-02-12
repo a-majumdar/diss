@@ -5,11 +5,13 @@
 class Loop {
 
     interval;
+    flag;
 
     constructor(camera, scene, renderer) {
         this.camera = camera;
         this.scene = scene;
         this.renderer = renderer;
+        this.flag = true;
         // this.updatables = [];
     }
 
@@ -21,6 +23,7 @@ class Loop {
         //     // this.renderer.render(this.scene, this.camera);
         // });
         this.interval = setInterval(function() {object.tick();}, 500);
+        this.flag = false;
 
     }
 
@@ -28,6 +31,7 @@ class Loop {
     stop() {
 
         clearInterval(this.interval);
+        this.flag = true;
         // this.renderer.setAnimationLoop(null);
 
     }

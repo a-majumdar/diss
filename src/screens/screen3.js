@@ -1,9 +1,9 @@
-import {Addmod} from '../maths/addmod.js';
+import {Multiplicative} from '../maths/multiplicative.js';
 
 const container = document.getElementById('scene-container');
-var screen1;
+var screen3;
 
-class Screen1 extends Addmod {
+class Screen3 extends Multiplicative {
 
     constructor(c) {
         super(c);
@@ -24,14 +24,14 @@ class Screen1 extends Addmod {
 }
 
 function main() {
-    screen1 = new Screen1(container);
+    screen3 = new Screen3(container);
 }
 
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
     let sides = slider.value;
-    screen1.updateCircle(sides);
-    screen1.stepSize(1);
+    screen3.updateCircle(sides);
+    screen3.stepSize(1);
     document.getElementById('iSlider').setAttribute('value', 1);
 }
 
@@ -40,27 +40,27 @@ steps.oninput = function() { refresh(); }
 
 var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
-    screen1.tick();
+    screen3.tick();
 }
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    screen1.loop.start(screen1);
+    screen3.loop.start(screen3);
 }
 
 // var speed = document.getElementById('speedSlider');
 // speed.oninput = function() {
-//     screen1.playSpeed(speed.value);
-//     // if (screen1.loop.interval) { screen1.loop.changeSpeed(screen1); }
+//     screen3.playSpeed(speed.value);
+//     // if (screen3.loop.interval) { screen3.loop.changeSpeed(screen3); }
 // }
 
 var reset = document.getElementById('Reset');
 reset.onclick = function() { refresh(); }
 
 function refresh() {
-    screen1.loop.stop();
-    screen1.updateCircle(slider.value);
-    screen1.stepSize(steps.value);
+    screen3.loop.stop();
+    screen3.updateCircle(slider.value);
+    screen3.stepSize(steps.value);
 }
 
 main();

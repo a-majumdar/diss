@@ -41,7 +41,7 @@ class Addmod extends Modular {
     }
 
     tick() {
-        this.node = (this.step*(this.counter + 2)) % this.size; //fix off by two weirdness
+        this.node = (this.step*(this.counter + 1)) % this.size; //fix off by two weirdness
         // this.node = this.node >= this.size ? this.node % this.size : this.node;
         super.tick(this.node);
         if (this.node == 1) { this.mInverse(); }
@@ -65,9 +65,9 @@ class Addmod extends Modular {
 
     updateLabels() {
         document.getElementById('n').innerHTML = this.size;
-        document.getElementById('iSlider').setAttribute("max", this.size-1);
-        document.getElementById('iMax').innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
-        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
+        // document.getElementById('iSlider').setAttribute("max", this.size-1);
+        // document.getElementById('iMax').innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
+        // document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         // document.getElementById('counterLabel').innerHTML = `Currently viewing step ${this.counter+1}`;
         document.getElementById('sums').innerHTML = ``;
     }

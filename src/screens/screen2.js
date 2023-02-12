@@ -1,11 +1,50 @@
-import {Multiplicative} from '../maths/multiplicative.js';
+import { Loop } from "../systems/loop.js";
+import { Addmod } from "../maths/addmod.js";
 
 const container = document.getElementById('scene-container');
 var screen2;
 
+class Screen2 extends Addmod {
+
+    constructor(c) {
+        super(c);
+        this.setup();
+    }
+
+    updateCircle(sides) {
+        super.updateCircle(sides);
+        // document.getElementById('stepCount').innerHTML = "";
+
+    }
+
+    updateLabels() {
+        super.updateLabels();
+        // document.getElementById('iSlider').setAttribute("max", this.size-1);
+
+    }
+
+    async cycle() {
+        for (let i=0; i < this.size; i++) {
+            this.tick();
+            await this.loopWait();
+        }
+    }
+
+    async loopWait() {
+        return new Promise(resolve => {
+            const intervalId = setInterval(() => {
+                if (this.loop.flag) {
+                  clearInterval(intervalId);
+                  resolve();
+                }
+              }, 100);
+        });
+    }
+
+}
+
 function main() {
-    screen2 = new Multiplicative(container);
-    screen2.setup();
+    screen2 = new Screen2(container);
 }
 
 var slider = document.getElementById('nSlider');
@@ -22,7 +61,7 @@ nbtn.onclick = function() {
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    screen2.loop.start(screen2);
+    screen2.cycle();
 }
 
 var reset = document.getElementById('Reset');

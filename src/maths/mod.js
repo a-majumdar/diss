@@ -45,7 +45,7 @@ class Modular extends Screen {
         this.updateLabels();
         // this.addLabels();
         document.getElementById('mInverse').innerHTML = "";
-        document.getElementById('stepCount').innerHTML = "";
+        // document.getElementById('stepCount').innerHTML = "";
 
         let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
         // console.log(geometry);
@@ -112,7 +112,7 @@ class Modular extends Screen {
             this.loop.stop();
         }
 
-        return node;
+        // return node;
     }
 
     changeColours() {
