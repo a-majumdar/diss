@@ -1,7 +1,14 @@
 import {Addmod} from '../maths/addmod.js';
+import * as THREE from 'https://threejs.org/build/three.module.js';
+
 
 const container = document.getElementById('scene-container');
 var screen1;
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+var intersects = null;
+let INTERSECTED = null;
+
 
 class Screen1 extends Addmod {
 
@@ -23,9 +30,6 @@ class Screen1 extends Addmod {
     }
 }
 
-function main() {
-    screen1 = new Screen1(container);
-}
 
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
@@ -63,4 +67,45 @@ function refresh() {
     screen1.stepSize(steps.value);
 }
 
-main();
+function onClick(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
+function updateRender() {
+
+    // update the picking ray with the camera and mouse position
+    raycaster.setFromCamera(mouse, screen1.camera);
+  
+    // calculate objects intersecting the picking ray
+    intersects = raycaster.intersectObjects(screen1.scene.children, false);
+    if ( intersects.length > 0 ) {
+        console.log('intersecting');
+		if ( INTERSECTED != intersects[ 0 ].object ) {
+			if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+			
+			INTERSECTED = intersects[ 0 ].object;
+			INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+			INTERSECTED.material.color.setHex( 0xff0000 );
+		}
+	} else {
+		if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+		INTERSECTED = null;
+	}
+    screen1.renderer.render(screen1.scene, screen1.camera);
+  }
+
+  container.addEventListener('click', onClick);
+
+  function animate() {
+      requestAnimationFrame(animate);
+      updateRender();
+  }
+
+  function main() {
+    screen1 = new Screen1(container);
+}
+  
+  main();
+  animate();
+  

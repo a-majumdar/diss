@@ -1,5 +1,5 @@
 
-import {Screen} from './screens/screen.js';
+import {Screen} from './screen.js';
 import * as THREE from 'https://threejs.org/build/three.module.js';
 
 
@@ -31,6 +31,11 @@ function onMouseMove(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   
+}
+
+function onClick(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function updateRender() {
@@ -79,7 +84,8 @@ function updateRender() {
   }
 
 
-container.addEventListener('mousemove', onMouseMove);
+// container.addEventListener('mousemove', onMouseMove);
+container.addEventListener('click', onClick);
 
 
 function animate() {
