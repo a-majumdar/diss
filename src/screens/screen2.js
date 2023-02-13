@@ -1,5 +1,6 @@
 import { Loop } from "../systems/loop.js";
 import { Addmod } from "../maths/addmod.js";
+import * as COMMON from "../maths/common.js";
 
 const container = document.getElementById('scene-container');
 var screen2;
@@ -24,11 +25,41 @@ class Screen2 extends Addmod {
     }
 
     async cycle() {
+
+        this.nodes = [];
+        let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
+        const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+        let circle = new THREE.Mesh(geometry, material);
+
         for (let i=0; i < this.size; i++) {
             this.tick();
             await this.loopWait();
+            this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
         }
     }
+
+    prepNodes() {
+
+        let factors = COMMON.factors(this.size);
+        let shadediff = Math.floor(this.charPairs.length / (factors.length + 1));
+        let orders = this.findOrder(this.size);
+
+    }
+
+    findOrder(n) {
+        const result = {};
+        for (let i = 1; i <= n; i++) {
+            let order = 1;
+            let x = i;
+            while (x !== 0) {
+                order++;
+                x = (x + i) % n;
+            }
+            result[i] = order;
+        }
+        return result;
+    }
+
 
     async loopWait() {
         return new Promise(resolve => {
