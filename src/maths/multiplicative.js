@@ -19,6 +19,20 @@ class Multiplicative extends Modular {
 
     }
 
+    stepSize(sliderValue) {
+        this.step = sliderValue;
+        this.updateCircle(this.size);
+        // console.log(this.step);
+        this.nodes[this.step].material.color.set('blue');
+        this.renderer.render(this.scene, this.camera);
+
+        // console.log(this.nodes[this.step].material.color);
+        this.counter = 0;
+        this.updateLabels();
+        document.getElementById('mInverse').innerHTML = "";
+        document.getElementById('stepCount').innerHTML = "";
+    }
+
     updateLabels() {
         document.getElementById('n').innerHTML = this.size;
         document.getElementById('sums').innerHTML = ``;
