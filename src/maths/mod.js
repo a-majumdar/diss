@@ -94,6 +94,7 @@ class Modular extends Screen {
         node.parent = parent;
         this.scene.add(node);
         // console.log(`node ${index} added`);
+        return node;
     }
 
     tick(node) {
