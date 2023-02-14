@@ -16,6 +16,7 @@ class Multiplicative extends Modular {
     updateCircle(sides) {
 
         super.updateCircle(sides);
+        this.node = 1;
 
     }
 
@@ -39,7 +40,7 @@ class Multiplicative extends Modular {
     }
 
     tick() {
-        this.node = (this.step ^ (this.counter+1)) % this.size;
+        this.node = (this.step * this.node) % this.size;
         super.tick(this.node);
         if (this.node == 1) { this.mInverse(); }
         this.updateLabels();
