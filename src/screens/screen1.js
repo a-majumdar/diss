@@ -1,5 +1,6 @@
 import {Addmod} from '../maths/addmod.js';
 import * as THREE from 'https://threejs.org/build/three.module.js';
+import {Common} from '../maths/common.js';
 
 
 const container = document.getElementById('scene-container');
@@ -8,6 +9,7 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var intersects = null;
 let INTERSECTED = null;
+const common = new Common();
 
 
 class Screen1 extends Addmod {
@@ -20,12 +22,13 @@ class Screen1 extends Addmod {
     updateCircle(sides) {
         super.updateCircle(sides);
         document.getElementById('stepCount').innerHTML = "";
-
+        document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
     }
 
     updateLabels() {
         super.updateLabels();
         document.getElementById('iSlider').setAttribute("max", this.size-1);
+        // document.getElementById('i').innerHTML = this.step;
 
     }
 }

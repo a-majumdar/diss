@@ -11,7 +11,7 @@
 class Common {
 
     gcd(a, b) {
-        return !b ? a : gcd(b, a % b);
+        return !b ? a : this.gcd(b, a % b);
     }
 
     factors(number) {

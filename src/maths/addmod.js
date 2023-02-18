@@ -23,6 +23,7 @@ class Addmod extends Modular {
     updateCircle(sides) {
 
         super.updateCircle(sides);
+        document.getElementById('sums').innerHTML = "placeholder";
 
     }
 
@@ -58,7 +59,7 @@ class Addmod extends Modular {
     mInverse() {
 
         document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter+1}`;
-        this.nodes[1].material.color.setHex('0x0f0f0f');
+        this.nodes[1].material.color.setHex('0x00ff0f');
         this.renderer.render(this.scene, this.camera);
 
     }
@@ -67,7 +68,7 @@ class Addmod extends Modular {
         document.getElementById('n').innerHTML = this.size;
         // document.getElementById('iSlider').setAttribute("max", this.size-1);
         // document.getElementById('iMax').innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
-        // document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
+        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         // document.getElementById('counterLabel').innerHTML = `Currently viewing step ${this.counter+1}`;
         document.getElementById('sums').innerHTML = ``;
     }

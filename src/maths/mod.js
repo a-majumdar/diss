@@ -45,7 +45,7 @@ class Modular extends Screen {
         this.updateLabels();
         // this.addLabels();
         document.getElementById('mInverse').innerHTML = "";
-        // document.getElementById('stepCount').innerHTML = "";
+        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
 
         let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
         // console.log(geometry);
