@@ -15,7 +15,9 @@ class Common {
     }
 
     factors(number) {
-        return Array.from(Array(number + 1), (_, i) => i).filter(i => number % i === 0);
+        let result = [];
+        for (let i=0; i<number; i++) { if (number % i == 0) { result.push(i); } }
+        return result;
     }
 
 }

@@ -17,17 +17,21 @@ class Screen1 extends Addmod {
     constructor(c) {
         super(c);
         this.setup();
+        this.nodes[this.step].material.color.set('blue');
+        this.renderer.render(this.scene, this.camera);
     }
 
     updateCircle(sides) {
         super.updateCircle(sides);
         document.getElementById('stepCount').innerHTML = "";
+        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
     }
 
     updateLabels() {
         super.updateLabels();
         document.getElementById('iSlider').setAttribute("max", this.size-1);
+        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         // document.getElementById('i').innerHTML = this.step;
 
     }

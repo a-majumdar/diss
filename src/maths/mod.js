@@ -45,7 +45,6 @@ class Modular extends Screen {
         this.updateLabels();
         // this.addLabels();
         document.getElementById('mInverse').innerHTML = "";
-        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
 
         let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
         // console.log(geometry);
@@ -63,7 +62,6 @@ class Modular extends Screen {
         }
         let first = this.nodes.pop();
         this.nodes.unshift(first);
-        this.nodes[this.step].material.color.set('blue');
         // this.nodes[0].material.color.setHex(`0x00ff00`);
         // this.loop.updatables.push(this.nodes);
         this.renderer.render(this.scene, this.camera);

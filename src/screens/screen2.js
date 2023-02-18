@@ -11,9 +11,16 @@ const common = new Common();
 
 class Screen2 extends Addmod {
 
+    flag;
+    shades;
+    ring;
+
     constructor(c) {
         super(c);
         this.setup();
+        this.flag = true;
+        this.ring = [];
+        // this.node = 1;
     }
 
     updateCircle(sides) {
@@ -28,21 +35,68 @@ class Screen2 extends Addmod {
 
     }
 
-    async cycle() {
+    // async cycle() {
 
-        // this.nodes = [];
+    //     // this.nodes = [];
+    //     let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
+    //     const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+    //     let circle = new THREE.Mesh(geometry, material);
+    //     let shades = this.shading();
+
+    //     for (let i=0; i < this.size; i++) {
+    //         this.tick();
+    //         await this.loopWait();
+    //         let n = this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
+    //         let shade = shades[i];
+    //         n.material.color.setHex(`0x${shade+shade+shade}`);
+    //         this.renderer.render(this.scene, this.camera);
+    //     }
+    // }
+
+    cycle() {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
         const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
         let circle = new THREE.Mesh(geometry, material);
-        let shades = this.shading();
+        this.shades = this.shading();
 
         for (let i=0; i < this.size; i++) {
             this.tick();
-            await this.loopWait();
-            let n = this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
+            while (!this.flag) {
+                if (this.loop.flag) { this.flag = true; }
+            }
+            let index = 3 * (i + 1);
+            let n = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
             let shade = shades[i];
             n.material.color.setHex(`0x${shade+shade+shade}`);
             this.renderer.render(this.scene, this.camera);
+            this.flag = false;
+        }
+    }
+    
+    orders() {
+        let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
+        const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+        let circle = new THREE.Mesh(geometry, material);
+        this.shades = this.shading();
+        // console.log(this.shades);
+        for (let i=0; i < this.size; i++) {
+            let index = 3 * (i + 1);
+            this.ring[i] = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
+        }
+        this.loop.start(this);
+    }
+
+    tick() {
+        if (this.counter < this.size && !this.tail.includes(this.counter)) {
+            this.tail.unshift(this.counter);
+            let shade = this.shades[this.counter];
+            // console.log(shade);
+            this.ring[this.counter].material.color.setHex(`0x${shade+shade+shade}`);
+            this.counter += 1;
+            this.renderer.render(this.scene, this.camera);
+        }
+        else {
+            this.loop.stop();
         }
     }
 
@@ -50,21 +104,23 @@ class Screen2 extends Addmod {
 
         let factors = common.factors(this.size);
         let shadediff = Math.floor(this.charPairs.length / (factors.length + 1));
-        let factorindicies = function() {
-            for (const [index, value] of factors.entries()) {
-                factorindicies[value] = charPairs[shadediff * index];
-            }
+        let factorindicies = [];
+        for (let i = 0; i < factors.length; i++) {
+            factorindicies[factors[i]] = this.charPairs[this.charPairs.length - shadediff * i];
+            // console.log(factors[i], this.charPairs[shadediff * i]);
         }
+        // console.log(factorindicies);
         let orders = this.findOrder(this.size);
         let shades = orders.map(elem => {
             return factorindicies[orders[elem]];
         });
+        // console.log(shades);
         return shades;
 
     }
 
     findOrder(n) {
-        const result = [];
+        let result = [];
         for (let i = 1; i <= n; i++) {
             let order = 1;
             let x = i;
@@ -74,20 +130,21 @@ class Screen2 extends Addmod {
             }
             result[i] = order;
         }
+        result.shift();
         return result;
     }
 
 
-    async loopWait() {
-        return new Promise(resolve => {
-            const intervalId = setInterval(() => {
-                if (this.loop.flag) {
-                  clearInterval(intervalId);
-                  resolve();
-                }
-              }, 100);
-        });
-    }
+    // async loopWait() {
+    //     return new Promise(resolve => {
+    //         const intervalId = setInterval(() => {
+    //             if (this.loop.flag) {
+    //               clearInterval(intervalId);
+    //               resolve();
+    //             }
+    //           }, 100);
+    //     });
+    // }
 
 }
 
@@ -109,7 +166,8 @@ nbtn.onclick = function() {
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    screen2.cycle();
+    screen2.orders();
+    // screen2.cycle();
 }
 
 var reset = document.getElementById('Reset');

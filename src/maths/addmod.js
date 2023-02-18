@@ -68,7 +68,6 @@ class Addmod extends Modular {
         document.getElementById('n').innerHTML = this.size;
         // document.getElementById('iSlider').setAttribute("max", this.size-1);
         // document.getElementById('iMax').innerHTML = `The maximum value for i is: ${document.getElementById('iSlider').getAttribute("max")}`;
-        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         // document.getElementById('counterLabel').innerHTML = `Currently viewing step ${this.counter+1}`;
         document.getElementById('sums').innerHTML = ``;
     }
