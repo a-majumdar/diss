@@ -42,7 +42,9 @@ class Multiplicative extends Modular {
     tick() {
         this.node = (this.step * this.node) % this.size;
         super.tick(this.node);
-        if (this.node == 1) { this.mInverse(); }
+        if (this.node == 1) {
+            console.log(this.nodes[this.node]);
+        }
         this.updateLabels();
 
         this.sumLabel();
@@ -50,7 +52,7 @@ class Multiplicative extends Modular {
     }
 
     sumLabel() {
-        document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter+1} = ${this.step^(this.counter + 1)} = ${this.node} (mod ${this.size})`;
+        document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter} = ${this.node} (mod ${this.size})`;
     }
 
     updateLabels() {
