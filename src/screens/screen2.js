@@ -14,12 +14,14 @@ class Screen2 extends Addmod {
     flag;
     shades;
     ring;
+    jump;
 
     constructor(c) {
         super(c);
         this.setup();
         this.flag = true;
         this.ring = [];
+        this.jump = 1;
         // this.node = 1;
     }
 
@@ -103,14 +105,14 @@ class Screen2 extends Addmod {
     shading() {
 
         let factors = common.factors(this.size);
-        let shadediff = Math.floor(this.charPairs.length / (factors.length + 1));
+        let shadediff = 255/this.size; //Math.floor(255 / this.size);
+        let orders = this.findOrder(this.size);
         let factorindicies = [];
-        for (let i = 0; i < factors.length; i++) {
-            factorindicies[factors[i]] = this.charPairs[this.charPairs.length - shadediff * i];
+        for (let i = 0; i <= this.size; i++) {
+            factorindicies[orders[i]] = this.charPairs[255 - Math.floor(shadediff * i)];
             // console.log(factors[i], this.charPairs[shadediff * i]);
         }
         // console.log(factorindicies);
-        let orders = this.findOrder(this.size);
         let shades = orders.map(elem => {
             return factorindicies[orders[elem]];
         });
@@ -121,19 +123,34 @@ class Screen2 extends Addmod {
 
     findOrder(n) {
         let result = [];
-        for (let i = 1; i <= n; i++) {
-            let order = 1;
-            let x = i;
-            while (x !== 0) {
-                order++;
-                x = (x + i) % n;
-            }
-            result[i] = order;
+        for (let i = 0; i < n; i++) {
+            // let order = 1;
+            // let x = i;
+            // while (x !== 0) {
+            //     order++;
+            //     x = (x + i) % n;
+            // }
+            result[i] = n / common.gcd(n, i);
         }
-        result.shift();
+        // result.shift();
         return result;
     }
 
+    jump() {
+
+        for (let i=0; i < this.size; i++) {
+            if (this.counter < this.size && !this.tail.includes(this.counter)) {
+                this.tail.unshift(this.counter);
+                super.tick((this.jump*(i + 1)) % this.size);
+                // console.log(shade);
+            }
+        }
+        this.ring[this.counter].material.color.setHex(`0x${shade+shade+shade}`);
+        this.counter += 1;
+        this.renderer.render(this.scene, this.camera);
+        this.jump++;
+
+    }
 
     // async loopWait() {
     //     return new Promise(resolve => {
@@ -161,7 +178,7 @@ slider.oninput = function() {
 
 var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
-    screen2.tick();
+    screen2.jump();
 }
 
 var pbtn = document.getElementById('playBtn');
