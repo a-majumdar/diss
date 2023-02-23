@@ -14,6 +14,11 @@ class Screen2 extends Addmod {
     flag;
     shades;
     ring;
+    state = {
+        node: 0,
+        step: 1,
+        size: this.size
+    };
     jump;
 
     constructor(c) {
@@ -63,9 +68,9 @@ class Screen2 extends Addmod {
 
         for (let i=0; i < this.size; i++) {
             this.tick();
-            while (!this.flag) {
-                if (this.loop.flag) { this.flag = true; }
-            }
+            // while (!this.flag) {
+            //     if (this.loop.flag) { this.flag = true; }
+            // }
             let index = 3 * (i + 1);
             let n = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
             let shade = shades[i];

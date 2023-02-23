@@ -19,7 +19,7 @@ class Screen3 extends Multiplicative {
     updateLabels() {
         super.updateLabels();
         document.getElementById('iSlider').setAttribute("max", this.size-1);
-
+        document.getElementById('i').innerHTML = `Current step size: ${this.step}`;
     }
 }
 
