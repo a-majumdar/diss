@@ -82,7 +82,7 @@ class Screen2 extends Addmod {
     
     orders() {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
-        const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+        const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
         let circle = new THREE.Mesh(geometry, material);
         this.shades = this.shading();
         // console.log(this.shades);
@@ -111,18 +111,18 @@ class Screen2 extends Addmod {
 
         let factors = common.factors(this.size);
         let shadediff = 255/this.size; //Math.floor(255 / this.size);
+        console.log(shadediff);
         let orders = this.findOrder(this.size);
-        let factorindicies = [];
+        console.log(orders);
+        let ordershade = [];
         for (let i = 0; i <= this.size; i++) {
-            factorindicies[orders[i]] = this.charPairs[255 - Math.floor(shadediff * i)];
+            ordershade[i] = this.charPairs[Math.floor(shadediff * orders[i])];
             // console.log(factors[i], this.charPairs[shadediff * i]);
         }
         // console.log(factorindicies);
-        let shades = orders.map(elem => {
-            return factorindicies[orders[elem]];
-        });
         // console.log(shades);
-        return shades;
+        console.log(ordershade);
+        return ordershade;
 
     }
 
