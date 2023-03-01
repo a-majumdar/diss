@@ -53,7 +53,7 @@ class Addmod extends Modular {
     }
 
     sumLabel() {
-        document.getElementById('sums').innerHTML = `${this.step} x ${this.counter+1} = ${this.step*(this.counter + 1)} = ${this.node} (mod ${this.size})`;
+        document.getElementById('sums').innerHTML = `${this.step} x ${this.counter} = ${this.step*(this.counter + 1)} = ${this.node} (mod ${this.size})`;
     }
 
     mInverse() {
