@@ -17,7 +17,7 @@ class Screen1 extends Addmod {
     constructor(c) {
         super(c);
         this.setup();
-        this.nodes[this.step].material.color.set('blue');
+        this.nodes[this.step].colour('0x0000ff');
         this.renderer.render(this.scene, this.camera);
     }
 

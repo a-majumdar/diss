@@ -9,6 +9,8 @@ import * as THREE from 'https://threejs.org/build/three.module.js';
 // import {Common} from './common.js';
 // import {Screen} from '../screens/screen.js';
 import { Modular } from './mod.js';
+import {Node} from "../components/node.js";
+
 
 class Addmod extends Modular {
 
@@ -31,7 +33,7 @@ class Addmod extends Modular {
         this.step = sliderValue;
         this.updateCircle(this.size);
         // console.log(this.step);
-        this.nodes[this.step].material.color.set('blue');
+        this.nodes[this.step].colour('0x0000ff');
         this.renderer.render(this.scene, this.camera);
 
         // console.log(this.nodes[this.step].material.color);
@@ -59,7 +61,7 @@ class Addmod extends Modular {
     mInverse() {
 
         document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter+1}`;
-        this.nodes[1].material.color.setHex('0x00ff0f');
+        this.nodes[1].colour('0x00ff0f');
         this.renderer.render(this.scene, this.camera);
 
     }

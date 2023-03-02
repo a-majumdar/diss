@@ -1,5 +1,6 @@
 import {Screen} from '../screens/screen.js';
 import * as THREE from 'https://threejs.org/build/three.module.js';
+import {Node} from "../components/node.js";
 
 
 class Modular extends Screen {
@@ -58,7 +59,7 @@ class Modular extends Screen {
         this.zeroIndicator();
 
         for (let i=1;i<=sides;i++) {
-            this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
+            this.makeNode(i, circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
         }
         let first = this.nodes.pop();
         this.nodes.unshift(first);
@@ -83,14 +84,11 @@ class Modular extends Screen {
 
     }
 
-    makeNode(parent, vector) {
-        let geometry = new THREE.CircleGeometry(0.05,12);
-        let material = new THREE.MeshBasicMaterial({color:0xf0f0f0});
-        let node = new THREE.Mesh(geometry, material);
+    makeNode(i, parent, vector) {
+        let node = new Node(vector, i, this.size);
         this.nodes.unshift(node);
-        node.position.set(vector[0], vector[1], vector[2]);
         node.parent = parent;
-        this.scene.add(node);
+        this.scene.add(node.object);
         // console.log(`node ${index} added`);
         return node;
     }
@@ -118,7 +116,7 @@ class Modular extends Screen {
 
         for (let i = 0; i < this.tail.length; i++) {
             let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
-            this.nodes[this.tail[i]].material.color.setHex(`0xff${hue+hue}`);
+            this.nodes[this.tail[i]].colour(`0xff${hue+hue}`);
         }
     }
 
