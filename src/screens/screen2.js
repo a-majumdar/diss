@@ -14,12 +14,19 @@ class Screen2 extends Addmod {
     flag;
     shades;
     ring;
+    state = {
+        node: 0,
+        step: 1,
+        size: this.size
+    };
+    jump;
 
     constructor(c) {
         super(c);
         this.setup();
         this.flag = true;
         this.ring = [];
+        this.jump = 1;
         // this.node = 1;
     }
 
@@ -61,9 +68,9 @@ class Screen2 extends Addmod {
 
         for (let i=0; i < this.size; i++) {
             this.tick();
-            while (!this.flag) {
-                if (this.loop.flag) { this.flag = true; }
-            }
+            // while (!this.flag) {
+            //     if (this.loop.flag) { this.flag = true; }
+            // }
             let index = 3 * (i + 1);
             let n = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
             let shade = shades[i];
@@ -75,7 +82,7 @@ class Screen2 extends Addmod {
     
     orders() {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
-        const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+        const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
         let circle = new THREE.Mesh(geometry, material);
         this.shades = this.shading();
         // console.log(this.shades);
@@ -103,37 +110,52 @@ class Screen2 extends Addmod {
     shading() {
 
         let factors = common.factors(this.size);
-        let shadediff = Math.floor(this.charPairs.length / (factors.length + 1));
-        let factorindicies = [];
-        for (let i = 0; i < factors.length; i++) {
-            factorindicies[factors[i]] = this.charPairs[this.charPairs.length - shadediff * i];
+        let shadediff = 255/this.size; //Math.floor(255 / this.size);
+        console.log(shadediff);
+        let orders = this.findOrder(this.size);
+        console.log(orders);
+        let ordershade = [];
+        for (let i = 0; i <= this.size; i++) {
+            ordershade[i] = this.charPairs[Math.floor(shadediff * orders[i])];
             // console.log(factors[i], this.charPairs[shadediff * i]);
         }
         // console.log(factorindicies);
-        let orders = this.findOrder(this.size);
-        let shades = orders.map(elem => {
-            return factorindicies[orders[elem]];
-        });
         // console.log(shades);
-        return shades;
+        console.log(ordershade);
+        return ordershade;
 
     }
 
     findOrder(n) {
         let result = [];
-        for (let i = 1; i <= n; i++) {
-            let order = 1;
-            let x = i;
-            while (x !== 0) {
-                order++;
-                x = (x + i) % n;
-            }
-            result[i] = order;
+        for (let i = 0; i < n; i++) {
+            // let order = 1;
+            // let x = i;
+            // while (x !== 0) {
+            //     order++;
+            //     x = (x + i) % n;
+            // }
+            result[i] = n / common.gcd(n, i);
         }
-        result.shift();
+        // result.shift();
         return result;
     }
 
+    jump() {
+
+        for (let i=0; i < this.size; i++) {
+            if (this.counter < this.size && !this.tail.includes(this.counter)) {
+                this.tail.unshift(this.counter);
+                super.tick((this.jump*(i + 1)) % this.size);
+                // console.log(shade);
+            }
+        }
+        this.ring[this.counter].material.color.setHex(`0x${shade+shade+shade}`);
+        this.counter += 1;
+        this.renderer.render(this.scene, this.camera);
+        this.jump++;
+
+    }
 
     // async loopWait() {
     //     return new Promise(resolve => {
@@ -161,7 +183,7 @@ slider.oninput = function() {
 
 var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
-    screen2.tick();
+    screen2.jump();
 }
 
 var pbtn = document.getElementById('playBtn');
