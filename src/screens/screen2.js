@@ -97,9 +97,10 @@ class Screen2 extends Addmod {
     tick() {
         if (this.counter < this.size && !this.tail.includes(this.counter)) {
             this.tail.unshift(this.counter);
-            let shade = this.shades[this.counter];
+            // let shade = this.shades[this.counter];
             // console.log(shade);
-            this.ring[this.counter].colour(`0x${shade+shade+shade}`);
+            // this.ring[this.counter].colour(`0x${shade+shade+shade}`);
+            this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
         }

@@ -17,10 +17,10 @@ class Common {
     primeFactors(n) {
         let factors = [];
         let divisor = 2;
-        while (num >= 2) {
-            if (num % divisor === 0) {
+        while (n >= 2) {
+            if (n % divisor === 0) {
                 factors.push(divisor);
-                num /= divisor;
+                n /= divisor;
             } 
             else { divisor += divisor > 2 ? 2 : 1; }
         }
@@ -40,12 +40,26 @@ class Common {
         });
     }
 
+    shadesteps(n) {
+        let pfactors = this.allDegrees(n);
+        let steps = pfactors.map(elem => {
+            return 255 / elem[1];
+        });
+        return steps;
+    }
+
     orderColour(n, i) {
-        let order = n / this.gcd(n, i);
-        let pfactors = this.primeFactors(n);
-        if (pfactors.includes(i)) {
-            
-        }
+        // let order = n / this.gcd(n, i);
+        // let shades = ['00','00','00'];
+        // if (pfactors.includes(i)) {
+        // for ((factor, index) in this.primeFactors(n)) {
+        //     if (i % factor == 0) { shades[index] = 'ff'; }
+        // }
+        let shades = this.primeFactors(n).map(elem => {
+            return i % elem == 0 ? 'ff' : '00';
+        })
+        return `0x${shades[0]+shades[1]+shades[2]}`;
+        // }
     }
 
     // smallestFactor(n) > 1: prime
