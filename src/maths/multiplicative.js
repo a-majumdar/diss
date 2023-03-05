@@ -1,6 +1,7 @@
 import { Modular } from './mod.js';
 import * as THREE from 'https://threejs.org/build/three.module.js';
 import './common.js';
+import {Node} from "../components/node.js";
 
 
 class Multiplicative extends Modular {
@@ -24,7 +25,7 @@ class Multiplicative extends Modular {
         this.step = sliderValue;
         this.updateCircle(this.size);
         // console.log(this.step);
-        this.nodes[this.step].material.color.set('blue');
+        this.nodes[this.step].colour('0x0000ff');
         this.renderer.render(this.scene, this.camera);
 
         // console.log(this.nodes[this.step].material.color);

@@ -1,4 +1,5 @@
 import {Multiplicative} from '../maths/multiplicative.js';
+import {Node} from "../components/node.js";
 
 const container = document.getElementById('scene-container');
 var screen3;

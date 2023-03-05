@@ -2,6 +2,7 @@ import { Loop } from "../systems/loop.js";
 import { Addmod } from "../maths/addmod.js";
 import {Common} from "../maths/common.js";
 import * as THREE from 'https://threejs.org/build/three.module.js';
+import {Node} from "../components/node.js";
 
 
 const container = document.getElementById('scene-container');
@@ -74,7 +75,7 @@ class Screen2 extends Addmod {
             let index = 3 * (i + 1);
             let n = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
             let shade = shades[i];
-            n.material.color.setHex(`0x${shade+shade+shade}`);
+            n.colour(`0x${shade+shade+shade}`);
             this.renderer.render(this.scene, this.camera);
             this.flag = false;
         }
@@ -88,7 +89,7 @@ class Screen2 extends Addmod {
         // console.log(this.shades);
         for (let i=0; i < this.size; i++) {
             let index = 3 * (i + 1);
-            this.ring[i] = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
+            this.ring[i] = this.makeNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
         }
         this.loop.start(this);
     }
@@ -98,7 +99,7 @@ class Screen2 extends Addmod {
             this.tail.unshift(this.counter);
             let shade = this.shades[this.counter];
             // console.log(shade);
-            this.ring[this.counter].material.color.setHex(`0x${shade+shade+shade}`);
+            this.ring[this.counter].colour(`0x${shade+shade+shade}`);
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
         }
@@ -150,7 +151,7 @@ class Screen2 extends Addmod {
                 // console.log(shade);
             }
         }
-        this.ring[this.counter].material.color.setHex(`0x${shade+shade+shade}`);
+        this.ring[this.counter].colour(`0x${shade+shade+shade}`);
         this.counter += 1;
         this.renderer.render(this.scene, this.camera);
         this.jump++;
