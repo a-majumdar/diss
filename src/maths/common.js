@@ -24,7 +24,9 @@ class Common {
             } 
             else { divisor += divisor > 2 ? 2 : 1; }
         }
-        return factors;
+        // console.trace();
+        console.log(factors);
+        return [...new Set(factors)];
     }
 
     factorDegree(n, p, counter) {
@@ -43,7 +45,7 @@ class Common {
     shadesteps(n) {
         let pfactors = this.allDegrees(n);
         let steps = pfactors.map(elem => {
-            return 255 / elem[1];
+            return Math.floor(255 / elem[1]);
         });
         return steps;
     }
@@ -55,11 +57,33 @@ class Common {
         // for ((factor, index) in this.primeFactors(n)) {
         //     if (i % factor == 0) { shades[index] = 'ff'; }
         // }
-        let shades = this.primeFactors(n).map(elem => {
-            return i % elem == 0 ? 'ff' : '00';
-        })
-        return `0x${shades[0]+shades[1]+shades[2]}`;
+        // console.trace();
+
+        // let shades = this.primeFactors(n).map(elem => {
+        //     return i % elem == 0 ? '00' : 'ff';
+        // })
+        // if (!shades[1]) { shades[1] = '00'; }
+        // if (!shades[2]) { shades[2] = '00'; }
+        // console.log(`0x${shades[0]+shades[1]+shades[2]}`);
+        // if (shades[0] == shades[1] && shades[1] == shades[2] && shades[1] == 'ff') { return '0xa0a0a0'; }
+        // else { return `0x${shades[0]+shades[1]+shades[2]}`; }
         // }
+
+        let shades = '';
+        let gcd = this.gcd(n, i);
+        let pfactors = this.primeFactors(n);
+        if (gcd == 1) { shades = '0xdedede'; }
+        else { 
+            let gcdp = pfactors.map(elem => {
+                if (elem == gcd) { return 'ff'; }
+                else if (gcd % elem == 0) { return 'a0'; }
+                else { return '00'; }
+            });
+            shades = '0x' + gcdp[0] + gcdp[1] + gcdp[2];
+        }
+
+        return shades;
+
     }
 
     // smallestFactor(n) > 1: prime

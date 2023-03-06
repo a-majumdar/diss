@@ -85,7 +85,7 @@ class Screen2 extends Addmod {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
         const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
         let circle = new THREE.Mesh(geometry, material);
-        this.shades = this.shading();
+        // this.shades = this.shading();
         // console.log(this.shades);
         for (let i=0; i < this.size; i++) {
             let index = 3 * (i + 1);
