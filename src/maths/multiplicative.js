@@ -45,6 +45,13 @@ class Multiplicative extends Modular {
         super.tick(this.node);
         if (this.node == 1) {
             console.log(this.nodes[this.node]);
+            let edges = new THREE.EdgesGeometry( this.nodes[this.node].object.geometry );
+            let line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0x00f0f0 } ) );
+            line.position.set(this.nodes[this.node].object.position);
+            line.geometry.translate(0,0,-0.2);
+            this.scene.add( line );
+            // this.nodes[this.node].colour("0x00f0f0");
+            this.renderer.render(this.scene, this.camera);
         }
         this.updateLabels();
 

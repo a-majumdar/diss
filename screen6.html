@@ -18,6 +18,19 @@
         <!-- <script src="./src/additive.js"></script> -->
         <!-- <script type="module" src="./src/screens/addmod.js"></script> -->
         <script type="module" src="./src/main.js"></script>
+        <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+              },
+              svg: {
+                fontCache: 'global'
+              }
+            };
+          </script>
+          <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+          </script>      
     </head>
     <body>
         <header>
@@ -34,6 +47,6 @@
                 </ul>
             </nav>
         </header>
-        <h1>Chinese Remainder Theorem for n=pq</h1>
+        <h1>Chinese Remainder Theorem for $n=pq$</h1>
     </body>
     </html>

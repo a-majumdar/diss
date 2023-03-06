@@ -64,6 +64,9 @@ class Modular extends Screen {
         }
         let first = this.nodes.pop();
         this.nodes.unshift(first);
+        for (let i = 0; i < this.size; i++) {
+            this.nodes[i].changeIndex(i);
+        }
         // this.nodes[0].material.color.setHex(`0x00ff00`);
         // this.loop.updatables.push(this.nodes);
         this.renderer.render(this.scene, this.camera);
@@ -116,7 +119,7 @@ class Modular extends Screen {
     }
 
     finished() {
-        
+
     }
 
     changeColours() {

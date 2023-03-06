@@ -25,7 +25,7 @@ class Common {
             else { divisor += divisor > 2 ? 2 : 1; }
         }
         // console.trace();
-        console.log(factors);
+        // console.log(factors);
         return [...new Set(factors)];
     }
 
@@ -68,7 +68,7 @@ class Common {
         // if (shades[0] == shades[1] && shades[1] == shades[2] && shades[1] == 'ff') { return '0xa0a0a0'; }
         // else { return `0x${shades[0]+shades[1]+shades[2]}`; }
         // }
-
+        if (i == 0) { return '0x1f1f1f'; }
         let shades = '';
         let gcd = this.gcd(n, i);
         let pfactors = this.primeFactors(n);
@@ -79,9 +79,11 @@ class Common {
                 else if (gcd % elem == 0) { return 'a0'; }
                 else { return '00'; }
             });
+            if (!gcdp[1]) { gcdp[1] = '00'; }
+            if (!gcdp[2]) { gcdp[2] = '00'; }
             shades = '0x' + gcdp[0] + gcdp[1] + gcdp[2];
         }
-
+        console.log(shades);
         return shades;
 
     }

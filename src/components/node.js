@@ -22,6 +22,10 @@ class Node {
         this.object.material.color.setHex(hue);
     }
 
+    changeIndex(i) {
+        this.index = i;
+    }
+
 }
 
 export {Node};

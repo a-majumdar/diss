@@ -34,7 +34,7 @@ class Screen2 extends Addmod {
     updateCircle(sides) {
         super.updateCircle(sides);
         // document.getElementById('stepCount').innerHTML = "";
-
+        this.loop.stop();
     }
 
     updateLabels() {
