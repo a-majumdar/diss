@@ -23,9 +23,9 @@ class Screen1 extends Addmod {
 
     updateCircle(sides) {
         super.updateCircle(sides);
-        document.getElementById('stepCount').innerHTML = "";
+        document.getElementById('stepCount').innerHTML = "   ";
         document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
-        document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
+        document.getElementById('gcd').innerHTML = '';
     }
 
     updateLabels() {
@@ -34,6 +34,10 @@ class Screen1 extends Addmod {
         document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         // document.getElementById('i').innerHTML = this.step;
 
+    }
+
+    finished() {
+        document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
     }
 }
 
@@ -51,6 +55,7 @@ steps.oninput = function() { refresh(); }
 
 var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
+    screen1.loop.flag = false;
     screen1.tick();
 }
 

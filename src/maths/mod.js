@@ -1,6 +1,7 @@
 import {Screen} from '../screens/screen.js';
 import * as THREE from 'https://threejs.org/build/three.module.js';
 import {Node} from "../components/node.js";
+//import * as Screen1 from '../screens/screen1.js';
 
 
 class Modular extends Screen {
@@ -107,9 +108,15 @@ class Modular extends Screen {
         }
         else {
             this.loop.stop();
+            this.finished();
+            // if (typeof this == Screen1) { document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`; }
         }
 
         // return node;
+    }
+
+    finished() {
+        
     }
 
     changeColours() {

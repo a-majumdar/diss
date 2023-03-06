@@ -47,20 +47,21 @@ class Addmod extends Modular {
         this.node = (this.step*(this.counter + 1)) % this.size; //fix off by two weirdness
         // this.node = this.node >= this.size ? this.node % this.size : this.node;
         super.tick(this.node);
-        if (this.node == 1) { this.mInverse(); }
-        this.updateLabels();
-
-        this.sumLabel();
+        if (!this.loop.flag) {
+            if (this.node == 1) { this.mInverse(); }
+            this.updateLabels();
+            this.sumLabel();
+        }
 
     }
 
     sumLabel() {
-        document.getElementById('sums').innerHTML = `${this.step} x ${this.counter} = ${this.step*(this.counter + 1)} = ${this.node} (mod ${this.size})`;
+        document.getElementById('sums').innerHTML = `${this.step} x ${this.counter} = ${this.step*(this.counter)} = ${this.node} (mod ${this.size})`;
     }
 
     mInverse() {
 
-        document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter+1}`;
+        document.getElementById('mInverse').innerHTML = `The multiplicative inverse of ${this.step} in Z_${this.size} is ${this.counter}`;
         this.nodes[1].colour('0x00ff0f');
         this.renderer.render(this.scene, this.camera);
 
