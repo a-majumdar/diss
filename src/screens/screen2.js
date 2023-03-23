@@ -28,9 +28,9 @@ class Screen2 extends Addmod {
         this.flag = true;
         this.ring = [];
         this.jump = 1;
-        console.log(common.totient(13));
-        console.log(common.totient(15));
-        console.log(common.totient(20));
+        // console.log(common.totient(13));
+        // console.log(common.totient(15));
+        // console.log(common.totient(20));
 
         // this.node = 1;
     }
@@ -39,6 +39,8 @@ class Screen2 extends Addmod {
         super.updateCircle(sides);
         // document.getElementById('stepCount').innerHTML = "";
         this.loop.stop();
+        document.getElementById('eqn').innerHTML = "";
+        document.getElementById('totient').innerHTML = "";
     }
 
     updateLabels() {
@@ -121,9 +123,14 @@ class Screen2 extends Addmod {
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
+            document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
+            = ${this.size} / ${common.gcd(this.size, this.counter)} 
+            = ${this.size / (common.gcd(this.size, this.counter))}`;
+
         }
         else {
             this.loop.stop();
+            document.getElementById('totient').innerHTML = `phi(${this.size}) = ${common.totient(this.size)}`;
         }
     }
 
