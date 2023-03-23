@@ -28,6 +28,10 @@ class Screen2 extends Addmod {
         this.flag = true;
         this.ring = [];
         this.jump = 1;
+        console.log(common.totient(13));
+        console.log(common.totient(15));
+        console.log(common.totient(20));
+
         // this.node = 1;
     }
 
@@ -89,9 +93,23 @@ class Screen2 extends Addmod {
         // console.log(this.shades);
         for (let i=0; i < this.size; i++) {
             let index = 3 * (i + 1);
-            this.ring[i] = this.makeNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
+            this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
+        }
+        let first = this.ring.pop();
+        this.ring.unshift(first);
+        for (let i = 0; i < this.size; i++) {
+            this.ring[i].changeIndex(i);
         }
         this.loop.start(this);
+    }
+
+    makeRingNode(i, parent, vector) {
+        let node = new Node(vector, i, this.size);
+        this.ring.unshift(node);
+        node.parent = parent;
+        this.scene.add(node.object);
+        // console.log(`node ${index} added`);
+        return node;
     }
 
     tick() {

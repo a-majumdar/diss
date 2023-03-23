@@ -38,6 +38,9 @@ class Screen1 extends Addmod {
 
     finished() {
         document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
+        document.getElementById('eqn').innerHTML = `Order(${$n,i$}) = n / gcd(${$n,i$}) 
+            = ${this.size} / ${common.gcd(this.size, this.step)} 
+            = ${this.size / (common.gcd(this.size, this.step))}`;
     }
 }
 
@@ -106,19 +109,19 @@ function updateRender() {
 		INTERSECTED = null;
 	}
     screen1.renderer.render(screen1.scene, screen1.camera);
-  }
+}
 
-  container.addEventListener('click', onClick);
+container.addEventListener('click', onClick);
 
-  function animate() {
-      requestAnimationFrame(animate);
-      updateRender();
-  }
+function animate() {
+    requestAnimationFrame(animate);
+    updateRender();
+}
 
-  function main() {
+function main() {
     screen1 = new Screen1(container);
 }
   
-  main();
-  animate();
+main();
+animate();
   

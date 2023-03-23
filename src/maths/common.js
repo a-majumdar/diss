@@ -14,6 +14,33 @@ class Common {
         return this.primeFactors(n)[0];
     }
 
+    primality(n) {
+        for (let i = 2; i < n; i++) {
+            if (n % i == 0) { return false; }
+        }
+        return true;
+    }
+
+    // totient(n) {
+    //     if (n == 1) { return 1; }
+    //     else if (n == 2) { return 1; }
+    //     else if (this.primality(n)) { return (n-1); }
+    //     else if (!this.primality(n)) {
+    //         let factor = this.smallestFactor(n);
+    //         return this.totient(n / factor) * this.totient(factor);
+    //     }
+    // }
+
+    totient(n) {
+        let count = 0;
+        for (let i = 1; i < n; i++) {
+            if (this.gcd(n,i) == 1) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     primeFactors(n) {
         let factors = [];
         let divisor = 2;
@@ -24,21 +51,33 @@ class Common {
             } 
             else { divisor += divisor > 2 ? 2 : 1; }
         }
-        // console.trace();
-        // console.log(factors);
         return [...new Set(factors)];
     }
 
     factorDegree(n, p, counter) {
-        leftover = n % p;
+        let leftover = n % p;
         counter++;
         if (leftover != 0 && leftover % p == 0) { this.factorDegree(leftover, p, counter); }
-        else { return [counter, leftover]; }
+        else { 
+            console.log(p, counter);
+            return [counter, leftover];
+         }
+    }
+
+    findDegree(n, p) {
+        //find the degree of p in n
+        let degree = 0;
+        let leftover = n;
+        while (leftover % p == 0) {
+            degree++;
+            leftover /= p;
+        }
+        return degree;
     }
 
     allDegrees(n) {
         return this.primeFactors(n).map(elem => {
-            return [elem, this.factorDegree(n, elem, 0)[0]];
+            return [elem, this.findDegree(n, elem)];
         });
     }
 
@@ -51,39 +90,35 @@ class Common {
     }
 
     orderColour(n, i) {
-        // let order = n / this.gcd(n, i);
-        // let shades = ['00','00','00'];
-        // if (pfactors.includes(i)) {
-        // for ((factor, index) in this.primeFactors(n)) {
-        //     if (i % factor == 0) { shades[index] = 'ff'; }
-        // }
-        // console.trace();
-
-        // let shades = this.primeFactors(n).map(elem => {
-        //     return i % elem == 0 ? '00' : 'ff';
-        // })
-        // if (!shades[1]) { shades[1] = '00'; }
-        // if (!shades[2]) { shades[2] = '00'; }
-        // console.log(`0x${shades[0]+shades[1]+shades[2]}`);
-        // if (shades[0] == shades[1] && shades[1] == shades[2] && shades[1] == 'ff') { return '0xa0a0a0'; }
-        // else { return `0x${shades[0]+shades[1]+shades[2]}`; }
-        // }
-        if (i == 0) { return '0x1f1f1f'; }
+        // console.log(i);
+        if (i == 0) { return '0xdedede'; }
         let shades = '';
         let gcd = this.gcd(n, i);
         let pfactors = this.primeFactors(n);
-        if (gcd == 1) { shades = '0xdedede'; }
+        // console.log(pfactors);
+        if (gcd == 1) { shades = '0x2f2f2f'; }
         else { 
-            let gcdp = pfactors.map(elem => {
-                if (elem == gcd) { return 'ff'; }
-                else if (gcd % elem == 0) { return 'a0'; }
-                else { return '00'; }
+            // console.log(i);
+            let ndegrees = pfactors.map(elem => {
+                return this.findDegree(n, elem);
             });
-            if (!gcdp[1]) { gcdp[1] = '00'; }
-            if (!gcdp[2]) { gcdp[2] = '00'; }
-            shades = '0x' + gcdp[0] + gcdp[1] + gcdp[2];
+            let idegrees = pfactors.map((elem, index) => {
+                return (this.findDegree(i, elem) < ndegrees[index] ? this.findDegree(i, elem) : ndegrees[index]);
+            });
+            // console.log(idegrees, ndegrees);
+            // console.log(degrees);
+            let components = idegrees.map((elem, index) => {
+                if (elem == 0) { return '00'; }
+                let temp = Math.floor( (elem / ndegrees[index]) * 255).toString(16);
+                if (temp.length == 1) { temp = '0' + temp; }
+                return temp;
+                // return Math.floor(255 / (elem == 0 ? 255 : elem)).toString(16);
+            });
+            if (!components[1]) { components[1] = '00'; }
+            if (!components[2]) { components[2] = '00'; }
+            shades = '0x' + components[0] + components[2] + components[1];    
         }
-        console.log(shades);
+        console.log(i, shades);
         return shades;
 
     }
