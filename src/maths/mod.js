@@ -124,7 +124,7 @@ class Modular extends Screen {
 
     changeColours() {
 
-        for (let i = 0; i < this.tail.length; i++) {
+        for (let i = this.tail.length-1; i >= 0; i--) {
             let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
             this.nodes[this.tail[i]].colour(`0xff${hue+hue}`);
         }
