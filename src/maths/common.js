@@ -118,7 +118,7 @@ class Common {
             if (!components[2]) { components[2] = '00'; }
             shades = '0x' + components[0] + components[2] + components[1];    
         }
-        console.log(i, shades);
+        // console.log(i, shades);
         return shades;
 
     }

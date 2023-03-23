@@ -1,18 +1,28 @@
 import {Multiplicative} from '../maths/multiplicative.js';
 import {Node} from "../components/node.js";
+import * as THREE from 'https://threejs.org/build/three.module.js';
+import {Common} from "../maths/common.js";
+
+
+
 
 const container = document.getElementById('scene-container');
 var screen3;
+const common = new Common();
 
 class Screen3 extends Multiplicative {
 
+    ring;
+
     constructor(c) {
         super(c);
+        this.ring = [];
         this.setup();
     }
 
     updateCircle(sides) {
         super.updateCircle(sides);
+        this.orders();
         document.getElementById('stepCount').innerHTML = "";
 
     }
@@ -22,6 +32,44 @@ class Screen3 extends Multiplicative {
         document.getElementById('iSlider').setAttribute("max", this.size-1);
         document.getElementById('i').innerHTML = `Current step size: ${this.step}`;
     }
+
+    orders() {
+        let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
+        const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+        let circle = new THREE.Mesh(geometry, material);
+        // this.shades = this.shading();
+        // console.log(this.shades);
+        for (let i=0; i < this.size; i++) {
+            let index = 3 * (i + 1);
+            let node = new Node(geometry.attributes.position.array.slice(index, index+3), i, this.size);
+            // console.log(common.orderColour(this.size, node.index));
+            node.colour(common.orderColour(this.size, node.index));
+            this.ring.unshift(node);
+            node.parent = circle;
+            this.scene.add(node.object);
+                // this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
+        }
+        let first = this.ring.pop();
+        this.ring.unshift(first);
+        for (let i = 0; i < this.size; i++) {
+            this.ring[i].changeIndex(i);
+        }
+        
+        // for (let i = 0; i < this.size; i++) {
+        //     this.ring[i].color[this.common.orderColour(this.size, this.ring[i].index)];
+        // }
+        this.renderer.render(this.scene, this.camera);
+    }
+
+    makeRingNode(i, parent, vector) {
+        let node = new Node(vector, i, this.size);
+        this.ring.unshift(node);
+        node.parent = parent;
+        this.scene.add(node.object);
+        // console.log(`node ${index} added`);
+        return node;
+    }
+
 }
 
 function main() {
