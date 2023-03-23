@@ -26,6 +26,7 @@ class Screen1 extends Addmod {
         document.getElementById('stepCount').innerHTML = "   ";
         document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
         document.getElementById('gcd').innerHTML = '';
+        document.getElementById('eqn').innerHTML = '';
     }
 
     updateLabels() {
@@ -38,7 +39,7 @@ class Screen1 extends Addmod {
 
     finished() {
         document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
-        document.getElementById('eqn').innerHTML = `Order(${$n,i$}) = n / gcd(${$n,i$}) 
+        document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
             = ${this.size} / ${common.gcd(this.size, this.step)} 
             = ${this.size / (common.gcd(this.size, this.step))}`;
     }
