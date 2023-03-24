@@ -44,7 +44,7 @@ class Screen2 extends Addmod {
     tick() {
         let [circle, geometry] = this.innerCircle();
         if (this.buttons.step) { this.steps(circle, geometry); }
-        else if (this.buttons.play) { this.orders(circle, geometry); }
+        else if (this.buttons.play) { this.otick(); }
     }
 
     steps(circle, geometry) {
@@ -74,6 +74,21 @@ class Screen2 extends Addmod {
 
         this.step++;
 
+    }
+
+    otick() {
+        if (this.counter < this.size && !this.tail.includes(this.counter)) {
+            this.tail.unshift(this.counter);
+            // let shade = this.shades[this.counter];
+            // console.log(shade);
+            // this.ring[this.counter].colour(`0x${shade+shade+shade}`);
+            this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
+            this.counter += 1;
+            this.renderer.render(this.scene, this.camera);
+        }
+        else {
+            this.loop.stop();
+        }
     }
 
     orders(circle, geometry) {
@@ -259,7 +274,7 @@ nbtn.onclick = function() {
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
     document.getElementById('nxtBtn').style.visibility = "hidden";
-    screen2.orders();
+    screen2.orders(screen2.innerCircle());
     // screen2.cycle();
 }
 
