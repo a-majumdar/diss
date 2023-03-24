@@ -15,14 +15,14 @@ class Loop {
         // this.updatables = [];
     }
 
-    start(object) {
+    start(object, delay) {
 
         // this.renderer.setAnimationLoop(() => {
         //     this.interval = setInterval(function () {console.log('tick');}, 2000); //object.tick()
         //     // this.tick(object);
         //     // this.renderer.render(this.scene, this.camera);
         // });
-        this.interval = setInterval(function() {object.tick();}, 300);
+        this.interval = setInterval(function() {object.tick();}, delay);
         this.flag = false;
 
     }

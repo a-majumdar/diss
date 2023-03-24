@@ -1,7 +1,6 @@
 import {Screen} from '../screens/screen.js';
 import * as THREE from 'https://threejs.org/build/three.module.js';
 import {Node} from "../components/node.js";
-//import * as Screen1 from '../screens/screen1.js';
 
 
 class Modular extends Screen {
