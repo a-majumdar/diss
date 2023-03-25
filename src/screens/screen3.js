@@ -94,7 +94,7 @@ nbtn.onclick = function() {
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    screen3.loop.start(screen3);
+    screen3.loop.start(screen3, 300);
 }
 
 // var speed = document.getElementById('speedSlider');

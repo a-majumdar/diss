@@ -22,10 +22,11 @@ class Screen2 extends Addmod {
     };
     jump;
     buttons = {
-        step,
-        play,
-        pause
+        step: false,
+        play: false,
+        pause: false
     }
+    stop;
 
     constructor(c) {
         super(c);
@@ -33,6 +34,7 @@ class Screen2 extends Addmod {
         // this.flag = true;
         this.ring = [];
         this.step = 1;
+        stop = true;
         // this.jump = 1;
         // console.log(common.totient(13));
         // console.log(common.totient(15));
@@ -48,25 +50,20 @@ class Screen2 extends Addmod {
     }
 
     steps(circle, geometry) {
+        this.stop = false;
         for (this.counter = 0; this.counter < this.size; this.counter++) {
-            this.node = (this.step*(this.counter + 1)) % this.size;
-            if (this.counter < this.size && !this.tail.includes(node)) {
-                this.tail.unshift(node);
-                this.changeColours();
-                //this.counter += 1;
-                this.renderer.render(this.scene, this.camera);
-            }
-            else {
-                this.loop.stop();
-                break;
-                // this.finished();
-            }
+                for (let i = 0; i < 7000000; i++) {} // this.sleep(200); //setTimeout(this.interval(), 200);
+                this.interval();
+                if (this.stop) { break; }
         }
-
+        console.log('finished outer ring');
         if (this.loop.flag) {
+            console.log('loading inner node');
             let index = 3 * (this.step + 1);
             this.ring[this.step] = this.makeRingNode(this.step, circle, geometry.attributes.position.array.slice(index, index+3));
+            this.ring[this.step].changeIndex(this.size - this.step);
             this.ring[this.step].colour(common.orderColour(this.size, this.ring[this.step].index));
+            this.renderer.render(this.scene, this.camera);
             // if (this.node == 1) { this.mInverse(); }
             // this.updateLabels();
             // this.sumLabel();
@@ -76,8 +73,29 @@ class Screen2 extends Addmod {
 
     }
 
+    interval() {
+        let node = (this.step*(this.counter + 1)) % this.size;
+        if (this.counter < this.size && !this.tail.includes(node)) {
+            this.tail.unshift(node);
+            this.changeColours();
+            //this.counter += 1;
+            this.renderer.render(this.scene, this.camera);
+        }
+        else {
+            this.loop.stop();
+            this.stop = true;
+            // this.finished();
+        }
+    }
+
+    sleep(ms) {
+        var currentTime = new Date().getTime();
+        while (currentTime + ms >= new Date().getTime()) {
+        }
+    }
+
     otick() {
-        if (this.counter < this.size && !this.tail.includes(this.counter)) {
+        if (this.counter < this.size) { // && !this.tail.includes(this.counter)
             this.tail.unshift(this.counter);
             // let shade = this.shades[this.counter];
             // console.log(shade);
@@ -91,10 +109,12 @@ class Screen2 extends Addmod {
         }
     }
 
-    orders(circle, geometry) {
+    orders() {
         
         // this.shades = this.shading();
         // console.log(this.shades);
+        let [circle, geometry] = this.innerCircle();
+        console.log(geometry);
         for (let i=0; i < this.size; i++) {
             let index = 3 * (i + 1);
             this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
@@ -104,7 +124,7 @@ class Screen2 extends Addmod {
         for (let i = 0; i < this.size; i++) {
             this.ring[i].changeIndex(i);
         }
-        this.loop.start(this);
+        this.loop.start(this, 300);
     }
 
     innerCircle() {
@@ -267,14 +287,25 @@ slider.oninput = function() {
 
 var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
-    document.getElementById('playBtn').style.visibility = "hidden";
-    screen2.jump();
+    // document.getElementById('playBtn').style.visibility = "hidden";
+    screen2.buttons.step = true;
+    if (screen2.buttons.play) {
+        screen2.loop.stop();
+        screen2.buttons.play = false;
+        screen2.stepSize(1);
+    }
+    screen2.tick();
 }
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    document.getElementById('nxtBtn').style.visibility = "hidden";
-    screen2.orders(screen2.innerCircle());
+    // document.getElementById('nxtBtn').style.visibility = "hidden";
+    screen2.buttons.play = true;
+    if (screen2.buttons.step) {
+        screen2.buttons.step = false;
+        screen2.counter = screen2.step;
+    }
+    screen2.orders();
     // screen2.cycle();
 }
 
@@ -283,8 +314,11 @@ reset.onclick = function() { refresh(); }
 
 function refresh() {
     document.getElementById('playBtn').style.visibility = "visible";
-    document.getElementById('nxtBtn').style.visibility = "visible";
+    screen2.buttons.play = false;
     screen2.loop.stop();
+    document.getElementById('nxtBtn').style.visibility = "visible";
+    screen2.buttons.step = false;
+    // screen2.loop.stop();
     screen2.updateCircle(slider.value);
     screen2.step = 1;
 }
