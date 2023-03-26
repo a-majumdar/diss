@@ -47,6 +47,31 @@
                 </ul>
             </nav>
         </header>
-        <h1>Multiplicative Orders of Elements, Primitive Roots for Certain $n$</h1>
+        <div class="grid-container">
+          <div class="column">
+            <div class="user-inputs">
+              <h5>Multiplicative Orders of Elements, Primitive Roots for Certain $n$</h5>
+              <form id="inputs">
+                <label for="nSlider">Please select a number of nodes (between 3 and 100):</label><br>
+                <input class="slider-range" type="range" id="nSlider" name="nSlider" min="3" max="100" value="99" >
+                <h6 id="n"></h6>
+                <input type="button" class="Render" value="Step" id="nxtBtn" name="nxtBtn">
+                <input type="button" class="Play" value="Play" id="playBtn" name="playBtn">
+                <input type="button" class="Reset" value="Reset" id="Reset" name="Reset">
+              </form>
+              <p id="sums"></p>
+              <p id="mInverse"></p>
+              <p id="counterLabel"></p>
+              <p id="stepCount"></p>
+              <p id="gcd"></p>
+              <p id="eqn"></p>
+              <p id="totient"></p>			
+            </div>
+          </div>
+          <div class="column">
+            <div class="scene-container" id="scene-container">
+            </div>
+          </div>
+        </div> 
     </body>
     </html>

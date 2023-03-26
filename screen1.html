@@ -48,39 +48,34 @@
         </nav>
     </header>
     <div class="grid-container">
-            <div class="user-inputs">
-              <h3>Additive Structure of $Z_n$</h3>
-              <form id="inputs">
-                  <label for="nSlider">Please select a number of nodes (between 3 and 100):</label><br>
-                  <input type="range" id="nSlider" name="nSlider" min="3" max="100" value="99" > 
-                  <h6 id="n"></h6>
-
-                  <label for="iSlider">Please select a step size (between 1 and n-1):</label>
-                  <input type="range" id="iSlider" name="iSlider" min="1" max=nSlider.value value="3">
-                  <h6 id="iMax"></h6>
-                  <h6 id="i"></h6>
-                <!-- COMMENT OUT BEGIN HERE
-                  <br><label for="speedSlider">Please select an auto-play speed:</label>
-                  <br><input type="range" id="speedSlider" name="speedSlider" min="1" max=15 value="3">
-                COMMENT OUT END HERE -->
-                  <p id="sums"></p>
-                  <p id="mInverse"></p>
-
-                  <input type="button" class="Render" value="Step" id="nxtBtn" name="nxtBtn">
-                  <input type="button" class="Play" value="Play" id="playBtn" name="playBtn">
-                  <input type="button" class="Reset" value="Reset" id="Reset" name="Reset">
-                </form>
-              <div class="outputs" id="outputs">
-                <p id="counterLabel"></p>
-                <p id="stepCount"></p>
-                <p id="gcd"></p>
-                <p id="eqn"></p>
-                <p id="totient"></p>
-              </div>
-            </div>
-            <div class="scene-container" id="scene-container"></div>
+      <div class="column">
+        <div class="user-inputs">
+          <h3>Additive Structure of $Z_n$</h3>
+          <form id="inputs">
+            <label for="nSlider">Please select a number of nodes (between 3 and 100):</label><br>
+            <input class="slider-range" type="range" id="nSlider" name="nSlider" min="3" max="100" value="99" >
+            <h6 id="n"></h6>
+            <label for="iSlider">Please select a generator (between 1 and n-1):</label>
+            <input class="slider-range" type="range" id="iSlider" name="iSlider" min="1" max=nSlider.value value="3">
+            <h6 id="i"></h6>
+            <input type="button" class="Render" value="Step" id="nxtBtn" name="nxtBtn">
+            <input type="button" class="Play" value="Play" id="playBtn" name="playBtn">
+            <input type="button" class="Reset" value="Reset" id="Reset" name="Reset">
+          </form>
+          <p id="sums"></p>
+          <p id="mInverse"></p>
+          <p id="counterLabel"></p>
+          <p id="stepCount"></p>
+          <p id="gcd"></p>
+          <p id="eqn"></p>
+          <p id="totient"></p>			
         </div>
-        <!-- <section class="u-align-center u-clearfix u-section-1" id="sec-3d21">
+      </div>
+      <div class="column">
+        <div class="scene-container" id="scene-container">
+        </div>
+      </div>
+    </div>        <!-- <section class="u-align-center u-clearfix u-section-1" id="sec-3d21">
           <h3>Additive Structure of $Z_n$</h3>
           <div class="u-clearfix u-gutter-0 u-layout-wrap u-layout-wrap-1">
             <div class="u-layout" style="">
@@ -134,5 +129,5 @@
             </div>
           </div>
         </section>    -->
-      </body> 
-    </html>
+  </body> 
+</html>
