@@ -123,9 +123,12 @@ class Screen2 extends Addmod {
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
+            //console.log();
+            let colourString = '#' + common.orderColour(this.size, this.ring[this.counter].index).splice(2,6);
+            console.log(colourString);
             document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
             = ${this.size} / ${common.gcd(this.size, this.counter)} 
-            = ${this.size / (common.gcd(this.size, this.counter))}`;
+            = ${this.size / (common.gcd(this.size, this.counter))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
 
         }
         else {

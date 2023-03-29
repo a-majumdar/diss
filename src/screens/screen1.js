@@ -38,10 +38,14 @@ class Screen1 extends Addmod {
     }
 
     finished() {
-        document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
-        document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
-            = ${this.size} / ${common.gcd(this.size, this.step)} 
-            = ${this.size / (common.gcd(this.size, this.step))}`;
+        document.getElementById('gcd').innerHTML = `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
+        document.getElementById('gcd').innerHTML += common.gcd(this.size,this.step) == 1 ? " (COPRIME)" : "";
+        document.getElementById('order').innerHTML = `Order(${this.size},${this.step}) = ${this.size / (common.gcd(this.size, this.step))}`;
+        document.getElementById('eqn').innerHTML = `order x gcd = n = ${this.size}`;
+        
+        // `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
+        //     = ${this.size} / ${common.gcd(this.size, this.step)} 
+        //     = ${this.size / (common.gcd(this.size, this.step))}`;
     }
 }
 
