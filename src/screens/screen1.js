@@ -24,15 +24,15 @@ class Screen1 extends Addmod {
     updateCircle(sides) {
         super.updateCircle(sides);
         document.getElementById('stepCount').innerHTML = "   ";
-        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
-        document.getElementById('gcd').innerHTML = '';
-        document.getElementById('eqn').innerHTML = '';
+        document.getElementById('i').innerHTML = `${this.step}`;
+        document.getElementById('gcd').innerHTML = '   ';
+        document.getElementById('eqn').innerHTML = '   ';
     }
 
     updateLabels() {
         super.updateLabels();
         document.getElementById('iSlider').setAttribute("max", this.size-1);
-        document.getElementById('i').innerHTML = `The current step size is ${this.step}`;
+        document.getElementById('i').innerHTML = `${this.step}`;
         // document.getElementById('i').innerHTML = this.step;
 
     }
@@ -69,7 +69,7 @@ nbtn.onclick = function() {
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    screen1.loop.start(screen1);
+    screen1.loop.start(screen1, 300);
 }
 
 // var speed = document.getElementById('speedSlider');

@@ -24,8 +24,9 @@ class Addmod extends Modular {
 
     updateCircle(sides) {
 
+        this.loop.stop();
         super.updateCircle(sides);
-        document.getElementById('sums').innerHTML = "placeholder";
+        document.getElementById('sums').innerHTML = "   ";
 
     }
 
@@ -37,7 +38,7 @@ class Addmod extends Modular {
         this.renderer.render(this.scene, this.camera);
 
         // console.log(this.nodes[this.step].material.color);
-        this.counter = 0;
+        // this.counter = 0;
         this.updateLabels();
         document.getElementById('mInverse').innerHTML = "";
         document.getElementById('stepCount').innerHTML = "";

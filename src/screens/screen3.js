@@ -30,7 +30,7 @@ class Screen3 extends Multiplicative {
     updateLabels() {
         super.updateLabels();
         document.getElementById('iSlider').setAttribute("max", this.size-1);
-        document.getElementById('i').innerHTML = `Current step size: ${this.step}`;
+        document.getElementById('i').innerHTML = `${this.step}`;
     }
 
     orders() {
@@ -94,7 +94,7 @@ nbtn.onclick = function() {
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
-    screen3.loop.start(screen3);
+    screen3.loop.start(screen3, 300);
 }
 
 // var speed = document.getElementById('speedSlider');
