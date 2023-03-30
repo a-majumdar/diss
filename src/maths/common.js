@@ -123,6 +123,10 @@ class Common {
 
     }
 
+    multiplicativeOrders(n, i) {
+        
+    }
+
     // smallestFactor(n) > 1: prime
     // factorDegree(n, p): repeatedly dividing n by p , return [degree, leftover]
     // wrapper to combine

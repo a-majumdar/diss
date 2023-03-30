@@ -96,6 +96,12 @@ class Screen2 extends Addmod {
             // console.log(shade);
             // this.ring[this.counter].colour(`0x${shade+shade+shade}`);
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
+            //console.log();
+            let colourString = '#' + common.orderColour(this.size, this.ring[this.counter].index).splice(2,6);
+            console.log(colourString);
+            document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
+            = ${this.size} / ${common.gcd(this.size, this.counter)} 
+            = ${this.size / (common.gcd(this.size, this.counter))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
             document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.counter}) = ${common.gcd(this.counter, this.size)}`;
@@ -104,6 +110,7 @@ class Screen2 extends Addmod {
         }
         else {
             this.loop.stop();
+            document.getElementById('totient').innerHTML = `phi(${this.size}) = ${common.totient(this.size)}`;
         }
     }
 
@@ -141,18 +148,19 @@ class Screen2 extends Addmod {
         return node;
     }
 
-    // updateCircle(sides) {
+    updateCircle(sides) {
+        super.updateCircle(sides);
+        // document.getElementById('stepCount').innerHTML = "";
+        this.loop.stop();
+        document.getElementById('eqn').innerHTML = "";
+        document.getElementById('totient').innerHTML = "";
         
-    //     super.updateCircle(sides);
-    //     // document.getElementById('stepCount').innerHTML = "";
-        
-    // }
+    }
 
-    // updateLabels() {
-    //     super.updateLabels();
-    //     // document.getElementById('iSlider').setAttribute("max", this.size-1);
+    updateLabels() {
+        super.updateLabels();
 
-    // }
+    }
 
     // async cycle() {
 
