@@ -63,12 +63,22 @@ class Screen2 extends Addmod {
         if (this.counter < this.size) {
             this.tail.unshift(this.counter);
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
-            this.counter++;
+            //console.log();
+            let colourString = '#' + common.orderColour(this.size, this.ring[this.counter].index).splice(2,6);
+            console.log(colourString);
+            document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
+            = ${this.size} / ${common.gcd(this.size, this.counter)} 
+            = ${this.size / (common.gcd(this.size, this.counter))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+            this.counter += 1;
             this.renderer.render(this.scene, this.camera);
+            document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.counter}) = ${common.gcd(this.counter, this.size)}`;
+            document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+            document.getElementById('order').innerHTML = `order(${this.size},${this.counter}) = ${common.order(this.counter, this.size)}`;
         }
         else {
             this.buttons.play = false;
             this.loop.stop();
+            document.getElementById('totient').innerHTML = `phi(${this.size}) = ${common.totient(this.size)}`;
         }
     }
 
@@ -101,8 +111,58 @@ class Screen2 extends Addmod {
         return node;
     }
 
-}
+    updateCircle(sides) {
+        super.updateCircle(sides);
+        // document.getElementById('stepCount').innerHTML = "";
+        this.loop.stop();
+        document.getElementById('eqn').innerHTML = "";
+        document.getElementById('totient').innerHTML = "";
+        
+    }
 
+    updateLabels() {
+        super.updateLabels();
+
+    }
+
+    // async cycle() {
+
+    //     // this.nodes = [];
+    //     let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
+    //     const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+    //     let circle = new THREE.Mesh(geometry, material);
+    //     let shades = this.shading();
+
+    //     for (let i=0; i < this.size; i++) {
+    //         this.tick();
+    //         await this.loopWait();
+    //         let n = this.makeNode(circle, geometry.attributes.position.array.slice(3*i, 3*i+3));
+    //         let shade = shades[i];
+    //         n.material.color.setHex(`0x${shade+shade+shade}`);
+    //         this.renderer.render(this.scene, this.camera);
+    //     }
+    // }
+
+    cycle() {
+        let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
+        const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+        let circle = new THREE.Mesh(geometry, material);
+        this.shades = this.shading();
+
+        for (let i=0; i < this.size; i++) {
+            this.tick();
+            // while (!this.flag) {
+            //     if (this.loop.flag) { this.flag = true; }
+            // }
+            let index = 3 * (i + 1);
+            let n = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
+            let shade = shades[i];
+            n.colour(`0x${shade+shade+shade}`);
+            this.renderer.render(this.scene, this.camera);
+            this.flag = false;
+        }
+    }
+    
 
 function main() {
     screen2 = new Screen2(container);
