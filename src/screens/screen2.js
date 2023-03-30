@@ -15,11 +15,6 @@ class Screen2 extends Addmod {
     flag;
     shades;
     ring;
-    state = {
-        node: 0,
-        step: 1,
-        size: this.size
-    };
     jump;
     buttons = {
         step: false,
@@ -103,6 +98,9 @@ class Screen2 extends Addmod {
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
+            document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.counter}) = ${common.gcd(this.counter, this.size)}`;
+            document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+            document.getElementById('order').innerHTML = `order(${this.size},${this.counter}) = ${common.order(this.counter, this.size)}`;
         }
         else {
             this.loop.stop();
