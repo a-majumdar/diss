@@ -22,10 +22,41 @@
         </ul>
       </nav>
   </header>
-  <div class="grid-container">
-          <div class="user-inputs">
-          </div>
-          <div class="scene-container" id="scene-container"></div>
+  <div class="intro">
+    <div class="inner-intro">
+      <h2 style="margin: 10px;">Welcome to the Visualisation Tool for Number Theory</h2>
+      <h4 style="margin: 10px;">Please note that this tool is not intended as a standalone resource, it is simply a 
+        teaching aid.</h4>
+      <p class="intro-content">This educational tool has been developed for students and teachers of introductory
+        Number Theory to act as a plentiful source of examples with visual representations. The repeated exposure
+        to a variety of similarities and differences between concrete examples aims to facilitate the formation of
+        concepts with visual modes of organisation.
+      </p>
+      <p class="intro-content">
+        To use this tool, take your time progressing through each screen and play around with numerous combinations
+        of values for the variables you are presented with by changing the slider positions. All elements for you to
+        control are on the left-hand side of your screen, and you will see the effect of your changes on the right. 
+        The three buttons underneath the sliders also affect the state of the animation:
+      </p>
+      <ul style="list-style-type: none;">
+        <li><p class="intro-content"><span><input type="button" class="Render" value="Step" id="nxtBtn" name="nxtBtn">
+        </span>This button will show incremental progress through the whole animation with each click. This is to 
+        give you the time to see the changes between each step.</p></li>
+        <li><p class="intro-content"><span><input type="button" class="Play" value="Play" id="playBtn" name="playBtn">
+        </span>This button will play the full animation from the current state. This is to show you the whole pattern
+        yielded by the group size and generator element you have selected. Note: this button can be pressed after
+        stepping through a few increments with the button above.</p></li>
+        <li><p class="intro-content"><span><input type="button" class="Reset" value="Reset" id="Reset" name="Reset">
+        </span>This button allows you to clear any animation progress even before it has finished playing. Note 
+        that this can also be done by changing the size of the group with the top slider.</p></li>
+      </ul>
+      <p class="intro-content">Each screen is designed to build directly upon what you have seen in the previous one.
+        The visualisations you will see depict the following concepts:</p>
+      <ul>
+        <li class="intro-content"><span style="font-weight: bold;">Screen 1: </span>Modular arithmetic under addition,
+          generators, </li>
+      </ul>
+    </div>
   </div>
   <!-- <div class="testing" id="testing"></div> -->
   </body>
