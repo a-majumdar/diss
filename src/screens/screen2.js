@@ -31,8 +31,11 @@ class Screen2 extends Addmod {
     }
 
     steps() {
+        this.tail = [];
+        for (let i = 0; i < this.size; i++) { this.nodes[i].colour(0xffffff); }
+
         this.counter = 0;
-        this.interval = setInterval(this.rr(), 100);
+        this.interval = setInterval(() => { this.rr() }, 100);
     }
 
     rr() {
@@ -51,20 +54,30 @@ class Screen2 extends Addmod {
     }
 
     onode() {
-        let index = 3 * (this.step + 1);
+        let index = 3 * (this.size - this.step + 1);
         let [circle, geometry] = this.innerCircle();
         this.ring[this.step] = this.makeRingNode(this.step, circle, geometry.attributes.position.array.slice(index, index+3));
-        this.ring[this.step].changeIndex(this.size - this.step);
+        // this.ring[this.step].changeIndex(this.size - this.step);
         this.ring[this.step].colour(common.orderColour(this.size, this.ring[this.step].index));
         this.renderer.render(this.scene, this.camera);
+        let temp = common.orderColour(this.size, this.step);
+        let colourString = '#' + temp.substring(2);
+        document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
+        = ${this.size} / ${common.gcd(this.size, this.step)} 
+        = ${this.size / (common.gcd(this.size, this.step))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+        document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.step}) = ${common.gcd(this.step, this.size)}`;
+        document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${this.size / common.gcd(this.step, this.size)}`;
+
     }
 
     otick() {
         if (this.counter < this.size) {
             this.tail.unshift(this.counter);
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
-            //console.log();
-            let colourString = '#' + common.orderColour(this.size, this.ring[this.counter].index).slice(2,6);
+            // console.log();
+            let temp = common.orderColour(this.size, this.ring[this.counter].index);
+            let colourString = '#' + temp.substring(2);
             console.log(colourString);
             document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
             = ${this.size} / ${common.gcd(this.size, this.counter)} 
@@ -73,7 +86,7 @@ class Screen2 extends Addmod {
             this.renderer.render(this.scene, this.camera);
             document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.counter}) = ${common.gcd(this.counter, this.size)}`;
             document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-            document.getElementById('order').innerHTML = `order(${this.size},${this.counter}) = ${common.order(this.counter, this.size)}`;
+            document.getElementById('order').innerHTML = `order(${this.size},${this.counter}) = ${this.size / common.gcd(this.counter, this.size)}`;
         }
         else {
             this.buttons.play = false;
