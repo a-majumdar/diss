@@ -64,7 +64,7 @@ class Screen2 extends Addmod {
             this.tail.unshift(this.counter);
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
             //console.log();
-            let colourString = '#' + common.orderColour(this.size, this.ring[this.counter].index).splice(2,6);
+            let colourString = '#' + common.orderColour(this.size, this.ring[this.counter].index).slice(2,6);
             console.log(colourString);
             document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
             = ${this.size} / ${common.gcd(this.size, this.counter)} 
@@ -162,7 +162,7 @@ class Screen2 extends Addmod {
             this.flag = false;
         }
     }
-    
+}
 
 function main() {
     screen2 = new Screen2(container);
