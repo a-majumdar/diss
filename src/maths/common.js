@@ -96,7 +96,7 @@ class Common {
         let gcd = this.gcd(n, i);
         let pfactors = this.primeFactors(n);
         // console.log(pfactors);
-        if (gcd == 1) { shades = '0x2f2f2f'; }
+        if (gcd == 1) { shades = '0x3a3a3a'; }
         else { 
             // console.log(i);
             let ndegrees = pfactors.map(elem => {
@@ -165,6 +165,26 @@ class Common {
             leftover = leftover ^ (1 / p);
         }
         return degree;
+    }
+
+    mOrder(n, i) {
+        let order = 1;
+        let temp = i;
+        while (temp != 1) {
+            order++;
+            temp = (temp ^ i) % n;
+        }
+        return order;
+    }
+
+    findEquivOrder(n, i) {
+        let phi = this.totient(n);
+        let order = this.mOrder(n, i);
+        for (let k = 0; k < phi; k++) {
+            let temp = n / this.gcd(phi, k);
+            if (temp == order) { return this.orderColour(phi, k); }
+        }
+        return '0xfefefe';
     }
 
 
