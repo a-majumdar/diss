@@ -10,59 +10,95 @@ const common = new Common();
 // indicators;
 
 class Screen4 extends Multiplicative {
-
-    flag;
-    shades;
     ring;
-    state = {
-        node: 0,
-        step: 1,
-        size: this.size
+    buttons = {
+        step: false,
+        play: false,
+        pause: false
     };
-    jump;
+    stop;
+    interval;
 
     constructor(c) {
         super(c);
         this.setup();
-        this.flag = true;
         this.ring = [];
-        this.jump = 1;
+        this.step = 1;
     }
 
-    updateCircle(sides) {
-        super.updateCircle(sides);
-        this.loop.stop();
-        document.getElementById('eqn').innerHTML = "";
-        document.getElementById('totient').innerHTML = "";
+    tick() {
+        if (this.buttons.step) { this.steps(); }
+        else if (this.buttons.play) { this.otick(); }
     }
 
-    updateLabels() {
-        super.updateLabels();
+    steps() {
+        this.tail = [];
+        for (let i = 0; i < this.size; i++) { this.nodes[i].colour(0xffffff); }
 
+        this.counter = 0;
+        this.interval = setInterval(() => { this.rr() }, 100);
     }
 
-    cycle() {
-        let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
-        const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-        let circle = new THREE.Mesh(geometry, material);
-        this.shades = this.shading();
-
-        for (let i=0; i < this.size; i++) {
-            this.tick();
-            let index = 3 * (i + 1);
-            let n = this.makeNode(circle, geometry.attributes.position.array.slice(index, index+3));
-            let shade = shades[i];
-            n.colour(`0x${shade+shade+shade}`);
+    rr() {
+        let node = (this.step * (this.counter + 1)) % this.size;
+        if (this.counter < this.size && !this.tail.includes(node)) {
+            this.tail.unshift(node);
+            this.changeColours();
             this.renderer.render(this.scene, this.camera);
-            this.flag = false;
+            this.counter++;
+        }
+        else {
+            clearInterval(this.interval);
+            this.onode();
+            this.step++;
         }
     }
-    
+
+    onode() {
+        let index = 3 * (this.size - this.step + 1);
+        let [circle, geometry] = this.innerCircle();
+        this.ring[this.step] = this.makeRingNode(this.step, circle, geometry.attributes.position.array.slice(index, index+3));
+        // this.ring[this.step].changeIndex(this.size - this.step);
+        this.ring[this.step].colour(common.multiplicativeOrders(this.size, this.ring[this.step].index));
+        this.renderer.render(this.scene, this.camera);
+        let temp = common.multiplicativeOrders(this.size, this.step);
+        let colourString = '#' + temp.substring(2);
+        document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
+        = ${this.size} / ${common.gcd(this.size, this.step)} 
+        = ${this.size / (common.gcd(this.size, this.step))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+        document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.step}) = ${common.gcd(this.step, this.size)}`;
+        document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${this.size / common.gcd(this.step, this.size)}`;
+
+    }
+
+    otick() {
+        if (this.counter < this.size) {
+            this.tail.unshift(this.counter);
+            this.ring[this.counter].colour(common.multiplicativeOrders(this.size, this.ring[this.counter].index));
+            // console.log();
+            let temp = common.multiplicativeOrders(this.size, this.ring[this.counter].index);
+            let colourString = '#' + temp.substring(2);
+            console.log(colourString);
+            document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
+            = ${this.size} / ${common.gcd(this.size, this.counter)} 
+            = ${this.size / (common.gcd(this.size, this.counter))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+            this.counter += 1;
+            this.renderer.render(this.scene, this.camera);
+            document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.counter}) = ${common.gcd(this.counter, this.size)}`;
+            document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+            document.getElementById('order').innerHTML = `order(${this.size},${this.counter}) = ${this.size / common.gcd(this.counter, this.size)}`;
+        }
+        else {
+            this.buttons.play = false;
+            this.loop.stop();
+            document.getElementById('totient').innerHTML = `phi(${this.size}) = ${common.totient(this.size)}`;
+        }
+    }
+
     orders() {
-        let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
-        const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-        let circle = new THREE.Mesh(geometry, material);
-        for (let i=0; i < this.size; i++) {
+        let [circle, geometry] = this.innerCircle();
+        for (let i = 0; i < this.size; i++) {
             let index = 3 * (i + 1);
             this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
         }
@@ -71,10 +107,20 @@ class Screen4 extends Multiplicative {
         for (let i = 0; i < this.size; i++) {
             this.ring[i].changeIndex(i);
         }
-        this.loop.start(this);
+        this.loop.start(this, 300);
+    }
+
+    innerCircle() {
+        let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
+        const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+        let circle = new THREE.Mesh(geometry, material);
+        return [circle, geometry];
     }
 
     makeRingNode(i, parent, vector) {
+        if (common.gcd(this.size, i) != 1) {
+            return new Node(vector, i, this.size, 0x000000);
+        }
         let node = new Node(vector, i, this.size);
         this.ring.unshift(node);
         node.parent = parent;
@@ -82,58 +128,25 @@ class Screen4 extends Multiplicative {
         return node;
     }
 
-    tick() {
-        if (this.counter < this.size && !this.tail.includes(this.counter)) {
-            this.tail.unshift(this.counter);
-            this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
-            this.counter += 1;
-            this.renderer.render(this.scene, this.camera);
-            document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
-            = ${this.size} / ${common.gcd(this.size, this.counter)} 
-            = ${this.size / (common.gcd(this.size, this.counter))}`;
-
-        }
-        else {
-            this.loop.stop();
-            document.getElementById('totient').innerHTML = `phi(${this.size}) = ${common.totient(this.size)}`;
-        }
-    }
-
-    shading() {
-
-        let factors = common.factors(this.size);
-        let shadediff = 255/this.size;
-        // console.log(shadediff);
-        let orders = this.findOrder(this.size);
-        // console.log(orders);
-        let ordershade = [];
-        for (let i = 0; i <= this.size; i++) {
-            ordershade[i] = this.charPairs[Math.floor(shadediff * orders[i])];
-            // console.log(factors[i], this.charPairs[shadediff * i]);
-        }
-        // console.log(factorindicies);
-        // console.log(shades);
-        console.log(ordershade);
-        return ordershade;
-
-    }
-
-    jump() {
-
-        for (let i=0; i < this.size; i++) {
-            if (this.counter < this.size && !this.tail.includes(this.counter)) {
-                this.tail.unshift(this.counter);
-                super.tick((this.jump*(i + 1)) % this.size);
-                // console.log(shade);
+    updateCircle(sides) {
+        super.updateCircle(sides);
+        // document.getElementById('stepCount').innerHTML = "";
+        this.loop.stop();
+        document.getElementById('eqn').innerHTML = "";
+        document.getElementById('totient').innerHTML = "";
+        for (let i = 0; i < this.size; i++) {
+            if (common.gcd(this.size, i) != 1) {
+                this.nodes[i].colour(0xf0f0f0);
             }
         }
-        this.ring[this.counter].colour(`0x${shade+shade+shade}`);
-        this.counter += 1;
         this.renderer.render(this.scene, this.camera);
-        this.jump++;
-
+        
     }
 
+    updateLabels() {
+        super.updateLabels();
+
+    }
 }
 
 function main() {
@@ -149,11 +162,24 @@ slider.oninput = function() {
 
 var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
-    screen4.jump();
+    // document.getElementById('playBtn').style.visibility = "hidden";
+    screen4.buttons.step = true;
+    if (screen4.buttons.play) {
+        screen4.loop.stop();
+        screen4.buttons.play = false;
+        screen4.stepSize(1);
+    }
+    screen4.tick();
 }
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
+    // document.getElementById('nxtBtn').style.visibility = "hidden";
+    screen4.buttons.play = true;
+    if (screen4.buttons.step) {
+        screen4.buttons.step = false;
+        screen4.counter = screen4.step;
+    }
     screen4.orders();
     // screen4.cycle();
 }
@@ -162,8 +188,14 @@ var reset = document.getElementById('Reset');
 reset.onclick = function() { refresh(); }
 
 function refresh() {
+    document.getElementById('playBtn').style.visibility = "visible";
+    screen4.buttons.play = false;
     screen4.loop.stop();
+    document.getElementById('nxtBtn').style.visibility = "visible";
+    screen4.buttons.step = false;
+    // screen4.loop.stop();
     screen4.updateCircle(slider.value);
+    screen4.step = 1;
 }
 
 main();

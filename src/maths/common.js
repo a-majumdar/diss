@@ -75,19 +75,19 @@ class Common {
         return degree;
     }
 
-    allDegrees(n) {
-        return this.primeFactors(n).map(elem => {
-            return [elem, this.findDegree(n, elem)];
-        });
-    }
+    // allDegrees(n) {
+    //     return this.primeFactors(n).map(elem => {
+    //         return [elem, this.findDegree(n, elem)];
+    //     });
+    // }
 
-    shadesteps(n) {
-        let pfactors = this.allDegrees(n);
-        let steps = pfactors.map(elem => {
-            return Math.floor(255 / elem[1]);
-        });
-        return steps;
-    }
+    // shadesteps(n) {
+    //     let pfactors = this.allDegrees(n);
+    //     let steps = pfactors.map(elem => {
+    //         return Math.floor(255 / elem[1]);
+    //     });
+    //     return steps;
+    // }
 
     orderColour(n, i) {
         // console.log(i);
@@ -124,8 +124,49 @@ class Common {
     }
 
     multiplicativeOrders(n, i) {
-        
+        if (i == 0) { return '0xdedede'; }
+        let shades = '';
+        let gcd = this.gcd(n, i);
+        let pfactors = this.primeFactors(n);
+        // console.log(pfactors);
+        if (gcd == 1) { shades = '0x2f2f2f'; }
+        else { 
+            // console.log(i);
+            let ndegrees = pfactors.map(elem => {
+                return this.mDegree(n, elem);
+            });
+            let idegrees = pfactors.map((elem, index) => {
+                return (this.mDegree(i, elem) < ndegrees[index] ? this.mDegree(i, elem) : ndegrees[index]);
+            });
+            // console.log(idegrees, ndegrees);
+            // console.log(degrees);
+            let components = idegrees.map((elem, index) => {
+                if (elem == 0) { return '00'; }
+                let temp = Math.floor( (elem / ndegrees[index]) * 255).toString(16);
+                if (temp.length == 1) { temp = '0' + temp; }
+                return temp;
+                // return Math.floor(255 / (elem == 0 ? 255 : elem)).toString(16);
+            });
+            if (!components[1]) { components[1] = '00'; }
+            if (!components[2]) { components[2] = '00'; }
+            shades = '0x' + components[0] + components[2] + components[1];    
+        }
+        // console.log(i, shades);
+        return shades;
+ 
     }
+
+    mDegree(n, p) {
+        //find the degree of p in n
+        let degree = 0;
+        let leftover = n;
+        while (leftover ^ (1 / p) == 0) {
+            degree++;
+            leftover = leftover ^ (1 / p);
+        }
+        return degree;
+    }
+
 
     // smallestFactor(n) > 1: prime
     // factorDegree(n, p): repeatedly dividing n by p , return [degree, leftover]
