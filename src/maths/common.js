@@ -182,8 +182,9 @@ class Common {
         let order = this.mOrder(n, i);
         for (let k = 0; k < phi; k++) {
             let temp = n / this.gcd(phi, k);
-            if (temp == order) { return this.orderColour(phi, k); }
+            if (temp == order) { console.log("found equivalent"); } // { return this.orderColour(phi, k); }
         }
+        console.log("no equivalent");
         return '0xfefefe';
     }
 

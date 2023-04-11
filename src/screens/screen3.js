@@ -24,7 +24,7 @@ class Screen3 extends Multiplicative {
         super.updateCircle(sides);
         this.orders();
         document.getElementById('stepCount').innerHTML = "";
-
+        document.getElementById('gcd').innerHTML = '   ';
     }
 
     updateLabels() {
@@ -68,6 +68,19 @@ class Screen3 extends Multiplicative {
         this.scene.add(node.object);
         // console.log(`node ${index} added`);
         return node;
+    }
+
+    finished() {
+        console.log("finished");
+        document.getElementById('gcd').innerHTML = `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
+        document.getElementById('gcd').innerHTML += common.gcd(this.size,this.step) == 1 ? " (COPRIME)" : "";
+        document.getElementById('order').innerHTML = `Order(${this.size},${this.step}) = ${common.mOrder(this.size, this.step)}`;
+        // document.getElementById('eqn').innerHTML = `order x gcd = n = ${this.size}`;
+    }
+
+    tick() {
+        super.tick();
+        document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = ${this.nodes[this.node-1].index} * ${(this.step)} = ${this.node} (mod ${this.size})`;
     }
 
 }

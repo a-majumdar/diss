@@ -28,7 +28,7 @@ class Screen4 extends Multiplicative {
     }
 
     tick() {
-        console.log("tick");
+        console.log("tick", this.counter, this.step);
         if (this.buttons.step) { this.steps(); }
         else if (this.buttons.play) { this.otick(); }
     }
