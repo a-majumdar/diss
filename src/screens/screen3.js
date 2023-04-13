@@ -80,7 +80,7 @@ class Screen3 extends Multiplicative {
 
     tick() {
         super.tick();
-        document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = ${this.nodes[this.node-1].index} * ${(this.step)} = ${this.node} (mod ${this.size})`;
+        document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = ${(this.node / this.step) % this.size} * ${(this.step)} = ${this.node} (mod ${this.size})`;
     }
 
 }
