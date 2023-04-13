@@ -160,9 +160,9 @@ class Common {
         //find the degree of p in n
         let degree = 0;
         let leftover = n;
-        while (leftover ^ (1 / p) == 0) {
+        while ((leftover / p) == 0) {
             degree++;
-            leftover = leftover ^ (1 / p);
+            leftover = (leftover / p);
         }
         return degree;
     }
@@ -172,7 +172,7 @@ class Common {
         let temp = i;
         while (temp != 1) {
             order++;
-            temp = (temp ^ i) % n;
+            temp = (temp * i) % n;
         }
         return order;
     }
