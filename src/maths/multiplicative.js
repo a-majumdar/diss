@@ -47,7 +47,7 @@ class Multiplicative extends Modular {
             console.log(this.counter, this.node);
             this.tail.unshift(this.node);
             super.changeColours();
-            this.counter += 1;
+            // this.counter += 1;
             this.renderer.render(this.scene, this.camera);
             this.sumLabel();
         }

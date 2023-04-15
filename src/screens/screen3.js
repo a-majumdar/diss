@@ -25,6 +25,7 @@ class Screen3 extends Multiplicative {
         this.orders();
         document.getElementById('stepCount').innerHTML = "";
         document.getElementById('gcd').innerHTML = '   ';
+        this.counter = 0;
     }
 
     updateLabels() {
@@ -80,7 +81,14 @@ class Screen3 extends Multiplicative {
 
     tick() {
         super.tick();
-        document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = ${(this.node / this.step) % this.size} * ${(this.step)} = ${this.node} (mod ${this.size})`;
+        console.log(this.tail, this.counter);
+        if (this.counter == 0) {
+            document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = 1 * ${(this.step)} = ${this.node} (mod ${this.size})`;
+        }
+        else { 
+            document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = ${this.tail[0]} * ${(this.step)} = ${this.node} (mod ${this.size})`;
+        }
+        this.counter++;
     }
 
 }
