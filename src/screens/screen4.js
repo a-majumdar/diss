@@ -35,25 +35,49 @@ class Screen4 extends Multiplicative {
 
     steps() {
         this.tail = [];
-        for (let i = 0; i < this.multiplicatives.length; i++) { this.nodes[i].colour(0xffffff); }
-
         this.counter = 0;
+        for (let i = 0; i < this.multiplicatives.length; i++) { this.nodes[i].colour(0xffffff); }
+        // this.renderer.render(this.scene, this.camera);
         this.interval = setInterval(() => { this.rr() }, 100);
     }
 
     rr() {
-        let node = (this.step * (this.counter + 1)) % this.multiplicatives.length; // change to call that index in the list of multiplicatives
-        node = this.multiplicatives[node];
-        if (this.counter < this.multiplicatives.length && !this.tail.includes(node)) {
-            this.tail.unshift(node);
-            this.changeColours();
-            this.renderer.render(this.scene, this.camera);
-            this.counter++;
-        }
-        else {
-            clearInterval(this.interval);
-            this.onode();
-            this.step++;
+        let value = (this.step ^ (this.counter + 1)) % this.size; // change to call that index in the list of multiplicatives
+        // if (this.multiplicatives.includes(value)) {
+            let node = this.multiplicatives.indexOf(value);
+            // for (let i=0; i < this.multiplicatives.length; i++) {
+            //     if (this.multiplicatives[i] == value) {
+            //         node = i;
+            //     }
+            if (node == -1) { this.counter++; }
+            else if (this.counter < this.multiplicatives.length && !this.tail.includes(node)) {
+                this.tail.unshift(node);
+                this.comet();
+                this.renderer.render(this.scene, this.camera);
+                this.counter++;
+            }
+            else {
+                clearInterval(this.interval);
+                this.onode();
+                // this.step++;
+                this.step = this.multiplicatives[this.multiplicatives.indexOf(this.step) + 1];
+            }
+        // }
+    }
+
+    comet() {
+        console.log(this.tail);
+        for (let i = this.tail.length-1; i >= 0; i--) {
+            let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
+            console.log(hue, i, this.tail[i]);
+            for (let j = 0; j < this.nodes.length; j++) {
+                if (this.tail[i] == this.nodes[j].index) { 
+                    console.log("found");
+                    this.nodes[j].colour(`0xff${hue+hue}`); 
+                    break;
+                }
+            }
+            // this.nodes[this.tail[i]].colour(`0xff${hue+hue}`);
         }
     }
 
@@ -66,32 +90,35 @@ class Screen4 extends Multiplicative {
         this.renderer.render(this.scene, this.camera);
         let temp = common.findEquivOrder(this.size, this.step);
         let colourString = '#' + temp.substring(2);
-        document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
-        = ${this.size} / ${common.gcd(this.size, this.step)} 
-        = ${this.size / (common.gcd(this.size, this.step))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+        //document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
+        //= ${this.size} / ${common.gcd(this.size, this.step)} 
+        //= ${this.size / (common.gcd(this.size, this.step))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
         document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.step}) = ${common.gcd(this.step, this.size)}`;
         document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${this.size / common.gcd(this.step, this.size)}`;
+        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${common.mOrder(this.size, this.step)}`;
 
     }
 
     otick() {
         console.log("otick", this.counter, this.multiplicatives);
+        console.log(this.ring);
         if (this.counter < this.multiplicatives.length) {
-            
-            this.tail.unshift(this.multiplicatives[this.counter]);
-            this.ring[this.multiplicatives[this.counter]].colour(common.findEquivOrder(this.size, this.ring[this.multiplicatives[this.counter]].index));
+            let node = this.multiplicatives[this.counter];
+            // console.log(node, this.tail);
+            // // this.tail.unshift(node);
+            // console.trace();
+            this.ring[this.counter].colour(common.findEquivOrder(this.size, this.ring[node].index));
             // console.log();
-            let temp = common.findEquivOrder(this.size, this.ring[this.multiplicatives[this.counter]].index);
-            let colourString = '#' + temp.substring(2);
-            console.log(colourString);
-            document.getElementById('eqn').innerHTML = `Order(${this.size},${this.multiplicatives[this.counter]}) = n / gcd(${this.size},${this.multiplicatives[this.counter]}) 
-            = ${this.size} / ${common.gcd(this.size, this.multiplicatives[this.counter])} 
-            = ${this.size / (common.gcd(this.size, this.multiplicatives[this.counter]))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+            // let temp = common.findEquivOrder(this.size, this.ring[node].index);
+            // let colourString = '#' + temp.substring(2);
+            // console.log(colourString);
+            // document.getElementById('eqn').innerHTML = `Order(${this.size},${node}) = n / gcd(${this.size},${node}) 
+            // = ${this.size} / ${common.gcd(this.size, node)} 
+            // = ${this.size / (common.gcd(this.size, node))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
             this.renderer.render(this.scene, this.camera);
-            document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.multiplicatives[this.counter]}) = ${common.gcd(this.multiplicatives[this.counter], this.size)}`;
+            document.getElementById('gcd').innerHTML = `gcd(${this.size},${node}) = ${common.gcd(node, this.size)}`;
             document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-            document.getElementById('order').innerHTML = `order(${this.size},${this.multiplicatives[this.counter]}) = ${this.size / common.gcd(this.multiplicatives[this.counter], this.size)}`;
+            document.getElementById('order').innerHTML = `order(${this.size},${node}) = ${this.size / common.gcd(node, this.size)}`;
             this.counter += 1;
         }
         else {
@@ -103,9 +130,10 @@ class Screen4 extends Multiplicative {
 
     orders() {
         console.log("in orders()");
+        this.tail = [];
         let [circle, geometry] = this.innerCircle();
         for (let i = 0; i < this.multiplicatives.length; i++) {
-            let temp = this.multiplicatives[i];
+            let temp = this.multiplicatives[i] + 1;
             let index = 3 * temp;
             this.ring[temp] = this.makeRingNode(temp, circle, geometry.attributes.position.array.slice(index, index+3));
         }
@@ -148,6 +176,7 @@ class Screen4 extends Multiplicative {
         this.updateLabels();
         document.getElementById('eqn').innerHTML = "";
         document.getElementById('totient').innerHTML = "";
+        document.getElementById('order').innerHTML = "";
 
         let geometry = new THREE.CircleGeometry(2, sides, Math.PI/2);
         const material = new THREE.MeshBasicMaterial( { color: 0x000000 } );

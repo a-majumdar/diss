@@ -91,12 +91,12 @@ class Common {
 
     orderColour(n, i) {
         // console.log(i);
-        if (i == 0) { return '0xdedede'; }
+        if (i == 0) { return '0x303030'; }
         let shades = '';
         let gcd = this.gcd(n, i);
         let pfactors = this.primeFactors(n);
         // console.log(pfactors);
-        if (gcd == 1) { shades = '0x3a3a3a'; }
+        if (gcd == 1) { shades = '0xa0a0a0'; }
         else { 
             // console.log(i);
             let ndegrees = pfactors.map(elem => {
@@ -124,7 +124,7 @@ class Common {
     }
 
     multiplicativeOrders(n, i) {
-        if (i == 0) { return '0xdedede'; }
+        if (i == 0) { return '0x303030'; }
         let shades = '';
         let gcd = this.gcd(n, i);
         let pfactors = this.primeFactors(n);
@@ -181,8 +181,8 @@ class Common {
         let phi = this.totient(n);
         let order = this.mOrder(n, i);
         for (let k = 0; k < phi; k++) {
-            let temp = n / this.gcd(phi, k);
-            if (temp == order) { console.log("found equivalent"); } // { return this.orderColour(phi, k); }
+            let temp = phi / this.gcd(phi, k);
+            if (temp == order) { return this.orderColour(phi, k); } // { console.log("found equivalent"); } 
         }
         console.log("no equivalent");
         return '0xfefefe';
