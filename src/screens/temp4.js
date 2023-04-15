@@ -172,24 +172,9 @@ class Screen4 extends Multiplicative {
 
         this.renderer.render(this.scene, this.camera);
         
-        //     super.updateCircle(sides);
-    //     // document.getElementById('stepCount').innerHTML = "";
-    //     this.loop.stop();
-    //     document.getElementById('eqn').innerHTML = "";
-    //     document.getElementById('totient').innerHTML = "";
-    //     for (let i = 0; i < this.size; i++) {
-    //         if (common.gcd(this.size, i) != 1) {
-    //             this.nodes[i].colour(0xf0f0f0);
-    //         }
-    //     }
-    //     this.renderer.render(this.scene, this.camera);
         
     }
 
-    // updateLabels() {
-    //     super.updateLabels();
-
-    // }
 }
 
 function main() {
