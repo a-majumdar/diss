@@ -45,7 +45,9 @@ class Screen4 extends Multiplicative {
         for (let i = 0; i < this.nodes.length; i++) {
             if (common.gcd(i, this.size) == 1) {
                 this.multiplicatives.push(i);
-                this.scene.remove.apply(this.scene, this.nodes.splice(i, 1));
+            }
+            else {
+                this.scene.remove(this.nodes.splice(i, 1)[0].object);
             }
         }
         console.log(this.multiplicatives, this.nodes);
