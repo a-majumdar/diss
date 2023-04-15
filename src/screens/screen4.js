@@ -62,9 +62,9 @@ class Screen4 extends Multiplicative {
 
     steps() {
         this.tail = [];
-        for (let i = 0; i < this.multiplicatives.length; i++) { this.nodes[i].colour(0xffffff); }
-
         this.counter = 0;
+        for (let i = 0; i < this.multiplicatives.length; i++) { this.nodes[i].colour(0xffffff); }
+        // this.renderer.render(this.scene, this.camera);
         this.interval = setInterval(() => { this.rr() }, 100);
     }
 
@@ -103,6 +103,7 @@ class Screen4 extends Multiplicative {
         // update labels
         document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.step}) = ${common.gcd(this.step, this.size)}`;
         document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${common.mOrder(this.size, this.step)}`;
 
     }
 
