@@ -71,7 +71,7 @@ class Screen4 extends Multiplicative {
     }
 
     rr() {
-        let index = (this.step ** (this.counter + 1)) % this.multiplicatives.length;
+        let index = (this.step ** (this.counter + 1)) % this.size;
         for (let i = 0; i < this.nodes.length; i++) {
             if (this.nodes[i].index == index) {
                 index = i;
@@ -82,7 +82,7 @@ class Screen4 extends Multiplicative {
 
         if (this.counter < this.multiplicatives.length && !this.tail.includes(node)) {
             this.tail.unshift(node);
-            this.changeColours();
+            this.comet();
             this.renderer.render(this.scene, this.camera);
             this.counter++;
         }
@@ -92,6 +92,16 @@ class Screen4 extends Multiplicative {
             this.step = this.multiplicatives[this.multiplicatives.indexOf(this.step) + 1];
         }
 
+    }
+
+    comet() {
+
+        for (let i = this.tail.length-1; i >= 0; i--) {
+            let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
+            let index = this.multiplicatives.indexOf(this.tail[i].index);   
+            this.nodes[index].colour(`0xff${hue+hue}`);
+            console.log(hue, index);
+        }
     }
 
     onode() {
