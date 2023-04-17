@@ -17,6 +17,7 @@ class Screen4 extends Multiplicative {
         pause: false
     };
     interval;
+    primitiveRoots = [3,4,5,6,7,9,10,11,13,14,17,18,19,22,23,25,26,27,29,31,34,37,38,41,43,46,47,49,50,53,54,58,59,61,62,67,71,73,74,79,81,82,83,86,89,94,97,98];
 
 
     constructor(c) {
@@ -39,6 +40,11 @@ class Screen4 extends Multiplicative {
         this.step = 1;
 
         // update labels
+        document.getElementById("gcd").innerHTML = "";
+        document.getElementById("order").innerHTML = "";
+        document.getElementById("totient").innerHTML = "";
+        document.getElementById("eqn").innerHTML = "";
+
 
         // update circle
         super.updateCircle(sides);
@@ -58,20 +64,20 @@ class Screen4 extends Multiplicative {
                 // this.scene.remove(this.nodes.splice(i, 1)[0].object);
             }
         }
-        console.log(this.multiplicatives, this.nodes);
+        // console.log(this.multiplicatives, this.nodes);
 
         this.renderer.render(this.scene, this.camera);
 
     }
 
     tick() {
-        console.log("tick", this.counter, this.step);
+        // console.log("tick", this.counter, this.step);
         if (this.buttons.step) { this.steps(); }
         else if (this.buttons.play) { this.otick(); }
     }
 
     steps() {
-        console.log("in steps()");
+        // console.log("in steps()");
 
         this.tail = [];
         this.counter = 0;
@@ -81,7 +87,7 @@ class Screen4 extends Multiplicative {
     }
 
     rr() {
-        console.log("in rr()");
+        // console.log("in rr()");
 
         let index = (this.step ** (this.counter + 1)) % this.size;
         for (let i = 0; i < this.nodes.length; i++) {
@@ -107,19 +113,19 @@ class Screen4 extends Multiplicative {
     }
 
     comet() {
-        console.log("in comet()");
+        // console.log("in comet()");
 
 
         for (let i = this.tail.length-1; i >= 0; i--) {
             let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
             let index = this.multiplicatives.indexOf(this.tail[i].index);   
             this.nodes[index].colour(`0xff${hue+hue}`);
-            console.log(hue, index);
+            // console.log(hue, index);
         }
     }
 
     onode() {
-        console.log("in onode()");
+        // console.log("in onode()");
 
         let index = 3 * (this.size - this.step + 1);
         let [circle, geometry] = this.innerCircle();
@@ -136,35 +142,47 @@ class Screen4 extends Multiplicative {
     }
 
     otick() {
-        console.log("in otick()");
+        // console.log("in otick()");
 
         if (this.counter < this.multiplicatives.length) {
+            // console.log("in if{}");
             let node = this.multiplicatives[this.counter];
             this.tail.unshift(this.nodes[this.counter]);
-            this.ring[node].colour(common.findEquivOrder(this.size, this.ring[node].index));
+            let temp = common.findEquivOrder(this.size, this.ring[this.counter].index);
+            // console.log(temp);
+            this.ring[this.counter].colour(temp);
+            this.renderer.render(this.scene, this.camera);
             document.getElementById('gcd').innerHTML = `gcd(${this.size},${node}) = ${common.gcd(node, this.size)}`;
             document.getElementById('order').innerHTML = `order(${this.size},${node}) = ${common.mOrder(this.size, node)}`;
-            this.counter += 1;
+            this.counter++;
         }
         else {
             this.loop.stop();
             this.buttons.play = false;
             document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+            if (this.primitiveRoots.includes(this.size)) {
+                console.log("has primitive roots");
+                document.getElementById('eqn').innerHTML = `n has primitive roots`;
+            }
         }
     }
 
     orders() {
-        console.log("in orders()");
+        // console.log("in orders()");
         let [circle, geometry] = this.innerCircle();
         for (let i = 0; i < this.multiplicatives.length; i++) {
             let temp = this.multiplicatives[i];
             let index = 3 * (this.size - temp + 1); // 3 * temp
-            this.ring[temp] = this.makeRingNode(temp, circle, geometry.attributes.position.array.slice(index, index+3));
+            this.ring.push(this.makeRingNode(temp, circle, geometry.attributes.position.array.slice(index, index+3)));
         }
-        let first = this.ring.pop();
-        this.ring.unshift(first);
+        // let first = this.ring.pop();
+        // this.ring.unshift(first);
+        // first = this.ring.pop();
+        // this.ring.unshift(first);
+        // console.log(this.ring);
         for (let i = 0; i < this.multiplicatives.length; i++) {
             this.ring[i].changeIndex(this.multiplicatives[i]);
+            // this.ring[i].colour(0xff0000);
         }
         this.renderer.render(this.scene, this.camera);
         this.loop.start(this, 300);
@@ -179,7 +197,7 @@ class Screen4 extends Multiplicative {
 
 
     makeRingNode(i, parent, vector) {
-        console.log("making ring node " + i);
+        // console.log("making ring node " + i);
         let node = new Node(vector, i, this.size);
         // this.ring.unshift(node);
         node.parent = parent;
@@ -191,7 +209,7 @@ class Screen4 extends Multiplicative {
 
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
-    console.log("new value: " + slider.value);
+    // console.log("new value: " + slider.value);
     let sides = slider.value;
     screen4.updateCircle(sides);
     screen4.step = 1;
@@ -201,7 +219,7 @@ var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
     // document.getElementById('playBtn').style.visibility = "hidden";
     screen4.buttons.step = true;
-    console.log("press next");
+    // console.log("press next");
     if (screen4.buttons.play) {
         screen4.loop.stop();
         screen4.buttons.play = false;
@@ -213,7 +231,7 @@ nbtn.onclick = function() {
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
     // document.getElementById('nxtBtn').style.visibility = "hidden";
-    console.log("press play");
+    // console.log("press play");
     screen4.buttons.play = true;
     if (screen4.buttons.step) {
         screen4.buttons.step = false;
@@ -227,7 +245,7 @@ var reset = document.getElementById('Reset');
 reset.onclick = function() { refresh(); }
 
 function refresh() {
-    console.log("refresh");
+    // console.log("refresh");
     document.getElementById('playBtn').style.visibility = "visible";
     screen4.buttons.play = false;
     screen4.loop.stop();
