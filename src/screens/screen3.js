@@ -63,12 +63,12 @@ class Screen3 extends Multiplicative {
     }
 
     makeRingNode(i, parent, vector) {
-        let node = new Node(vector, i, this.size);
-        this.ring.unshift(node);
-        node.parent = parent;
-        this.scene.add(node.object);
-        // console.log(`node ${index} added`);
-        return node;
+        let obj = new Node(vector, i, this.size);
+        this.ring.unshift(obj);
+        obj.parent = parent;
+        this.scene.add(obj.object);
+        // console.log(`obj ${index} added`);
+        return obj;
     }
 
     finished() {
@@ -82,12 +82,13 @@ class Screen3 extends Multiplicative {
     tick() {
         super.tick();
         console.log(this.tail, this.counter);
-        if (this.counter == 0) {
-            document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = 1 * ${(this.step)} = ${this.node} (mod ${this.size})`;
+        if (this.counter == 1) {
+            document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter} = ${(this.step)} = ${this.node} (mod ${this.size})`;
         }
         else { 
-            document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter-1} = ${this.tail[0]} * ${(this.step)} = ${this.node} (mod ${this.size})`;
+            document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter} = ${this.tail[1]} * ${(this.step)} = ${this.node} (mod ${this.size})`;
         }
+        // document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter} = something = ${this.node} (mod ${this.size})`;
         this.counter++;
     }
 
