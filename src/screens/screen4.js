@@ -42,12 +42,20 @@ class Screen4 extends Multiplicative {
 
         // update circle
         super.updateCircle(sides);
-        for (let i = 0; i < this.nodes.length; i++) {
+        for (let i = 0; i < this.size; i++) {
             if (common.gcd(i, this.size) == 1) {
                 this.multiplicatives.push(i);
             }
             else {
-                this.scene.remove(this.nodes.splice(i, 1)[0].object);
+                let temp;
+                for (let j = 0; j < this.nodes.length; j++) {
+                    if (this.nodes[j].index == i) {
+                        temp = this.nodes.splice(j, 1)[0];
+                        this.scene.remove(temp.object);
+                        break;
+                    }
+                }
+                // this.scene.remove(this.nodes.splice(i, 1)[0].object);
             }
         }
         console.log(this.multiplicatives, this.nodes);
@@ -63,6 +71,8 @@ class Screen4 extends Multiplicative {
     }
 
     steps() {
+        console.log("in steps()");
+
         this.tail = [];
         this.counter = 0;
         for (let i = 0; i < this.multiplicatives.length; i++) { this.nodes[i].colour(0xffffff); }
@@ -71,6 +81,8 @@ class Screen4 extends Multiplicative {
     }
 
     rr() {
+        console.log("in rr()");
+
         let index = (this.step ** (this.counter + 1)) % this.size;
         for (let i = 0; i < this.nodes.length; i++) {
             if (this.nodes[i].index == index) {
@@ -95,6 +107,8 @@ class Screen4 extends Multiplicative {
     }
 
     comet() {
+        console.log("in comet()");
+
 
         for (let i = this.tail.length-1; i >= 0; i--) {
             let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
@@ -105,6 +119,8 @@ class Screen4 extends Multiplicative {
     }
 
     onode() {
+        console.log("in onode()");
+
         let index = 3 * (this.size - this.step + 1);
         let [circle, geometry] = this.innerCircle();
         this.ring[this.step] = this.makeRingNode(this.step, circle, geometry.attributes.position.array.slice(index, index+3));
@@ -120,6 +136,8 @@ class Screen4 extends Multiplicative {
     }
 
     otick() {
+        console.log("in otick()");
+
         if (this.counter < this.multiplicatives.length) {
             let node = this.multiplicatives[this.counter];
             this.tail.unshift(this.nodes[this.counter]);
@@ -136,6 +154,7 @@ class Screen4 extends Multiplicative {
     }
 
     orders() {
+        console.log("in orders()");
         let [circle, geometry] = this.innerCircle();
         for (let i = 0; i < this.multiplicatives.length; i++) {
             let temp = this.multiplicatives[i];
@@ -160,6 +179,7 @@ class Screen4 extends Multiplicative {
 
 
     makeRingNode(i, parent, vector) {
+        console.log("making ring node " + i);
         let node = new Node(vector, i, this.size);
         // this.ring.unshift(node);
         node.parent = parent;
@@ -171,6 +191,7 @@ class Screen4 extends Multiplicative {
 
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
+    console.log("new value: " + slider.value);
     let sides = slider.value;
     screen4.updateCircle(sides);
     screen4.step = 1;
@@ -180,6 +201,7 @@ var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
     // document.getElementById('playBtn').style.visibility = "hidden";
     screen4.buttons.step = true;
+    console.log("press next");
     if (screen4.buttons.play) {
         screen4.loop.stop();
         screen4.buttons.play = false;
@@ -205,6 +227,7 @@ var reset = document.getElementById('Reset');
 reset.onclick = function() { refresh(); }
 
 function refresh() {
+    console.log("refresh");
     document.getElementById('playBtn').style.visibility = "visible";
     screen4.buttons.play = false;
     screen4.loop.stop();
