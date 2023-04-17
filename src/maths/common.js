@@ -96,7 +96,7 @@ class Common {
         let gcd = this.gcd(n, i);
         let pfactors = this.primeFactors(n);
         // console.log(pfactors);
-        if (gcd == 1) { shades = '0xa0a0a0'; }
+        if (gcd == 1) { shades = '0x707070'; }
         else { 
             // console.log(i);
             let ndegrees = pfactors.map(elem => {
@@ -123,38 +123,38 @@ class Common {
 
     }
 
-    multiplicativeOrders(n, i) {
-        if (i == 0) { return '0x303030'; }
-        let shades = '';
-        let gcd = this.gcd(n, i);
-        let pfactors = this.primeFactors(n);
-        // console.log(pfactors);
-        if (gcd == 1) { shades = '0x2f2f2f'; }
-        else { 
-            // console.log(i);
-            let ndegrees = pfactors.map(elem => {
-                return this.mDegree(n, elem);
-            });
-            let idegrees = pfactors.map((elem, index) => {
-                return (this.mDegree(i, elem) < ndegrees[index] ? this.mDegree(i, elem) : ndegrees[index]);
-            });
-            // console.log(idegrees, ndegrees);
-            // console.log(degrees);
-            let components = idegrees.map((elem, index) => {
-                if (elem == 0) { return '00'; }
-                let temp = Math.floor( (elem / ndegrees[index]) * 255).toString(16);
-                if (temp.length == 1) { temp = '0' + temp; }
-                return temp;
-                // return Math.floor(255 / (elem == 0 ? 255 : elem)).toString(16);
-            });
-            if (!components[1]) { components[1] = '00'; }
-            if (!components[2]) { components[2] = '00'; }
-            shades = '0x' + components[0] + components[2] + components[1];    
-        }
-        // console.log(i, shades);
-        return shades;
+    // multiplicativeOrders(n, i) {
+    //     if (i == 0) { return '0x303030'; }
+    //     let shades = '';
+    //     let gcd = this.gcd(n, i);
+    //     let pfactors = this.primeFactors(n);
+    //     // console.log(pfactors);
+    //     if (gcd == 1) { shades = '0x2f2f2f'; }
+    //     else { 
+    //         // console.log(i);
+    //         let ndegrees = pfactors.map(elem => {
+    //             return this.mDegree(n, elem);
+    //         });
+    //         let idegrees = pfactors.map((elem, index) => {
+    //             return (this.mDegree(i, elem) < ndegrees[index] ? this.mDegree(i, elem) : ndegrees[index]);
+    //         });
+    //         // console.log(idegrees, ndegrees);
+    //         // console.log(degrees);
+    //         let components = idegrees.map((elem, index) => {
+    //             if (elem == 0) { return '00'; }
+    //             let temp = Math.floor( (elem / ndegrees[index]) * 255).toString(16);
+    //             if (temp.length == 1) { temp = '0' + temp; }
+    //             return temp;
+    //             // return Math.floor(255 / (elem == 0 ? 255 : elem)).toString(16);
+    //         });
+    //         if (!components[1]) { components[1] = '00'; }
+    //         if (!components[2]) { components[2] = '00'; }
+    //         shades = '0x' + components[0] + components[2] + components[1];    
+    //     }
+    //     // console.log(i, shades);
+    //     return shades;
  
-    }
+    // }
 
     mDegree(n, p) {
         //find the degree of p in n
@@ -178,6 +178,7 @@ class Common {
     }
 
     findEquivOrder(n, i) {
+        if (i == 1) { return '0xcfcfcf'; }
         let phi = this.totient(n);
         let order = this.mOrder(n, i);
         for (let k = 0; k < phi; k++) {
