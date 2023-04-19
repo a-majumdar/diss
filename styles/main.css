@@ -179,6 +179,36 @@ p {
   background: linear-gradient(to bottom, #3b3b3b 0%, #2e2e2e 50%, #141414 51%, #080808 100%);
 }
 
+.Reset {
+  display: inline-block;
+  outline: none;
+  padding: 10px 20px;
+  line-height: 1.4;
+  background: #5a51da;
+  background: linear-gradient(to bottom, #aaa1df 0%, #8f8ccd 50%, #8972d5 51%, #6460af 100%);
+  border-radius: 4px;
+  border: 1px solid #000000;
+  color: #dadada;
+  text-shadow: #000000 -1px -1px 0px;
+  position: relative;
+  transition: padding-right 0.3s ease;
+  font-weight: 700;
+  box-shadow: 0 1px 0 #6e6e6e inset, 0px 1px 0 #3b3b3b;
+}
+
+.Reset:hover {
+  box-shadow: 0 0 10px #080808 inset, 0px 1px 0 #3b3b3b;
+  color: #f3f3f3;
+}
+
+
+.Reset:active {
+  box-shadow: 0 0 10px #080808 inset, 0px 1px 0 #3b3b3b;
+  color: #ffffff;
+  background: #080808;
+  background: linear-gradient(to bottom, #3b3b3b 0%, #2e2e2e 50%, #141414 51%, #080808 100%);
+}
+
 /* CSS */
 .button-8 {
   background-color: #e1ecf4;

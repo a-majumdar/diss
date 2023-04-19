@@ -6,6 +6,19 @@
     <link rel="stylesheet" href="./styles/main.css">
     <!-- <script type="module" src="./src/test2.js"></script>
     <script type="module" src="./src/test1.js"></script> -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>  
   </head>
   <body>
     <header>
@@ -24,19 +37,15 @@
   </header>
   <div class="intro">
     <div class="inner-intro">
-      <h2 style="margin: 10px;">Welcome to the Visualisation Tool for Number Theory</h2>
-      <h4 style="margin: 10px;">Please note that this tool is not intended as a standalone resource, it is simply a 
-        teaching aid.</h4>
+      <h2 style="margin: 15px;">Welcome to the Modular Arithmetic Workbench!</h2>
+      <h6 style="margin: 20px;">Developed by Ananya Majumdar, under the supervision of Dr. John Longley.</h6>
       <p class="intro-content">This educational tool has been developed for students and teachers of introductory
-        Number Theory to act as a plentiful source of examples with visual representations. The repeated exposure
-        to a variety of similarities and differences between concrete examples aims to facilitate the formation of
-        concepts with visual modes of organisation.
+        number theory to act as a plentiful source of examples with visual representations. Please note that this 
+        tool is not intended as a standalone resource, it is simply a teaching aid.
       </p>
       <p class="intro-content">
-        To use this tool, take your time progressing through each screen and play around with numerous combinations
-        of values for the variables you are presented with by changing the slider positions. All elements for you to
-        control are on the left-hand side of your screen, and you will see the effect of your changes on the right. 
-        The three buttons underneath the sliders also affect the state of the animation:
+        Take your time progressing through each screen and play around with numerous combinations
+        of values for the variables you are presented with by changing the slider positions.
       </p>
       <ul style="list-style-type: none;">
         <li><p class="intro-content"><span><input type="button" class="Render" value="Step" id="nxtBtn" name="nxtBtn">
@@ -54,13 +63,16 @@
         The visualisations you will see depict the following concepts:</p>
       <ul>
         <li class="intro-content"><span style="font-weight: bold;">Screen 1: </span>
-          Modular arithmetic under addition, generators, 
+          Modular arithmetic under addition, generators, additive orders, multiplicative inverses.
         </li>
         <li class="intro-content"><span style="font-weight: bold;">Screen 2: </span>
+          The structure of additive orders in a group, $\phi(n)$, multiplicative elements.
         </li>
         <li class="intro-content"><span style="font-weight: bold;">Screen 3: </span>
+          Modular arithmetic under multiplication, multiplicative orders, RSA-friendly elements.
         </li>
         <li class="intro-content"><span style="font-weight: bold;">Screen 4: </span>
+          The structure of multiplicative orders in a group, primitive roots, cyclic groups.
         </li>
           </ul>
     </div>
