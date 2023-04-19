@@ -52,10 +52,10 @@
         <div class="user-inputs">
           <h3>Additive Structure of $\mathbb{Z}_n^+$</h3>
           <form id="inputs">
-            <label for="nSlider">Please select a number of nodes (between 3 and 100):</label><br>
-            <input class="slider-range" type="range" id="nSlider" name="nSlider" min="3" max="100" value="99" >
+            <label for="nSlider">Select number of nodes:</label><br>
+            <input class="slider-range" type="range" id="nSlider" name="nSlider" min="3" max="100" value="50" >
             <h6 id="n"></h6>
-            <label for="iSlider">Please select a generator (between 1 and n-1):</label>
+            <label for="iSlider">Select generator (between 1 and n-1):</label>
             <input class="slider-range" type="range" id="iSlider" name="iSlider" min="1" max=nSlider.value value="3">
             <h6 id="i"></h6>
             <input type="button" class="Render" value="Step" id="nxtBtn" name="nxtBtn">
@@ -67,8 +67,8 @@
           <p id="counterLabel"></p>
           <p id="stepCount"></p>
           <p id="gcd"></p>
-          <p id="eqn"></p>
           <p id="order"></p>
+          <p id="eqn"></p>
           <p id="totient"></p>			
         </div>
       </div>

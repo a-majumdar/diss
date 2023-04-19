@@ -42,7 +42,8 @@ class Screen1 extends Addmod {
         document.getElementById('gcd').innerHTML += common.gcd(this.size,this.step) == 1 ? " (COPRIME)" : "";
         document.getElementById('order').innerHTML = `Order(${this.size},${this.step}) = ${this.size / (common.gcd(this.size, this.step))}`;
         document.getElementById('eqn').innerHTML = `order x gcd = n = ${this.size}`;
-        
+        document.getElementById('nxtBtn').disabled = true;
+        document.getElementById('playBtn').disabled = true;    
         // `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
         //     = ${this.size} / ${common.gcd(this.size, this.step)} 
         //     = ${this.size / (common.gcd(this.size, this.step))}`;
@@ -55,7 +56,9 @@ slider.oninput = function() {
     let sides = slider.value;
     screen1.updateCircle(sides);
     screen1.stepSize(1);
-    document.getElementById('iSlider').setAttribute('value', 1);
+    document.getElementById('iSlider').value = 1;
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
 }
 
 var steps = document.getElementById('iSlider');
@@ -70,6 +73,8 @@ nbtn.onclick = function() {
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
     screen1.loop.start(screen1, 300);
+    document.getElementById('nxtBtn').disabled = true;
+    document.getElementById('playBtn').disabled = true;
 }
 
 // var speed = document.getElementById('speedSlider');
@@ -85,48 +90,50 @@ function refresh() {
     screen1.loop.stop();
     screen1.updateCircle(slider.value);
     screen1.stepSize(steps.value);
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
 }
 
-function onClick(event) {
-    console.log('click');
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-}
+// function onClick(event) {
+//     console.log('click');
+//     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+//     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// }
 
-function updateRender() {
+// function updateRender() {
 
-    // update the picking ray with the camera and mouse position
-    raycaster.setFromCamera(mouse, screen1.camera);
+//     // update the picking ray with the camera and mouse position
+//     raycaster.setFromCamera(mouse, screen1.camera);
   
-    // calculate objects intersecting the picking ray
-    intersects = raycaster.intersectObjects(screen1.scene.children, false);
-    if ( intersects.length > 0 ) {
-        console.log('intersecting');
-		if ( INTERSECTED != intersects[ 0 ].object ) {
-			if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+//     // calculate objects intersecting the picking ray
+//     intersects = raycaster.intersectObjects(screen1.scene.children, false);
+//     if ( intersects.length > 0 ) {
+//         console.log('intersecting');
+// 		if ( INTERSECTED != intersects[ 0 ].object ) {
+// 			if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
 			
-			INTERSECTED = intersects[ 0 ].object;
-			INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-			INTERSECTED.material.color.setHex( 0xff0000 );
-		}
-	} else {
-		if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
-		INTERSECTED = null;
-	}
-    screen1.renderer.render(screen1.scene, screen1.camera);
-}
+// 			INTERSECTED = intersects[ 0 ].object;
+// 			INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+// 			INTERSECTED.material.color.setHex( 0xff0000 );
+// 		}
+// 	} else {
+// 		if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+// 		INTERSECTED = null;
+// 	}
+//     screen1.renderer.render(screen1.scene, screen1.camera);
+// }
 
-container.addEventListener('click', onClick);
+// container.addEventListener('click', onClick);
 
-function animate() {
-    requestAnimationFrame(animate);
-    updateRender();
-}
+// function animate() {
+//     requestAnimationFrame(animate);
+//     updateRender();
+// }
 
 function main() {
     screen1 = new Screen1(container);
 }
   
 main();
-animate();
+// animate();
   

@@ -190,7 +190,7 @@ class Screen4 extends Multiplicative {
 
     innerCircle() {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
-        const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+        let material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
         let circle = new THREE.Mesh(geometry, material);
         return [circle, geometry];
     }

@@ -103,7 +103,7 @@ slider.oninput = function() {
     let sides = slider.value;
     screen3.updateCircle(sides);
     screen3.stepSize(1);
-    document.getElementById('iSlider').setAttribute('value', 1);
+    document.getElementById('iSlider').value = 1;
 }
 
 var steps = document.getElementById('iSlider');

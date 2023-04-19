@@ -110,7 +110,7 @@ class Modular extends Screen {
         }
         else {
             this.loop.stop();
-            this.finished();
+            // this.finished();
             // if (typeof this == Screen1) { document.getElementById('gcd').innerHTML = common.gcd(this.size, this.step) == 1 ? `${this.size} and ${this.step} are coprime` : `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`; }
         }
 
