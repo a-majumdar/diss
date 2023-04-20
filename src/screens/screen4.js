@@ -6,6 +6,7 @@ import {Node} from "../components/node.js";
 const container = document.getElementById('scene-container');
 var screen4;
 const common = new Common();
+const primitiveRoots = [3, 4, 5, 6, 7, 9, 10, 11, 13, 14, 17, 18, 19, 22, 23, 25, 26, 27, 29, 31, 34, 37, 38, 41, 43, 46, 47, 49, 50, 53, 54, 58, 59, 61, 62, 67, 71, 73, 74, 79, 81, 82, 83, 86, 89, 94, 97, 98];
 
 class Screen4 extends Multiplicative {
 
@@ -17,7 +18,6 @@ class Screen4 extends Multiplicative {
         pause: false
     };
     interval;
-    primitiveRoots = [3,4,5,6,7,9,10,11,13,14,17,18,19,22,23,25,26,27,29,31,34,37,38,41,43,46,47,49,50,53,54,58,59,61,62,67,71,73,74,79,81,82,83,86,89,94,97,98];
 
 
     constructor(c) {
@@ -44,6 +44,7 @@ class Screen4 extends Multiplicative {
         document.getElementById("order").innerHTML = "";
         document.getElementById("totient").innerHTML = "";
         document.getElementById("eqn").innerHTML = "";
+        document.getElementById('phi').innerHTML = `phi(${sides}) = ${common.totient(sides)}`;
 
 
         // update circle
@@ -135,9 +136,11 @@ class Screen4 extends Multiplicative {
         this.renderer.render(this.scene, this.camera);
 
         // update labels
-        document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.step}) = ${common.gcd(this.step, this.size)}`;
-        document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${common.mOrder(this.size, this.step)}`;
+        // document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.step}) = ${common.gcd(this.step, this.size)}`;
+        // document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+        let blob = common.findEquivOrder(this.size, this.ring[this.step].index);
+        let colourString = '#' + blob.substring(2);    
+        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${common.mOrder(this.size, this.step)} <span style="color:${colourString};font-size:50px">&#149;</span>`;
 
     }
 
@@ -152,15 +155,18 @@ class Screen4 extends Multiplicative {
             // console.log(temp);
             this.ring[this.counter].colour(temp);
             this.renderer.render(this.scene, this.camera);
-            document.getElementById('gcd').innerHTML = `gcd(${this.size},${node}) = ${common.gcd(node, this.size)}`;
-            document.getElementById('order').innerHTML = `order(${this.size},${node}) = ${common.mOrder(this.size, node)}`;
+            // document.getElementById('gcd').innerHTML = `gcd(${this.size},${node}) = ${common.gcd(node, this.size)}`;
+            // let blob = common.findEquivOrder(this.size, this.multiplicatives[this.counter]);
+            let colourString = '#' + temp.substring(2);    
+            document.getElementById('order').innerHTML = `order(${this.size},${node}) = ${common.mOrder(this.size, node)} <span style="color:${colourString};font-size:50px">&#149;</span>`;
             this.counter++;
         }
         else {
             this.loop.stop();
             this.buttons.play = false;
-            document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-            if (this.primitiveRoots.includes(this.size)) {
+            console.log(this.size, primitiveRoots.indexOf(this.size));
+            // document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+            if (primitiveRoots.includes(this.size)) {
                 console.log("has primitive roots");
                 document.getElementById('eqn').innerHTML = `n has primitive roots`;
             }
@@ -213,6 +219,8 @@ slider.oninput = function() {
     let sides = slider.value;
     screen4.updateCircle(sides);
     screen4.step = 1;
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
 }
 
 var nbtn = document.getElementById('nxtBtn');
@@ -237,6 +245,8 @@ pbtn.onclick = function() {
         screen4.buttons.step = false;
         screen4.counter = screen4.step;
     }
+    document.getElementById('nxtBtn').disabled = true;
+    document.getElementById('playBtn').disabled = true;
     screen4.orders();
     // screen4.cycle();
 }
@@ -246,14 +256,16 @@ reset.onclick = function() { refresh(); }
 
 function refresh() {
     // console.log("refresh");
-    document.getElementById('playBtn').style.visibility = "visible";
+    // document.getElementById('playBtn').style.visibility = "visible";
     screen4.buttons.play = false;
     screen4.loop.stop();
-    document.getElementById('nxtBtn').style.visibility = "visible";
+    // document.getElementById('nxtBtn').style.visibility = "visible";
     screen4.buttons.step = false;
     // screen4.loop.stop();
     screen4.updateCircle(slider.value);
     screen4.step = 1;
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
 }
 
 function main() {

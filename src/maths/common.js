@@ -178,7 +178,7 @@ class Common {
     }
 
     findEquivOrder(n, i) {
-        if (i == 1) { return '0xcfcfcf'; }
+        if (i == 1) { return '0xffffff'; }
         let phi = this.totient(n);
         let order = this.mOrder(n, i);
         for (let k = 0; k < phi; k++) {
