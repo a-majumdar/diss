@@ -34,8 +34,25 @@ class Screen2 extends Addmod {
         this.tail = [];
         for (let i = 0; i < this.size; i++) { this.nodes[i].colour(0xffffff); }
 
+        document.getElementById('gcd').innerHTML = '   ';
+        document.getElementById('eqn').innerHTML = '   ';
+        document.getElementById('order').innerHTML = '   ';
+
         this.counter = 0;
-        this.interval = setInterval(() => { this.rr() }, 100);
+        if (this.step < this.size) {
+            // document.getElementById('nxtBtn').disabled = true;
+            // document.getElementById('playBtn').disabled = true;
+            this.interval = setInterval(() => { this.rr() }, 100);
+        }
+        else if (this.step == this.size ) { 
+            // this.counter++;
+            // this.onode();
+            document.getElementById('totient').innerHTML = `phi(${this.size}) = # of <span style="color:#707070;font-size:50px">&#149;</span> elements = ${common.totient(this.size)}`; 
+            document.getElementById('nxtBtn').disabled = true;
+            document.getElementById('playBtn').disabled = true;        
+
+        }
+        // this.interval = setInterval(() => { this.rr() }, 100);
     }
 
     rr() {
@@ -50,6 +67,8 @@ class Screen2 extends Addmod {
             clearInterval(this.interval);
             this.onode();
             this.step++;
+            document.getElementById('nxtBtn').disabled = false;
+            document.getElementById('playBtn').disabled = false;        
         }
     }
 
@@ -62,12 +81,13 @@ class Screen2 extends Addmod {
         this.renderer.render(this.scene, this.camera);
         let temp = common.orderColour(this.size, this.step);
         let colourString = '#' + temp.substring(2);
-        document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
-        = ${this.size} / ${common.gcd(this.size, this.step)} 
-        = ${this.size / (common.gcd(this.size, this.step))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+
+        // document.getElementById('eqn').innerHTML = `Order(${this.size},${this.step}) = n / gcd(${this.size},${this.step}) 
+        // = ${this.size} / ${common.gcd(this.size, this.step)} 
+        // = ${this.size / (common.gcd(this.size, this.step))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
         document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.step}) = ${common.gcd(this.step, this.size)}`;
-        document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${this.size / common.gcd(this.step, this.size)}`;
+        // document.getElementById('totient').innerHTML = `phi(n) = # of <span style="color:#707070;font-size:50px">&#149;</span> elements = ${common.totient(this.size)}`;
+        document.getElementById('order').innerHTML = `order(${this.size},${this.step}) = ${this.size / common.gcd(this.step, this.size)} <span style="color:${colourString};font-size:50px">&#149;</span> `;
 
     }
 
@@ -79,19 +99,19 @@ class Screen2 extends Addmod {
             let temp = common.orderColour(this.size, this.ring[this.counter].index);
             let colourString = '#' + temp.substring(2);
             console.log(colourString);
-            document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
-            = ${this.size} / ${common.gcd(this.size, this.counter)} 
-            = ${this.size / (common.gcd(this.size, this.counter))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
+            // document.getElementById('eqn').innerHTML = `Order(${this.size},${this.counter}) = n / gcd(${this.size},${this.counter}) 
+            // = ${this.size} / ${common.gcd(this.size, this.counter)} 
+            // = ${this.size / (common.gcd(this.size, this.counter))} <span style="color:${colourString};font-size:50px">&#149;</span>`;
             this.counter += 1;
             this.renderer.render(this.scene, this.camera);
             document.getElementById('gcd').innerHTML = `gcd(${this.size},${this.counter}) = ${common.gcd(this.counter, this.size)}`;
-            document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-            document.getElementById('order').innerHTML = `order(${this.size},${this.counter}) = ${this.size / common.gcd(this.counter, this.size)}`;
+            // document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
+            document.getElementById('order').innerHTML = `order(${this.size},${this.counter}) = ${this.size / common.gcd(this.counter, this.size)}<span style="color:${colourString};font-size:50px">&#149;</span> `;
         }
         else {
             this.buttons.play = false;
             this.loop.stop();
-            document.getElementById('totient').innerHTML = `phi(${this.size}) = ${common.totient(this.size)}`;
+            document.getElementById('totient').innerHTML = `phi(${this.size}) = # of <span style="color:#707070;font-size:50px">&#149;</span> elements = ${common.totient(this.size)}`;
         }
     }
 
@@ -108,6 +128,20 @@ class Screen2 extends Addmod {
         }
         this.loop.start(this, 300);
     }
+
+    // someOrders() {
+    //     let [circle, geometry] = this.innerCircle();
+    //     for (let i = this.counter; i < this.size; i++) {
+    //         let index = 3 * i;
+    //         this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
+    //     }
+    //     let first = this.ring.pop();
+    //     this.ring.unshift(first);
+    //     for (let i = 0; i < this.size; i++) {
+    //         this.ring[i].changeIndex(i);
+    //     }
+    //     this.loop.start(this, 300);
+    // }
 
     innerCircle() {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
@@ -182,7 +216,13 @@ var slider = document.getElementById('nSlider');
 slider.oninput = function() {
     let sides = slider.value;
     screen2.updateCircle(sides);
+    document.getElementById('gcd').innerHTML = '   ';
+    document.getElementById('eqn').innerHTML = '   ';
+    document.getElementById('order').innerHTML = '   ';
+    document.getElementById('totient').innerHTML = '   ';
     screen2.stepSize(1);
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
 }
 
 var nbtn = document.getElementById('nxtBtn');
@@ -194,17 +234,24 @@ nbtn.onclick = function() {
         screen2.buttons.play = false;
         screen2.stepSize(1);
     }
+    document.getElementById('nxtBtn').disabled = true;
+    document.getElementById('playBtn').disabled = true;
     screen2.tick();
 }
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
     // document.getElementById('nxtBtn').style.visibility = "hidden";
+    document.getElementById('nxtBtn').disabled = true;
+    document.getElementById('playBtn').disabled = true;
+
     screen2.buttons.play = true;
     if (screen2.buttons.step) {
         screen2.buttons.step = false;
         screen2.counter = screen2.step;
+        // screen2.someOrders();
     }
+    // else { screen2.orders(); }
     screen2.orders();
     // screen2.cycle();
 }
@@ -213,14 +260,20 @@ var reset = document.getElementById('Reset');
 reset.onclick = function() { refresh(); }
 
 function refresh() {
-    document.getElementById('playBtn').style.visibility = "visible";
+    // document.getElementById('playBtn').style.visibility = "visible";
     screen2.buttons.play = false;
     screen2.loop.stop();
-    document.getElementById('nxtBtn').style.visibility = "visible";
+    // document.getElementById('nxtBtn').style.visibility = "visible";
     screen2.buttons.step = false;
     // screen2.loop.stop();
     screen2.updateCircle(slider.value);
     screen2.step = 1;
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
+    document.getElementById('gcd').innerHTML = '   ';
+    document.getElementById('eqn').innerHTML = '   ';
+    document.getElementById('order').innerHTML = '   ';
+    document.getElementById('totient').innerHTML = '   ';
 }
 
 main();
