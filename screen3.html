@@ -53,8 +53,9 @@
               <h3>Multiplicative Structure of $\mathbb{Z}_n^\times$</h3>
               <form id="inputs">
                 <label for="nSlider">Please select a number of nodes (between 3 and 100):</label><br>
-                <input class="slider-range" type="range" id="nSlider" name="nSlider" min="3" max="100" value="99" >
+                <input class="slider-range" type="range" id="nSlider" name="nSlider" min="3" max="100" value="50" >
                 <h6 id="n"></h6>
+                <h6 id="phi"></h6>
                 <label for="iSlider">Please select a generator (between 1 and n-1):</label>
                 <input class="slider-range" type="range" id="iSlider" name="iSlider" min="1" max=nSlider.value value="3">
                 <h6 id="i"></h6>
@@ -66,10 +67,10 @@
               <p id="mInverse"></p>
               <p id="counterLabel"></p>
               <p id="stepCount"></p>
-              <p id="gcd"></p>
               <p id="eqn"></p>
               <p id="order"></p>
               <p id="totient"></p>			
+              <p id="gcd"></p>
             </div>
           </div>
           <div class="column">

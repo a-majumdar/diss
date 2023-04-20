@@ -91,7 +91,7 @@ class Common {
 
     orderColour(n, i) {
         // console.log(i);
-        if (i == 0) { return '0x303030'; }
+        if (i == 0) { return '0xffffff'; }
         let shades = '';
         let gcd = this.gcd(n, i);
         let pfactors = this.primeFactors(n);

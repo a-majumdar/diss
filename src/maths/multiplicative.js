@@ -43,7 +43,7 @@ class Multiplicative extends Modular {
 
     tick() {
         this.node = (this.step * this.node) % this.size;
-        if (this.counter <= (this.common.totient(this.size) + 1)) {
+        if (this.counter < (this.common.totient(this.size) + 1)) {
             console.log(this.counter, this.node);
             this.tail.unshift(this.node);
             super.changeColours();

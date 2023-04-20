@@ -24,6 +24,10 @@ class Screen3 extends Multiplicative {
         super.updateCircle(sides);
         this.orders();
         document.getElementById('stepCount').innerHTML = "";
+        document.getElementById('sums').innerHTML = "";
+        document.getElementById('order').innerHTML = "";
+        document.getElementById('eqn').innerHTML = "";
+        document.getElementById('phi').innerHTML = `phi(${sides}) = ${common.totient(sides)}`;
         document.getElementById('gcd').innerHTML = '   ';
         this.counter = 0;
     }
@@ -72,11 +76,11 @@ class Screen3 extends Multiplicative {
     }
 
     finished() {
-        console.log("finished");
-        document.getElementById('gcd').innerHTML = `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
-        document.getElementById('gcd').innerHTML += common.gcd(this.size,this.step) == 1 ? " (COPRIME)" : "";
-        document.getElementById('order').innerHTML = `Order(${this.size},${this.step}) = ${common.mOrder(this.size, this.step)}`;
+        // console.log("finished");
+        // document.getElementById('gcd').innerHTML = `The greatest common divisor of ${this.size} and ${this.step} is ${common.gcd(this.size, this.step)}`;
+        // document.getElementById('gcd').innerHTML += common.gcd(this.size,this.step) == 1 ? " (COPRIME)" : "";
         // document.getElementById('eqn').innerHTML = `order x gcd = n = ${this.size}`;
+        // report on RSA-friendliness
     }
 
     tick() {
@@ -87,6 +91,14 @@ class Screen3 extends Multiplicative {
         }
         else { 
             document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter} = ${this.tail[1]} * ${(this.step)} = ${this.node} (mod ${this.size})`;
+        }
+
+        if (this.tail[0] == 1) { 
+            document.getElementById('order').innerHTML = `Order(${this.step},${this.size}) = ${common.mOrder(this.size, this.step)}`; 
+            if (common.mOrder(this.size, this.step) == common.totient(this.size)) {
+                document.getElementById('order').innerHTML += ` = phi(${this.size}) so ${this.step} is a PRIMITIVE ROOT for ${this.size}`;
+            }
+            // document.getElementById('totient').innerHTML = `Order(${this.step},${this.size})  (PRIMITIVE ROOT)`;
         }
         // document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter} = something = ${this.node} (mod ${this.size})`;
         this.counter++;
@@ -100,10 +112,13 @@ function main() {
 
 var slider = document.getElementById('nSlider');
 slider.oninput = function() {
+    screen3.loop.stop();
     let sides = slider.value;
     screen3.updateCircle(sides);
     screen3.stepSize(1);
     document.getElementById('iSlider').value = 1;
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
 }
 
 var steps = document.getElementById('iSlider');
@@ -116,6 +131,8 @@ nbtn.onclick = function() {
 
 var pbtn = document.getElementById('playBtn');
 pbtn.onclick = function() {
+    document.getElementById('nxtBtn').disabled = true;
+    document.getElementById('playBtn').disabled = true;
     screen3.loop.start(screen3, 300);
 }
 
@@ -132,6 +149,8 @@ function refresh() {
     screen3.loop.stop();
     screen3.updateCircle(slider.value);
     screen3.stepSize(steps.value);
+    document.getElementById('nxtBtn').disabled = false;
+    document.getElementById('playBtn').disabled = false;
 }
 
 main();
