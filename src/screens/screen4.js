@@ -109,6 +109,8 @@ class Screen4 extends Multiplicative {
             clearInterval(this.interval);
             this.onode();
             this.step = this.multiplicatives[this.multiplicatives.indexOf(this.step) + 1];
+            document.getElementById('nxtBtn').disabled = false;
+            document.getElementById('playBtn').disabled = false;        
         }
 
     }
@@ -119,8 +121,8 @@ class Screen4 extends Multiplicative {
 
         for (let i = this.tail.length-1; i >= 0; i--) {
             let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
-            let index = this.multiplicatives.indexOf(this.tail[i].index);   
-            this.nodes[index].colour(`0xff${hue+hue}`);
+            let index = this.multiplicatives.indexOf(this.tail[i].index);
+            if (index) { this.nodes[index].colour(`0xff${hue+hue}`); }
             // console.log(hue, index);
         }
     }
@@ -194,6 +196,37 @@ class Screen4 extends Multiplicative {
         this.loop.start(this, 300);
     }
 
+    someOrders() {
+        // console.log("in orders()");
+        this.ring = [];
+        let [circle, geometry] = this.innerCircle();
+        for (let i = 0; i < this.multiplicatives.length; i++) {
+            let temp = this.multiplicatives[i];
+            let index = 3 * (this.size - temp + 1); // 3 * temp
+            this.ring.push(this.makeRingNode(temp, circle, geometry.attributes.position.array.slice(index, index+3)));
+        }
+        // let first = this.ring.pop();
+        // this.ring.unshift(first);
+        // first = this.ring.pop();
+        // this.ring.unshift(first);
+        console.log(this.ring);
+        // this.ring = this.ring.filter(node => node != empty);
+        for (let i = 0; i < this.multiplicatives.length; i++) {
+            console.log(this.multiplicatives[i], this.ring[i]);
+            this.ring[i].changeIndex(this.multiplicatives[i]);
+            // this.ring[i].colour(0xff0000);
+        }
+
+        // console.log(this.counter);
+        for (let i = 0; i < this.counter; i++) {
+            let temp = common.findEquivOrder(this.size, this.ring[i].index);
+            this.ring[i].colour(temp);
+        }
+
+        this.renderer.render(this.scene, this.camera);
+        this.loop.start(this, 300);
+    }
+
     innerCircle() {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
         let material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
@@ -228,11 +261,13 @@ nbtn.onclick = function() {
     // document.getElementById('playBtn').style.visibility = "hidden";
     screen4.buttons.step = true;
     // console.log("press next");
-    if (screen4.buttons.play) {
-        screen4.loop.stop();
-        screen4.buttons.play = false;
-        screen4.stepSize(1);
-    }
+    // if (screen4.buttons.play) {
+    //     screen4.loop.stop();
+    //     screen4.buttons.play = false;
+    //     screen4.stepSize(1);
+    // }
+    document.getElementById('nxtBtn').disabled = true;
+    document.getElementById('playBtn').disabled = true;
     screen4.tick();
 }
 
@@ -241,13 +276,14 @@ pbtn.onclick = function() {
     // document.getElementById('nxtBtn').style.visibility = "hidden";
     // console.log("press play");
     screen4.buttons.play = true;
+    document.getElementById('nxtBtn').disabled = true;
+    document.getElementById('playBtn').disabled = true;
     if (screen4.buttons.step) {
         screen4.buttons.step = false;
         screen4.counter = screen4.step;
+        screen4.someOrders();
     }
-    document.getElementById('nxtBtn').disabled = true;
-    document.getElementById('playBtn').disabled = true;
-    screen4.orders();
+    else { screen4.orders(); }  
     // screen4.cycle();
 }
 
@@ -259,6 +295,7 @@ function refresh() {
     // document.getElementById('playBtn').style.visibility = "visible";
     screen4.buttons.play = false;
     screen4.loop.stop();
+    clearInterval(screen4.interval);
     // document.getElementById('nxtBtn').style.visibility = "visible";
     screen4.buttons.step = false;
     // screen4.loop.stop();
