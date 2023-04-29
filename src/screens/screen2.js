@@ -272,9 +272,9 @@ pbtn.onclick = function() {
     screen2.buttons.play = true;
     if (screen2.buttons.step) {
         screen2.buttons.step = false;
-        console.log(screen2.counter, screen2.step);
+        // console.log(screen2.counter, screen2.step);
         screen2.counter = screen2.step;
-        console.log(screen2.counter);
+        // console.log(screen2.counter);
         screen2.someOrders();
     }
     else { screen2.orders(); }
