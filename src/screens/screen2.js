@@ -93,7 +93,7 @@ class Screen2 extends Addmod {
 
     otick() {
         if (this.counter < this.size) {
-            this.tail.unshift(this.counter);
+            // this.tail.unshift(this.counter);
             this.ring[this.counter].colour(common.orderColour(this.size, this.ring[this.counter].index));
             // console.log();
             let temp = common.orderColour(this.size, this.ring[this.counter].index);
@@ -126,22 +126,46 @@ class Screen2 extends Addmod {
         for (let i = 0; i < this.size; i++) {
             this.ring[i].changeIndex(i);
         }
+        this.renderer.render(this.scene, this.camera);
         this.loop.start(this, 300);
     }
 
-    // someOrders() {
-    //     let [circle, geometry] = this.innerCircle();
-    //     for (let i = this.counter; i < this.size; i++) {
-    //         let index = 3 * i;
-    //         this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
-    //     }
-    //     let first = this.ring.pop();
-    //     this.ring.unshift(first);
-    //     for (let i = 0; i < this.size; i++) {
-    //         this.ring[i].changeIndex(i);
-    //     }
-    //     this.loop.start(this, 300);
-    // }
+    someOrders() {
+        // let [circle, geometry] = this.innerCircle();
+        // for (let i = this.counter; i < this.size; i++) {
+        //     // if (i < this.counter) { continue; }
+        //     let index = 3 * (this.size - i + 1);
+        //     this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
+        //     this.ring[i].changeIndex(i);
+        //     this.renderer.render(this.scene, this.camera);
+        // }
+
+        // // let first = this.ring.pop();
+        // // this.ring.unshift(first);
+        // // for (let i = 0; i < this.size; i++) {
+        // //     console.log(i, this.ring[i].object.position);
+        // //     this.ring[i].changeIndex(i);
+        // // }
+        // this.loop.start(this, 300);
+
+        let [circle, geometry] = this.innerCircle();
+        for (let i = 0; i < this.size; i++) {
+            // if (i < this.counter) { continue; }
+            let index = 3 * (i + 1);
+            this.ring[i] = this.makeRingNode(i, circle, geometry.attributes.position.array.slice(index, index+3));
+        }
+        let first = this.ring.pop();
+        this.ring.unshift(first);
+        for (let i = 0; i < this.size; i++) {
+            this.ring[i].changeIndex(i);
+        }
+        for (let i = 0; i < this.counter; i++) {
+            this.ring[i].colour(common.orderColour(this.size, this.ring[i].index));
+        }
+        this.renderer.render(this.scene, this.camera);
+        this.loop.start(this, 300);
+        
+    }
 
     innerCircle() {
         let geometry = new THREE.CircleGeometry(1.8, this.size, Math.PI/2);
@@ -229,11 +253,11 @@ var nbtn = document.getElementById('nxtBtn');
 nbtn.onclick = function() {
     // document.getElementById('playBtn').style.visibility = "hidden";
     screen2.buttons.step = true;
-    if (screen2.buttons.play) {
-        screen2.loop.stop();
-        screen2.buttons.play = false;
-        screen2.stepSize(1);
-    }
+    // if (screen2.buttons.play) {
+    //     screen2.loop.stop();
+    //     screen2.buttons.play = false;
+    //     screen2.stepSize(1);
+    // }
     document.getElementById('nxtBtn').disabled = true;
     document.getElementById('playBtn').disabled = true;
     screen2.tick();
@@ -248,11 +272,13 @@ pbtn.onclick = function() {
     screen2.buttons.play = true;
     if (screen2.buttons.step) {
         screen2.buttons.step = false;
+        console.log(screen2.counter, screen2.step);
         screen2.counter = screen2.step;
-        // screen2.someOrders();
+        console.log(screen2.counter);
+        screen2.someOrders();
     }
-    // else { screen2.orders(); }
-    screen2.orders();
+    else { screen2.orders(); }
+    // screen2.orders();
     // screen2.cycle();
 }
 
@@ -263,6 +289,7 @@ function refresh() {
     // document.getElementById('playBtn').style.visibility = "visible";
     screen2.buttons.play = false;
     screen2.loop.stop();
+    clearInterval(screen2.interval);
     // document.getElementById('nxtBtn').style.visibility = "visible";
     screen2.buttons.step = false;
     // screen2.loop.stop();
