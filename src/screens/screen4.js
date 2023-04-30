@@ -117,12 +117,17 @@ class Screen4 extends Multiplicative {
 
     comet() {
         // console.log("in comet()");
-
+        console.log(this.tail);
 
         for (let i = this.tail.length-1; i >= 0; i--) {
             let hue = i*25 > 175 ? 'af' : this.charPairs[i*25];
-            let index = this.multiplicatives.indexOf(this.tail[i].index);
-            if (index) { this.nodes[index].colour(`0xff${hue+hue}`); }
+            // console.log(this.tail[i]);
+            let temp = this.tail[i];
+            if (temp) {
+                let index = this.multiplicatives.indexOf(this.tail[i].index);
+                this.nodes[index].colour(`0xff${hue+hue}`);
+            }
+            // if (index) { this.nodes[index].colour(`0xff${hue+hue}`); }
             // console.log(hue, index);
         }
     }
@@ -209,10 +214,10 @@ class Screen4 extends Multiplicative {
         // this.ring.unshift(first);
         // first = this.ring.pop();
         // this.ring.unshift(first);
-        console.log(this.ring);
+        // console.log(this.ring);
         // this.ring = this.ring.filter(node => node != empty);
         for (let i = 0; i < this.multiplicatives.length; i++) {
-            console.log(this.multiplicatives[i], this.ring[i]);
+            // console.log(this.multiplicatives[i], this.ring[i]);
             this.ring[i].changeIndex(this.multiplicatives[i]);
             // this.ring[i].colour(0xff0000);
         }
