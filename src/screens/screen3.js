@@ -84,6 +84,11 @@ class Screen3 extends Multiplicative {
     }
 
     tick() {
+        if (this.counter == this.size - 1) {
+            document.getElementById('nxtBtn').disabled = true;
+            document.getElementById('playBtn').disabled = true;
+        }
+
         super.tick();
         console.log(this.tail, this.counter);
         if (this.counter == 1) {
@@ -95,6 +100,7 @@ class Screen3 extends Multiplicative {
 
         if (this.tail[0] == 1) { 
             document.getElementById('order').innerHTML = `Order(${this.step},${this.size}) = ${common.mOrder(this.size, this.step)}`; 
+            this.nodes[1].colour('0x00ff0f');
             if (common.mOrder(this.size, this.step) == common.totient(this.size)) {
                 document.getElementById('order').innerHTML += ` = phi(${this.size}) so ${this.step} is a PRIMITIVE ROOT for ${this.size}`;
             }
