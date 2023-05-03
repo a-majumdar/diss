@@ -108,9 +108,19 @@ class Screen4 extends Multiplicative {
         else {
             clearInterval(this.interval);
             this.onode();
-            this.step = this.multiplicatives[this.multiplicatives.indexOf(this.step) + 1];
-            document.getElementById('nxtBtn').disabled = false;
-            document.getElementById('playBtn').disabled = false;        
+            if (this.multiplicatives.indexOf(this.step) != this.multiplicatives.length - 1) {
+                document.getElementById('nxtBtn').disabled = false;
+                document.getElementById('playBtn').disabled = false;  
+                this.step = this.multiplicatives[this.multiplicatives.indexOf(this.step) + 1];
+            }
+            else {
+                if (primitiveRoots.indexOf(Number(this.size)) != -1) {
+                    console.log("has primitive roots");
+                    document.getElementById('totient').innerHTML = `${this.size} has primitive roots:`;
+                    let prims = common.totient(common.totient(this.size))
+                    document.getElementById('gcd').innerHTML = `phi(phi(${this.size})) = ${prims}, so there are ${prims} primitive roots in Z_${this.size}`;
+                }
+            }
         }
 
     }
@@ -171,11 +181,15 @@ class Screen4 extends Multiplicative {
         else {
             this.loop.stop();
             this.buttons.play = false;
-            console.log(this.size, primitiveRoots.indexOf(this.size));
+            // console.log(this.size, );
+            // console.log(9 == this.size);
+            // console.log(this.size, primitiveRoots.indexOf(9));
             // document.getElementById('totient').innerHTML = `phi(n) = ${common.totient(this.size)}`;
-            if (primitiveRoots.includes(this.size)) {
+            if (primitiveRoots.indexOf(Number(this.size)) != -1) {
                 console.log("has primitive roots");
-                document.getElementById('eqn').innerHTML = `n has primitive roots`;
+                document.getElementById('totient').innerHTML = `${this.size} has primitive roots:`;
+                let prims = common.totient(common.totient(this.size))
+                document.getElementById('gcd').innerHTML = `phi(phi(${this.size})) = ${prims}, so there are ${prims} primitive roots in Z_${this.size}`;
             }
         }
     }

@@ -101,9 +101,13 @@ class Screen3 extends Multiplicative {
         if (this.tail[0] == 1) { 
             document.getElementById('order').innerHTML = `Order(${this.step},${this.size}) = ${common.mOrder(this.size, this.step)}`; 
             this.nodes[1].colour('0x00ff0f');
-            if (common.mOrder(this.size, this.step) == common.totient(this.size)) {
+            let phi = common.totient(this.size);
+            if (common.mOrder(this.size, this.step) == phi) {
                 document.getElementById('order').innerHTML += ` = phi(${this.size}) so ${this.step} is a PRIMITIVE ROOT for ${this.size}`;
             }
+            // if (this.counter == phi) {
+            //     document.getElementById('gcd').innerHTML = ``;
+            // }
             // document.getElementById('totient').innerHTML = `Order(${this.step},${this.size})  (PRIMITIVE ROOT)`;
         }
         // document.getElementById('sums').innerHTML = `${this.step} ^ ${this.counter} = something = ${this.node} (mod ${this.size})`;
